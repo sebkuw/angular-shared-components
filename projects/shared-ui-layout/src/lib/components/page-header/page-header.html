@@ -1,0 +1,8 @@
+<div class="header-container">
+  <h1>{{ headerText }}</h1>
+  @if (infoContent) {
+  <button mat-icon-button (click)="onInfoClick()" aria-label="Pokaż instrukcję">
+    <mat-icon>{{ iconName }}</mat-icon>
+  </button>
+  }
+</div>
