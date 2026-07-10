@@ -1,0 +1,16 @@
+:host ::ng-deep {
+  p,
+  ul,
+  li {
+    color: #333;
+  }
+
+  strong,
+  b {
+    color: #000;
+  }
+
+  a {
+    color: #3f51b5;
+  }
+}

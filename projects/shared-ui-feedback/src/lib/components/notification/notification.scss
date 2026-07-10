@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.notification-container {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  color: white;
+}
+
+.notification-icon {
+  margin-right: 12px;
+}
+
+.notification-message {
+  flex-grow: 1;
+}
+
+.notification-close-btn {
+  margin-left: 16px;
+}
+
+.notification--success {
+  background-color: #4caf50;
+}
+
+.notification--error {
+  background-color: #f44336;
+}
+
+.notification--info {
+  background-color: #2196f3;
+}
