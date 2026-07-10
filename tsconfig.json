@@ -1,0 +1,84 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@netdevs/shared-ui-core": [
+        "./dist/shared-ui-core"
+      ],
+      "@netdevs/shared-ui-feedback": [
+        "./dist/shared-ui-feedback"
+      ],
+      "@netdevs/shared-ui-forms": [
+        "./dist/shared-ui-forms"
+      ],
+      "@netdevs/shared-ui-layout": [
+        "./dist/shared-ui-layout"
+      ],
+      "@netdevs/shared-ui-list": [
+        "./dist/shared-ui-list"
+      ],
+      "@netdevs/shared-ui-theme": [
+        "./dist/shared-ui-theme"
+      ]
+    },
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/shared-ui-core/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-core/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-ui-theme/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-theme/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-ui-forms/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-forms/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-ui-list/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-list/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-ui-layout/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-layout/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-ui-feedback/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-feedback/tsconfig.spec.json"
+    }
+  ]
+}
