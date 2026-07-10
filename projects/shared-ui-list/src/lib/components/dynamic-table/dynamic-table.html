@@ -1,0 +1,405 @@
+<div class="table-container">
+  <mat-toolbar class="table-toolbar">
+    <div class="toolbar-left">
+      @if (features.selection !== false && selectionCount() > 0) {
+        <mat-icon class="selection-badge">check_circle</mat-icon>
+        <span class="selection-text">
+          {{ selectionCount() }} selected
+        </span>
+      }
+    </div>
+
+    <span class="toolbar-spacer"></span>
+
+    <div class="toolbar-right">
+      @if (features.filtering !== false && showFilterButton) {
+        <button
+          mat-icon-button
+          type="button"
+          (click)="toggleFilters()"
+          [matTooltip]="showFilters() ? 'Ukryj filtry' : 'Pokaż filtry'"
+        >
+          <mat-icon [class.active]="showFilters()">filter_list</mat-icon>
+        </button>
+      }
+
+      @if (features.csvExport?.enabled) {
+        <button
+          mat-icon-button
+          type="button"
+          (click)="exportToCSVFile(); exportToCSV.emit()"
+          [disabled]="!canExport() || isExporting()"
+          [matTooltip]="
+            !canExport()
+              ? 'Zaznacz wiersze do eksportu'
+              : isExporting()
+                ? 'Eksportowanie...'
+                : 'Eksportuj do CSV'
+          "
+        >
+          @if (!isExporting()) {
+            <mat-icon>download</mat-icon>
+          } @else {
+            <mat-progress-spinner
+              diameter="24"
+              class="spinner-inline"
+            />
+          }
+        </button>
+      }
+
+      @if (features.columnVisibility) {
+        <button
+          mat-icon-button
+          type="button"
+          [matMenuTriggerFor]="columnVisibilityMenu"
+          [matBadge]="hiddenColumnCount() > 0 ? hiddenColumnCount() : null"
+          matBadgeColor="warn"
+          [matTooltip]="
+            hiddenColumnCount() > 0
+              ? hiddenColumnCount() + ' kolumn ukrytych'
+              : 'Widoczność kolumn'
+          "
+        >
+          <mat-icon>visibility</mat-icon>
+        </button>
+      }
+
+      <mat-menu #columnVisibilityMenu="matMenu" class="column-visibility-menu">
+        <button mat-menu-item type="button" (click)="showAllColumns()">
+          <mat-icon>visibility</mat-icon>
+          <span>Pokaż wszystkie</span>
+        </button>
+
+        <button mat-menu-item type="button" (click)="hideAllColumns()">
+          <mat-icon>visibility_off</mat-icon>
+          <span>Ukryj wszystkie</span>
+        </button>
+
+        <button mat-menu-item type="button" (click)="resetColumnVisibility()">
+          <mat-icon>refresh</mat-icon>
+          <span>Resetuj domyślne</span>
+        </button>
+
+        <mat-divider />
+
+        <div class="column-visibility-list">
+          @for (col of columns; track col.name) {
+            <button
+              mat-menu-item
+              type="button"
+              [disabled]="col.visibilityConfig?.hideable === false"
+              (click)="toggleColumnVisibility(col.name)"
+              class="column-item"
+            >
+              <mat-icon>
+                {{ isColumnVisible(col.name) ? 'check_circle' : 'radio_button_unchecked' }}
+              </mat-icon>
+
+              <span [class.disabled-text]="col.visibilityConfig?.hideable === false">
+                {{ col.displayName }}
+              </span>
+
+              @if (col.visibilityConfig?.hideable === false) {
+                <mat-icon matTooltip="Zawsze widoczna" class="lock-icon">
+                  lock
+                </mat-icon>
+              }
+            </button>
+          }
+        </div>
+      </mat-menu>
+
+      @if (showCustomMenu && hasCustomButtons() && selectionCount() > 0) {
+        <button
+          mat-icon-button
+          type="button"
+          [matMenuTriggerFor]="customMenu"
+          matTooltip="Akcje"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      }
+
+      <mat-menu #customMenu="matMenu">
+        @for (btn of customButtons; track btn.label) {
+          <button
+            mat-menu-item
+            type="button"
+            (click)="btn.action(convertToArray(selectedIds()))"
+          >
+            <mat-icon>{{ btn.icon }}</mat-icon>
+            <span>{{ btn.label }}</span>
+          </button>
+        }
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  @if (features.filtering !== false && showFilters() && filterableColumns().length > 0) {
+    <form class="filters-section" [formGroup]="filterForm">
+      <div class="filters-container">
+        <div class="filter-row">
+          @if (features.selection !== false) {
+            <div class="filter-column-item spacer-checkbox"></div>
+          }
+
+          @for (col of filterableColumns(); track col.name) {
+            <div class="filter-column-item" [style.flex]="col.width || '1'">
+              <div class="filter-label">{{ col.displayName }}</div>
+
+              @if (!isRangeFilter(col)) {
+                @switch (getFilterFieldConfig(col)?.type || col.type) {
+                  @case ('select') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <mat-select [formControl]="getFilterControl(col)">
+                        @for (option of getFilterFieldConfig(col)?.options || []; track option.key) {
+                          <mat-option [value]="option.key">
+                            {{ option.value }}
+                          </mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  }
+
+                  @case ('multi-select') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <mat-select [formControl]="getFilterControl(col)" multiple>
+                        @for (option of getFilterFieldConfig(col)?.options || []; track option.key) {
+                          <mat-option [value]="option.key">
+                            {{ option.value }}
+                          </mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  }
+
+                  @case ('boolean') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <mat-select [formControl]="getFilterControl(col)">
+                        @for (option of getBooleanOptions(); track option.key) {
+                          <mat-option [value]="option.key">
+                            {{ option.value }}
+                          </mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  }
+
+                  @case ('date') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <input
+                        matInput
+                        type="date"
+                        [formControl]="getFilterControl(col)"
+                      />
+                    </mat-form-field>
+                  }
+
+                  @case ('number') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        [formControl]="getFilterControl(col)"
+                        [attr.min]="getFilterFieldConfig(col)?.min ?? null"
+                        [attr.max]="getFilterFieldConfig(col)?.max ?? null"
+                        [attr.step]="getFilterFieldConfig(col)?.step ?? null"
+                      />
+                    </mat-form-field>
+                  }
+
+                  @case ('int') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <input matInput type="number" [formControl]="getFilterControl(col)" step="1" />
+                    </mat-form-field>
+                  }
+
+                  @case ('decimal') {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <input matInput type="number" [formControl]="getFilterControl(col)" />
+                    </mat-form-field>
+                  }
+
+                  @default {
+                    <mat-form-field appearance="outline" class="filter-control">
+                      <mat-label>{{ getFilterFieldConfig(col)?.placeholder || col.displayName }}</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        [formControl]="getFilterControl(col)"
+                        [attr.maxlength]="getFilterFieldConfig(col)?.maxLength ?? null"
+                      />
+                    </mat-form-field>
+                  }
+                }
+              }
+
+              @if (isRangeFilter(col)) {
+                <div class="range-filter">
+                  <mat-form-field appearance="outline" class="filter-control">
+                    <mat-label>{{ getFilterFieldConfig(col)?.placeholderFrom || 'Od' }}</mat-label>
+                    <input
+                      matInput
+                      [type]="getFilterFieldConfig(col)?.type === 'date' ? 'date' : 'number'"
+                      [formControl]="getFilterRangeControl(col, 'from')"
+                      [attr.min]="getFilterFieldConfig(col)?.min ?? null"
+                      [attr.max]="getFilterFieldConfig(col)?.max ?? null"
+                      [attr.step]="getFilterFieldConfig(col)?.step ?? null"
+                    />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="filter-control">
+                    <mat-label>{{ getFilterFieldConfig(col)?.placeholderTo || 'Do' }}</mat-label>
+                    <input
+                      matInput
+                      [type]="getFilterFieldConfig(col)?.type === 'date' ? 'date' : 'number'"
+                      [formControl]="getFilterRangeControl(col, 'to')"
+                      [attr.min]="getFilterFieldConfig(col)?.min ?? null"
+                      [attr.max]="getFilterFieldConfig(col)?.max ?? null"
+                      [attr.step]="getFilterFieldConfig(col)?.step ?? null"
+                    />
+                  </mat-form-field>
+                </div>
+
+                @if (hasRangeFilterError(col.name)) {
+                  <div class="filter-error">
+                    {{ getRangeFilterErrorMessage(col) }}
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+
+        @if (hasActiveFilters()) {
+          <div class="filter-actions">
+            <button mat-stroked-button type="button" (click)="clearFilters()" class="clear-btn">
+              <mat-icon>clear</mat-icon>
+              Wyczyść filtry
+            </button>
+          </div>
+        }
+      </div>
+    </form>
+  }
+
+  @if (features.selection !== false && selectionCount() > 0) {
+    <div class="selection-info">
+      <mat-icon>info</mat-icon>
+      <span>
+        Wybrano <strong>{{ selectionCount() }}</strong>
+        {{ selectionCount() === 1 ? 'element' : 'elementy' }}
+      </span>
+      <span class="spacer"></span>
+      <button mat-button type="button" (click)="clearSelection()" class="clear-selection-btn">
+        Wyczyść zaznaczenie
+      </button>
+    </div>
+  }
+
+  <div class="table-wrapper">
+    @if (loading()) {
+      <div class="loading-overlay">
+        <mat-progress-spinner mode="indeterminate" diameter="50" />
+      </div>
+    }
+
+    <table mat-table [dataSource]="data()" class="dynamic-table">
+      @if (features.selection !== false) {
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="checkbox-column">
+            <mat-checkbox
+              [checked]="isAllSelected()"
+              [indeterminate]="isPartiallySelected()"
+              (change)="toggleSelectAll()"
+              aria-label="Select all items"
+            />
+          </th>
+
+          <td mat-cell *matCellDef="let element" class="checkbox-column">
+            <mat-checkbox
+              [checked]="isSelected(getRowId(element))"
+              (change)="toggleSelection(getRowId(element))"
+              [attr.aria-label]="'Select row ' + getRowId(element)"
+            />
+          </td>
+        </ng-container>
+      }
+
+      @for (col of columns; track col.name) {
+        <ng-container [matColumnDef]="col.name">
+          <th mat-header-cell *matHeaderCellDef [style.width]="col.width">
+            <div
+              class="header-content"
+              [class.sortable]="features.sorting !== false && col.sortable"
+              (click)="features.sorting !== false && col.sortable ? onSort(col.name) : null"
+            >
+              <span>{{ col.displayName }}</span>
+
+              @if (features.sorting !== false && col.sortable) {
+                <mat-icon
+                  [class]="getSortIconClass(col.name)"
+                  class="sort-icon"
+                >
+                  {{ getSortIcon(col.name) }}
+                </mat-icon>
+              }
+            </div>
+          </th>
+
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [style.width]="col.width"
+            [class.actionable-cell]="col.action"
+            (click)="col.action ? rowClick.emit({ column: col, row: element }) : null"
+          >
+            {{
+              getCellValue(element, col) | valueFormatter: col
+            }}
+          </td>
+        </ng-container>
+      }
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns()" class="data-row"></tr>
+    </table>
+
+    @if (!loading() && data().length === 0) {
+      <div class="empty-state">
+        Brak danych do wyświetlenia.
+      </div>
+    }
+  </div>
+
+  @if (features.pagination !== false) {
+    <div class="pagination-container">
+      <div class="total-items-info">
+        Razem: <strong>{{ totalItems() }}</strong> elementów
+      </div>
+
+      <div class="pagination-controls">
+        <div class="page-info">
+          Strona {{ pageIndex() + 1 }} z {{ totalPages() }}
+        </div>
+
+        <mat-paginator
+          [length]="totalItems()"
+          [pageSize]="pageSize()"
+          [pageSizeOptions]="pageSizeOptions"
+          [pageIndex]="pageIndex()"
+          (page)="onPageChange($event)"
+          showFirstLastButtons
+        />
+      </div>
+    </div>
+  }
+</div>
