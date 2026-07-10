@@ -1,0 +1,71 @@
+<div class="dynamic-table">
+  <table>
+    <thead>
+      <tr>
+        <th class="iterator-column">Lp.</th>
+        @for (col of field.columns; track col.key) {
+        <th>{{ col.label }}</th>
+        }
+        <th class="action-column"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (rowGroup of rows; track $index; let i = $index) {
+      <tr [formGroup]="rowGroup">
+        <td class="iterator-column">{{ i + 1 }}.</td>
+
+        @for (col of field.columns; track col.key) {
+        <td>
+          @if (getFormControl(rowGroup, col.key)) { @switch (col.type) { @case
+          ('number') {
+          <shared-form-input-number
+            [field]="col | cast"
+            [formGroup]="rowGroup"
+            [isEditMode]="isEditMode"
+          />
+          } @case ('select') {
+          <shared-form-select
+            [field]="col | cast"
+            [formGroup]="rowGroup"
+            [isEditMode]="isEditMode"
+          />
+          } @default {
+          <shared-form-input-text
+            [field]="col | cast"
+            [formGroup]="rowGroup"
+            [isEditMode]="isEditMode"
+          />
+          } } }
+        </td>
+        }
+
+        <td class="action-column">
+          @if (rows.length > (field.minRows || 1)) {
+          <button
+            mat-icon-button
+            type="button"
+            (click)="removeRow(i)"
+            aria-label="Usuń wiersz"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="table-actions">
+    <button
+      mat-raised-button
+      type="button"
+      (click)="addRow()"
+      aria-label="Dodaj wiersz"
+      [disabled]="addDisabled"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

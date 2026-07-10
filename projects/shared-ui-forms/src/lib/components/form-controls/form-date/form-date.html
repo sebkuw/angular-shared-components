@@ -1,0 +1,22 @@
+<mat-form-field appearance="outline" [color]="color" [formGroup]="formGroup">
+  <input
+    matInput
+    [id]="field.key"
+    [matDatepicker]="picker"
+    [formControlName]="field.key"
+    [min]="field.minDate"
+    [max]="field.maxDate"
+    [readonly]="field.readonlyOnEdit && isEditMode"
+    [placeholder]="field.placeholder || 'DD.MM.RRRR'"
+  />
+
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker
+    #picker
+    [startView]="field.startView || 'month'"
+  ></mat-datepicker>
+
+  @if (control?.touched && control?.invalid) {
+  <mat-error>{{ getErrorMessage() }}</mat-error>
+  }
+</mat-form-field>

@@ -1,0 +1,252 @@
+import { ValidatorFn } from '@angular/forms';
+
+export type FormFieldType =
+  | 'text'
+  | 'email'
+  | 'password'
+  | 'select'
+  | 'multi-select'
+  | 'textarea'
+  | 'number'
+  | 'checkbox'
+  | 'date'
+  | 'file'
+  | 'table'
+  | 'spacer';
+
+export type FormMode = 'create' | 'edit' | 'always';
+
+export type FormConditionOperator =
+  | 'eq'
+  | 'neq'
+  | 'in'
+  | 'notIn'
+  | 'gt'
+  | 'gte'
+  | 'lt'
+  | 'lte'
+  | 'contains'
+  | 'empty'
+  | 'notEmpty';
+
+export interface DynamicFormConfig {
+  /**
+   * @description Form fields rendered by the dynamic form component.
+   */
+  fields: FormField[];
+
+  /**
+   * @description Number of CSS Grid columns used by the form layout.
+   */
+  columns?: number;
+
+  /**
+   * @description Optional submit button configuration.
+   */
+  submitButton?: {
+    labelCreate?: string;
+    labelEdit?: string;
+    position?: 'left' | 'center' | 'right';
+    disabled?: boolean;
+  };
+}
+
+/**
+ * @description Defines the configuration for a single field within a dynamic form.
+ */
+export interface FormField {
+  /**
+   * @description Unique key used to bind the field to the form control.
+   */
+  key: string;
+
+  /**
+   * @description Visible label displayed for the field.
+   */
+  label: string;
+
+  /**
+   * @description Field type used to select the rendered component.
+   */
+  type: FormFieldType;
+
+  /**
+   * @description Number of grid columns occupied by the field.
+   */
+  colSpan?: number;
+
+  /**
+   * @description Number of grid rows occupied by the field.
+   */
+  rowSpan?: number;
+
+  /**
+   * @description Explicit CSS Grid column start line.
+   */
+  colStart?: number;
+
+  /**
+   * @description Explicit CSS Grid row start line.
+   */
+  rowStart?: number;
+
+  /**
+   * @description Optional CSS class applied to the field wrapper.
+   */
+  customClass?: string;
+
+  /**
+   * @description Optional CSS width value. Prefer grid spans for layout.
+   */
+  width?: string;
+
+  /**
+   * @description Optional CSS max-width value.
+   */
+  maxWidth?: string;
+
+  /**
+   * @description Defines whether a field is rendered as a single value or a range filter.
+   */
+  filterType?: 'single' | 'range';
+
+  /**
+   * @description Angular validators assigned to the field control.
+   */
+  validators?: ValidatorFn[];
+
+  /**
+   * @description Optional custom validation messages mapped by Angular error key.
+   */
+  errorMessages?: Record<string, string>;
+
+  /**
+   * @description Visibility condition evaluated against other field values.
+   */
+  showWhen?: FormFieldVisibilityLogic;
+
+  /**
+   * @description Required permissions for rendering the field.
+   */
+  requiredPermissions?: string[];
+
+  /**
+   * @description Permission evaluation mode. Defaults to `ALL`.
+   */
+  permissionLogic?: 'ALL' | 'ANY';
+
+  /**
+   * @description Controls visibility in create/edit modes.
+   */
+  visibleOn?: FormMode;
+
+  /**
+   * @description Controls disabled state in create/edit modes.
+   */
+  disabledOn?: FormMode;
+
+  /**
+   * @description Makes the field read-only in edit mode.
+   */
+  readonlyOnEdit?: boolean;
+
+  /**
+   * @description Placeholder displayed inside the control.
+   */
+  placeholder?: string;
+
+  /**
+   * @description Allows nullable values in select-like controls.
+   */
+  isNullable?: boolean;
+}
+
+export interface FormFieldText extends FormField {
+  type: 'text' | 'email' | 'password';
+  maxLength?: number;
+}
+
+export interface FormFieldNumber extends FormField {
+  type: 'number';
+  step?: number;
+  min?: number;
+  max?: number;
+  isInteger?: boolean;
+}
+
+export interface FormFieldDate extends FormField {
+  type: 'date';
+  minDate?: Date;
+  maxDate?: Date;
+  startView?: 'month' | 'year' | 'multi-year';
+}
+
+export interface FormFieldSelect extends FormField {
+  type: 'select';
+  options: { key: string; value: string }[];
+}
+
+export interface FormFieldMultiSelect extends FormField {
+  type: 'multi-select';
+  options?: { key: string; value: string }[];
+}
+
+export interface FormFieldTextarea extends FormField {
+  type: 'textarea';
+  rows?: number;
+  maxLength?: number;
+}
+
+export interface FormFieldFile extends FormField {
+  type: 'file';
+  acceptedFileTypes?: string;
+}
+
+export interface FormFieldCheckbox extends FormField {
+  type: 'checkbox';
+}
+
+export interface FormFieldTable extends FormField {
+  type: 'table';
+  columns: FormField[];
+  minRows?: number;
+  maxRows?: number;
+}
+
+export interface FormFieldSpacer extends FormField {
+  type: 'spacer';
+  text?: string;
+  textAlign?: 'left' | 'center' | 'right';
+  fontSize?: string;
+  fontWeight?: string | number;
+  textColor?: string;
+}
+
+export interface FormFieldCondition {
+  /**
+   * @description Field key used as the source value in the condition.
+   */
+  field: string;
+
+  /**
+   * @description Comparison operator. Defaults to `eq`.
+   */
+  operator?: FormConditionOperator;
+
+  /**
+   * @description Value used for comparison.
+   */
+  value?: unknown;
+}
+
+export interface FormFieldVisibilityLogic {
+  /**
+   * @description Conditions that must be evaluated.
+   */
+  conditions: FormFieldCondition[];
+
+  /**
+   * @description Aggregation logic used for all conditions.
+   */
+  logic: 'AND' | 'OR';
+}

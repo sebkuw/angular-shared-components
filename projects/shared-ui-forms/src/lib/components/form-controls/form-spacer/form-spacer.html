@@ -1,0 +1,9 @@
+<div class="form-spacer-container" [style.width]="containerWidth">
+  <div
+    class="form-spacer"
+    [ngStyle]="spacerStyles"
+    [class.form-spacer--with-text]="hasText"
+  >
+    @if (hasText) { {{ field.text }} }
+  </div>
+</div>

@@ -1,0 +1,65 @@
+.dynamic-table {
+  width: 100%;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 1em;
+  }
+
+  th,
+  td {
+    border: 1px solid #eee;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word;
+    vertical-align: middle;
+  }
+
+  th {
+    background: #fafafa;
+  }
+
+  .iterator-column {
+    width: 50px; // minimalny rozmiar, np. na numer wiersza
+    min-width: 40px;
+    max-width: 60px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  // główne pole input – pełna szerokość TD
+  .table-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  // kolumna akcji na szerokość przycisku +
+  .action-column {
+    width: 48px; // z marginesami dla ikony
+    min-width: 40px;
+    max-width: 60px;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  // reszta kolumn automatycznie wypełni dostępną przestrzeń
+  th:not(.iterator-column):not(.action-column),
+  td:not(.iterator-column):not(.action-column) {
+    width: auto;
+  }
+
+  // styl przycisku "usuń"
+  button[mat-icon-button] {
+    color: #d32f2f;
+  }
+
+  // wrapper do wyrównania przycisku "Dodaj"
+  .table-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+}

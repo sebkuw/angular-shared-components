@@ -9,7 +9,6 @@
 
 # Node modules and dependency files
 /node_modules/
-/package-lock.json
 /yarn.lock
 
 # Environment files
@@ -18,6 +17,9 @@
 # Angular CLI and build artefacts
 /.angular-cli.json
 /.ng/
+
+# IDE local state
+/.vs/
 
 # TypeScript cache
 *.tsbuildinfo

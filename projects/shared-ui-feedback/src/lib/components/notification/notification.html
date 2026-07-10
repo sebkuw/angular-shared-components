@@ -1,0 +1,11 @@
+<div class="notification-container" [ngClass]="'notification--' + data.type">
+  <mat-icon class="notification-icon">{{ iconName }}</mat-icon>
+  <span class="notification-message">{{ data.message }}</span>
+  <button
+    mat-icon-button
+    (click)="snackBarRef.dismiss()"
+    class="notification-close-btn"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

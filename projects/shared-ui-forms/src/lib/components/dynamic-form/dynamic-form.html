@@ -1,0 +1,102 @@
+<form class="dynamic-form-container" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div
+    class="form-grid"
+    [style.grid-template-columns]="'repeat(' + (config.columns || 1) + ', minmax(0, 1fr))'"
+  >
+    @for (field of config.fields; track field.key) { @if (isFieldVisible(field))
+    {
+    <div
+      class="form-field-wrapper"
+      [ngStyle]="getFieldStyles(field)"
+      [ngClass]="field.customClass || ''"
+      [attr.data-type]="field.type"
+    >
+      @if (field.type !== 'checkbox' && field.type !== 'spacer') {
+      <label class="form-label" [attr.for]="field.key">{{ field.label }}</label>
+      } @switch (field.type) { @case ('text') {
+      <shared-form-input-text
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('email') {
+      <shared-form-input-text
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('password') {
+      <shared-form-input-text
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('number') {
+      <shared-form-input-number
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('select') {
+      <shared-form-select
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('multi-select') {
+      <shared-form-multi-select
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('file') {
+      <shared-form-file
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('textarea') {
+      <shared-form-textarea
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('checkbox') {
+      <shared-form-checkbox
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('date') {
+      <shared-form-date
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('table') {
+      <shared-form-table
+        [field]="field | cast"
+        [formGroup]="form"
+        [isEditMode]="isEditMode"
+      />
+      } @case ('spacer') {
+      <shared-form-spacer [field]="field | cast" />
+      } }
+    </div>
+    } }
+  </div>
+
+  <div
+    class="save-button-container"
+    [style.justify-content]="getButtonPosition()"
+  >
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="isSubmitting || form.invalid || createButtonDisabled || config.submitButton?.disabled"
+    >
+      {{ getSubmitButtonLabel() }}
+    </button>
+  </div>
+</form>
