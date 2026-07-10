@@ -18,6 +18,9 @@
 /.angular-cli.json
 /.ng/
 
+# IDE local state
+/.vs/
+
 # TypeScript cache
 *.tsbuildinfo
 
