@@ -1,0 +1,19 @@
+<mat-form-field appearance="outline" [color]="color" [formGroup]="formGroup">
+  <textarea
+    matInput
+    [id]="field.key"
+    [formControlName]="field.key"
+    [rows]="field.rows || 3"
+    [attr.maxLength]="field.maxLength || null"
+    [readonly]="field.readonlyOnEdit && isEditMode"
+    [placeholder]="field.placeholder || field.label"
+  ></textarea>
+
+  @if (field.maxLength) {
+  <mat-hint align="end"
+    >{{ control?.value?.length || 0 }} / {{ field.maxLength }}</mat-hint
+  >
+  } @if (control?.touched && control?.invalid) {
+  <mat-error>{{ getErrorMessage() }}</mat-error>
+  }
+</mat-form-field>

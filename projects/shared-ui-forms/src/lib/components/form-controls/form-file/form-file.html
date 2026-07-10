@@ -1,0 +1,41 @@
+<div [formGroup]="formGroup" class="file-input-container">
+  <input
+    type="file"
+    class="hidden-file-input"
+    #fileInput
+    (change)="onFileSelected($event)"
+    [accept]="field.acceptedFileTypes || '*/*'"
+    [disabled]="disabled"
+  />
+
+  <div class="file-input-controls">
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="fileInput.click()"
+      [disabled]="disabled"
+    >
+      <mat-icon>attach_file</mat-icon>
+      {{ field.placeholder || 'Wybierz plik' }}
+    </button>
+
+    @if (fileName) {
+    <div class="file-name-display">
+      <span>{{ fileName }}</span>
+      <button
+        mat-icon-button
+        type="button"
+        (click)="clearFile()"
+        aria-label="Wyczyść plik"
+        [disabled]="disabled"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    }
+  </div>
+
+  @if (control?.touched && control?.invalid) {
+  <mat-error>{{ getErrorMessage() }}</mat-error>
+  }
+</div>

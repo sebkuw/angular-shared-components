@@ -1,0 +1,15 @@
+<mat-form-field appearance="outline" [color]="color" [formGroup]="formGroup">
+  <input
+    matInput
+    [id]="field.key"
+    [type]="getInputType()"
+    [formControlName]="field.key"
+    [readonly]="field.readonlyOnEdit && isEditMode"
+    [attr.maxlength]="field.maxLength || null"
+    [placeholder]="field.placeholder || field.label"
+  />
+
+  @if (control?.touched && control?.invalid) {
+  <mat-error>{{ getErrorMessage() }}</mat-error>
+  }
+</mat-form-field>

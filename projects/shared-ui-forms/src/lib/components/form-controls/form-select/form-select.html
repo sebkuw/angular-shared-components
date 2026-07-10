@@ -1,0 +1,17 @@
+<mat-form-field appearance="outline" [color]="color" [formGroup]="formGroup">
+  <mat-select
+    [id]="field.key"
+    [formControlName]="field.key"
+    [placeholder]="field.placeholder || 'Wybierz opcję...'"
+  >
+    @if (field.isNullable) {
+    <mat-option [value]="null">---</mat-option>
+    } @for (option of field.options; track option.key) {
+    <mat-option [value]="option.key">{{ option.value }}</mat-option>
+    }
+  </mat-select>
+
+  @if (control?.touched && control?.invalid) {
+  <mat-error>{{ getErrorMessage() }}</mat-error>
+  }
+</mat-form-field>

@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.details-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(var(--grid-columns, 2), 1fr);
+}
+
+.detail-item {
+  padding: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  min-width: 0; /* Prevents overflow for long content in grid cells */
+}
+
+/* A spacer does not have content, so we remove its padding and border */
+.detail-item.spacer {
+  padding: 0;
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  font-size: 1rem;
+  word-wrap: break-word; /* Helps break long words */
+}
+
+
+@media (max-width: 600px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item {
+    /* 
+     * On small screens, force every item to occupy a single column.
+     * '!important' is used here to override the inline style set by [style.grid-column]
+     * in the component's template, ensuring a consistent single-column layout.
+    */
+    grid-column: 1 / -1 !important; 
+  }
+
+  /* 
+   * Spacers are layout helpers for wider screens.
+   * They are hidden on small screens to avoid creating unnecessary empty space
+   * in a single-column view.
+  */
+  .detail-item.spacer {
+    display: none;
+  }
+}
