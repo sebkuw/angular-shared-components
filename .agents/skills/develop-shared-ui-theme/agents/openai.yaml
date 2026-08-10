@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Shared UI Theme"
+  short_description: "Build accessible themes and design tokens"
+  default_prompt: "Use $develop-shared-ui-theme to implement and verify a theme library change."

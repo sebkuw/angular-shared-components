@@ -6,8 +6,17 @@ This repository contains shared UI libraries used across internal Angular applic
 
 The workspace is split into smaller npm packages. Consuming applications can install only the parts they need instead of depending on one large package.
 
+## Project Governance
+
+- [Repository agent instructions](AGENTS.md)
+- [Repository changelog](CHANGELOG.md)
+- [Monorepo development skill](.agents/skills/develop-angular-shared-components/SKILL.md)
+
+All contributions must preserve Angular 20 compatibility, use only approved free and open-source dependencies, keep components reusable and fully configurable, implement the shared permissions/claims visibility contract, meet WCAG 2.2 AA and keyboard requirements, include the complete required test matrix, and update documentation plus the appropriate changelog.
+
 ## Table of Contents
 
+- [Project Governance](#project-governance)
 - [Packages](#packages)
 - [Requirements](#requirements)
 - [Installation](#installation)

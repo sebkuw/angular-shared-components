@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Shared UI Forms"
+  short_description: "Build accessible configurable form components"
+  default_prompt: "Use $develop-shared-ui-forms to implement and verify a forms library change."

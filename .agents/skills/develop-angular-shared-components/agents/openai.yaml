@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Angular Shared Components"
+  short_description: "Develop and verify the Angular UI monorepo"
+  default_prompt: "Use $develop-angular-shared-components to implement and verify a change across the shared UI monorepo."

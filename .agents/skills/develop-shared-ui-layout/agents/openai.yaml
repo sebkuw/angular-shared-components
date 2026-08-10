@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Shared UI Layout"
+  short_description: "Build responsive navigation and page layout"
+  default_prompt: "Use $develop-shared-ui-layout to implement and verify a layout library change."
