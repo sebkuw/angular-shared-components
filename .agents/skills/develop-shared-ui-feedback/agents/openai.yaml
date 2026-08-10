@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Shared UI Feedback"
+  short_description: "Build accessible dialogs and notifications"
+  default_prompt: "Use $develop-shared-ui-feedback to implement and verify a feedback library change."

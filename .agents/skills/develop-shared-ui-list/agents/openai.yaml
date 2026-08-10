@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop Shared UI List"
+  short_description: "Build accessible data lists and tables"
+  default_prompt: "Use $develop-shared-ui-list to implement and verify a list library change."
