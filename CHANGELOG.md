@@ -11,4 +11,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Added repository-wide and library-specific `AGENTS.md` guidance for Angular 20 architecture, free dependencies, reusable configuration, permissions/claims, WCAG 2.2 AA, keyboard support, responsive design, testing, documentation and releases.
 - Added repository-scoped Codex skills for the monorepo and each shared UI library under `.agents/skills`.
 - Established required changelog and documentation updates for every repository change.
-- Established a required Playwright demo application strategy for E2E and visual regression coverage; its implementation remains a separate development task.
+- Added a reactive, deny-by-default permissions/claims foundation with `any`, `all`, `none`, typed claims, a provider function, service and structural directive.
+- Added semantic theme tokens with light/dark, focus-visible, reduced-motion and forced-colors support.
+- Added the Angular component gallery and Playwright desktop/320 px E2E, keyboard, access, accessibility and visual regression suites.
+- Added public API contract tests and a stable Chrome Headless CI launcher for all libraries.
+
+### Changed
+
+- Expanded and themed the component gallery with all form field kinds, editable details, working responsive filters and regression coverage for form geometry and primary actions.
+- Strengthened dynamic form configuration with a discriminated field union and changed filter controls to an auto-fit responsive grid.
+- Changed the demo preview to use public library source entry points with live reload and a stable `npm start` command at `http://127.0.0.1:4200/`, without requiring prebuilt `dist` packages.
+- Updated the Angular 20 runtime and compiler family to 20.3.27 to resolve production dependency advisories while retaining the Angular 20 compatibility contract.
+- Replaced the demo icon font package with the Apache-2.0-licensed `material-icons` package and verified all direct dependency licenses against the repository policy.
+- Integrated shared access rules into forms, details, tables, columns, table features, actions, navigation, page headers, dialogs and notifications.
+- Made form/list copy, accessible names and formatter behavior configurable and improved responsive/RTL-friendly styling.
+- Reworked list semantics, keyboard sorting and cell activation, real CSV export, formula neutralization and SSR-safe storage/download behavior.
+- Reworked side navigation to use a `nav` landmark, links and keyboard-operable native buttons.
+- Reworked feedback components to use safe text/templates, live-region roles and accessible dismiss/action labels.

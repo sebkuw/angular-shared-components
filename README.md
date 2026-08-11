@@ -36,24 +36,24 @@ All contributions must preserve Angular 20 compatibility, use only approved free
 
 ## Packages
 
-| Package | Responsibility |
-| --- | --- |
-| `@netdevs/shared-ui-core` | Shared foundation for cross-package contracts and helpers. |
-| `@netdevs/shared-ui-theme` | Theme hook and future home for design tokens, CSS variables and shared style assets. |
-| `@netdevs/shared-ui-forms` | Dynamic details view, create/edit form view, form field controls and form models. |
-| `@netdevs/shared-ui-list` | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
-| `@netdevs/shared-ui-layout` | Application layout components: page header and side menu. |
-| `@netdevs/shared-ui-feedback` | User feedback components: info dialog and notification. |
+| Package                       | Responsibility                                                                                 |
+| ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| `@netdevs/shared-ui-core`     | Shared foundation for cross-package contracts and helpers.                                     |
+| `@netdevs/shared-ui-theme`    | Semantic CSS tokens, light/dark modes, focus, high-contrast and reduced-motion defaults.       |
+| `@netdevs/shared-ui-forms`    | Dynamic details view, create/edit form view, form field controls and form models.              |
+| `@netdevs/shared-ui-list`     | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
+| `@netdevs/shared-ui-layout`   | Application layout components: page header and side menu.                                      |
+| `@netdevs/shared-ui-feedback` | User feedback components: info dialog and notification.                                        |
 
 ## Requirements
 
-| Tool | Version |
-| --- | --- |
-| Angular | `20.x` |
-| Angular CLI | `20.x` |
-| TypeScript | `~5.9` |
-| Node.js | Use a Node.js version supported by Angular 20. Node 20 LTS or newer is recommended. |
-| npm | Use the npm version bundled with the selected Node.js runtime. |
+| Tool        | Version                                                                             |
+| ----------- | ----------------------------------------------------------------------------------- |
+| Angular     | `20.x`                                                                              |
+| Angular CLI | `20.x`                                                                              |
+| TypeScript  | `~5.9`                                                                              |
+| Node.js     | Use a Node.js version supported by Angular 20. Node 20 LTS or newer is recommended. |
+| npm         | Use the npm version bundled with the selected Node.js runtime.                      |
 
 The UI components use Angular Material and CDK. Consuming applications should configure an Angular Material theme and use compatible Angular 20 dependencies.
 
@@ -97,13 +97,16 @@ npm install @angular/material @angular/cdk
 
 ### 1. Core - `@netdevs/shared-ui-core`
 
-Core is intentionally small. It is reserved for contracts, helpers and constants that are truly shared by multiple UI packages.
+Core owns the provider-agnostic, reactive permissions/claims contract used by every UI package.
 
 Current exports:
 
-| Export | Description |
-| --- | --- |
-| `NETDEVS_SHARED_UI_VERSION` | Current shared UI package version constant. |
+| Export                                          | Description                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| `NETDEVS_SHARED_UI_VERSION`                     | Current shared UI package version constant.                  |
+| `AccessRule`, `PermissionContext`               | Typed `any`, `all`, `none` and claims contracts.             |
+| `providePermissionContext`, `PermissionService` | Reactive access context provider and evaluator.              |
+| `CanAccessDirective`                            | Structural UI visibility with an optional fallback template. |
 
 Install:
 
@@ -129,13 +132,15 @@ Avoid putting feature components here. Forms, lists, layout and feedback should 
 
 ### 2. Theme - `@netdevs/shared-ui-theme`
 
-Theme is the styling foundation package. It currently exposes a stable class hook and is the intended place for future design tokens, CSS variables, SCSS entry points and shared Material theme setup.
+Theme is the styling foundation package. Its `styles/tokens.css` entry point defines semantic light/dark tokens and accessible platform adaptations.
 
 Current exports:
 
-| Export | Description |
-| --- | --- |
-| `NETDEVS_SHARED_UI_THEME_CLASS` | Shared root CSS class name: `netdevs-shared-ui-theme`. |
+| Export                           | Description                                            |
+| -------------------------------- | ------------------------------------------------------ |
+| `NETDEVS_SHARED_UI_THEME_CLASS`  | Shared root CSS class name: `netdevs-shared-ui-theme`. |
+| `NETDEVS_SHARED_UI_THEME_TOKENS` | Stable CSS custom-property names.                      |
+| `NETDEVS_SHARED_UI_THEME_STYLES` | Published stylesheet entry point.                      |
 
 Install:
 
@@ -165,7 +170,7 @@ export class AppShellComponent {
 }
 ```
 
-The consuming application is still responsible for including an Angular Material theme. This package will become the shared home for NetDevs-specific theme assets.
+Include `@netdevs/shared-ui-theme/styles/tokens.css`, add `netdevs-shared-ui-theme` to the application shell and keep an Angular Material theme configured in the consuming application.
 
 ### 3. Forms - `@netdevs/shared-ui-forms`
 
@@ -173,14 +178,14 @@ Forms contains schema-driven UI for common create, edit and details screens.
 
 Main exports:
 
-| Export | Description |
-| --- | --- |
-| `DynamicFormComponent` | Renders create/edit forms from `DynamicFormConfig`. |
-| `DynamicDetailsComponent` | Renders a details view from `DetailsConfig`. |
-| `DynamicFormConfig`, `FormField` and related field interfaces | Form configuration contracts. |
-| `DetailsConfig`, `DetailField` | Details view configuration contracts. |
-| `FormInputTextComponent`, `FormInputNumberComponent`, `FormSelectComponent`, etc. | Reusable form field controls. |
-| `CastPipe` | Template helper used by the dynamic form controls. |
+| Export                                                                            | Description                                         |
+| --------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `DynamicFormComponent`                                                            | Renders create/edit forms from `DynamicFormConfig`. |
+| `DynamicDetailsComponent`                                                         | Renders a details view from `DetailsConfig`.        |
+| `DynamicFormConfig`, `FormField` and related field interfaces                     | Form configuration contracts.                       |
+| `DetailsConfig`, `DetailField`                                                    | Details view configuration contracts.               |
+| `FormInputTextComponent`, `FormInputNumberComponent`, `FormSelectComponent`, etc. | Reusable form field controls.                       |
+| `CastPipe`                                                                        | Template helper used by the dynamic form controls.  |
 
 Install:
 
@@ -193,10 +198,7 @@ Use `DynamicFormComponent`:
 ```ts
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import {
-  DynamicFormComponent,
-  type DynamicFormConfig,
-} from '@netdevs/shared-ui-forms';
+import { DynamicFormComponent, type DynamicFormConfig } from '@netdevs/shared-ui-forms';
 
 @Component({
   selector: 'app-user-form-page',
@@ -259,10 +261,7 @@ Use `DynamicDetailsComponent`:
 
 ```ts
 import { Component } from '@angular/core';
-import {
-  DynamicDetailsComponent,
-  type DetailsConfig,
-} from '@netdevs/shared-ui-forms';
+import { DynamicDetailsComponent, type DetailsConfig } from '@netdevs/shared-ui-forms';
 
 @Component({
   selector: 'app-user-details-page',
@@ -292,7 +291,7 @@ export class UserDetailsPageComponent {
       {
         key: 'active',
         label: 'Status',
-        render: (value) => value ? 'Active' : 'Inactive',
+        render: (value) => (value ? 'Active' : 'Inactive'),
       },
     ],
   };
@@ -313,14 +312,14 @@ List contains the dynamic table component and models used to build server-driven
 
 Main exports:
 
-| Export | Description |
-| --- | --- |
-| `DynamicTableComponent` | Server-side table with filtering, sorting, pagination, selection and column visibility. |
-| `BaseRow`, `Column`, `CustomButton` | Table row and column contracts. |
-| `TableDataRequestEvent`, `TableFilter`, `TableSort` | Events and state emitted by the table. |
-| `toPaginationRequestDto` | Helper that maps table request state to a .NET-style pagination DTO. |
-| `TableExportService` | CSV export helper used by the table export workflow. |
-| `ValueFormatterPipe` | Formats displayed table cell values. |
+| Export                                              | Description                                                                             |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `DynamicTableComponent`                             | Server-side table with filtering, sorting, pagination, selection and column visibility. |
+| `BaseRow`, `Column`, `CustomButton`                 | Table row and column contracts.                                                         |
+| `TableDataRequestEvent`, `TableFilter`, `TableSort` | Events and state emitted by the table.                                                  |
+| `toPaginationRequestDto`                            | Helper that maps table request state to a .NET-style pagination DTO.                    |
+| `TableExportService`                                | CSV export helper used by the table export workflow.                                    |
+| `ValueFormatterPipe`                                | Formats displayed table cell values.                                                    |
 
 Install:
 
@@ -417,14 +416,14 @@ Layout contains components used to compose the application shell and page-level 
 
 Main exports:
 
-| Export | Description |
-| --- | --- |
-| `PageHeaderComponent` | Consistent page title with optional info action. |
-| `SideMenu` | Collapsible side menu component. |
-| `MenuItem` | Side menu item contract. |
-| `SideMenuService` | Menu state service. |
-| `MENU_DATA_TOKEN` | Injection token used to provide menu configuration. |
-| `InfoClickData` | Event payload emitted by `PageHeaderComponent`. |
+| Export                | Description                                         |
+| --------------------- | --------------------------------------------------- |
+| `PageHeaderComponent` | Consistent page title with optional info action.    |
+| `SideMenu`            | Collapsible side menu component.                    |
+| `MenuItem`            | Side menu item contract.                            |
+| `SideMenuService`     | Menu state service.                                 |
+| `MENU_DATA_TOKEN`     | Injection token used to provide menu configuration. |
+| `InfoClickData`       | Event payload emitted by `PageHeaderComponent`.     |
 
 Install:
 
@@ -436,10 +435,7 @@ Use `PageHeaderComponent`:
 
 ```ts
 import { Component } from '@angular/core';
-import {
-  PageHeaderComponent,
-  type InfoClickData,
-} from '@netdevs/shared-ui-layout';
+import { PageHeaderComponent, type InfoClickData } from '@netdevs/shared-ui-layout';
 
 @Component({
   selector: 'app-orders-page',
@@ -466,11 +462,7 @@ Use `SideMenu`:
 
 ```ts
 import { Component } from '@angular/core';
-import {
-  MENU_DATA_TOKEN,
-  SideMenu,
-  type MenuItem,
-} from '@netdevs/shared-ui-layout';
+import { MENU_DATA_TOKEN, SideMenu, type MenuItem } from '@netdevs/shared-ui-layout';
 
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -507,9 +499,7 @@ const MENU_ITEMS: MenuItem[] = [
       useValue: MENU_ITEMS,
     },
   ],
-  template: `
-    <shared-side-menu [collapsed]="collapsed" />
-  `,
+  template: ` <shared-side-menu [collapsed]="collapsed" /> `,
 })
 export class AppShellComponent {
   collapsed = false;
@@ -524,12 +514,12 @@ Feedback contains components for user-facing messages and informational overlays
 
 Main exports:
 
-| Export | Description |
-| --- | --- |
-| `InfoDialogComponent` | Angular Material dialog content component for informational dialogs. |
-| `InfoDialogData` | Dialog data contract. |
-| `NotificationComponent` | Angular Material snack-bar component. |
-| `NotificationData` | Snack-bar data contract. |
+| Export                  | Description                                                          |
+| ----------------------- | -------------------------------------------------------------------- |
+| `InfoDialogComponent`   | Angular Material dialog content component for informational dialogs. |
+| `InfoDialogData`        | Dialog data contract.                                                |
+| `NotificationComponent` | Angular Material snack-bar component.                                |
+| `NotificationData`      | Snack-bar data contract.                                             |
 
 Install:
 
@@ -549,11 +539,7 @@ import { InfoDialogComponent } from '@netdevs/shared-ui-feedback';
   selector: 'app-info-example',
   standalone: true,
   imports: [MatButtonModule],
-  template: `
-    <button mat-raised-button type="button" (click)="openInfo()">
-      Open info
-    </button>
-  `,
+  template: ` <button mat-raised-button type="button" (click)="openInfo()">Open info</button> `,
 })
 export class InfoExampleComponent {
   private readonly dialog = inject(MatDialog);
@@ -582,11 +568,7 @@ import { NotificationComponent } from '@netdevs/shared-ui-feedback';
   selector: 'app-notification-example',
   standalone: true,
   imports: [MatButtonModule],
-  template: `
-    <button mat-raised-button type="button" (click)="showSuccess()">
-      Save
-    </button>
-  `,
+  template: ` <button mat-raised-button type="button" (click)="showSuccess()">Save</button> `,
 })
 export class NotificationExampleComponent {
   private readonly snackBar = inject(MatSnackBar);
@@ -619,11 +601,29 @@ Build every package:
 npm run build
 ```
 
+Start the component gallery:
+
+```bash
+npm start
+```
+
+The same preview is available through `npm run dev` and `npm run start:demo` at <http://127.0.0.1:4200/>. It consumes the libraries through their public source entry points, so it does not require a separate `build:libs` step and live-reloads library changes.
+
 Run every package test suite in Chrome Headless:
 
 ```bash
 npm test
 ```
+
+Run cross-browser interaction, responsive and visual regression checks:
+
+```bash
+npx playwright install
+npm run test:e2e
+npm run test:visual
+```
+
+Use `npm run test:visual:update` only after reviewing and accepting intentional visual changes. Baselines are stored next to the Playwright specification.
 
 Build a single package:
 
