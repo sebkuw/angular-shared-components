@@ -1,20 +1,22 @@
 :host {
   display: block;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: var(--shared-ui-spacing-lg, 1.5rem);
 }
 
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  padding-bottom: var(--shared-ui-spacing-sm, 0.5rem);
+  border-bottom: 1px solid var(--shared-ui-color-border, #c6cad2);
 }
 
 h1 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 400;
-  color: #333;
+  color: var(--shared-ui-color-text, #1a1d24);
+  overflow-wrap: anywhere;
 }

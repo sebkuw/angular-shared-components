@@ -1,8 +1,8 @@
-<div class="header-container">
+<header class="header-container">
   <h1>{{ headerText }}</h1>
-  @if (infoContent) {
-  <button mat-icon-button (click)="onInfoClick()" aria-label="Pokaż instrukcję">
-    <mat-icon>{{ iconName }}</mat-icon>
-  </button>
+  @if (canShowInfo()) {
+    <button mat-icon-button type="button" (click)="onInfoClick()" [attr.aria-label]="infoAriaLabel">
+      <mat-icon aria-hidden="true">{{ iconName }}</mat-icon>
+    </button>
   }
-</div>
+</header>

@@ -1,3 +1,5 @@
+import { AccessRule } from '@netdevs/shared-ui-core';
+
 export interface MenuItem {
   id: string;
   title: string;
@@ -6,4 +8,6 @@ export interface MenuItem {
   route?: string;
   expanded?: boolean;
   children?: MenuItem[];
+  access?: AccessRule;
+  ariaLabel?: string;
 }

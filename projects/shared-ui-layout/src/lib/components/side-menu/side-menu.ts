@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  inject,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from './models/menu-item.interface';
@@ -31,30 +25,18 @@ export class SideMenu {
 
   // Przekazuj collapse menu przez input
   @Input({ required: true }) collapsed!: boolean;
+  @Input() ariaLabel = 'Primary navigation';
 
   @HostBinding('class.collapsed')
   get collapsedClass(): boolean {
     return this.collapsed;
   }
 
-  onItemClick(item: MenuItem, event: Event): void {
-    if (this.collapsed) return;
-    if (item.children && item.children.length > 0) {
-      event.preventDefault();
-      this.menuService.toggleItem(item);
-    }
+  toggleItem(item: MenuItem): void {
+    this.menuService.toggleItem(item);
   }
 
-  getLevelColor(level: number): string {
-    switch (level) {
-      case 1:
-        return '#f5f5f5';
-      case 2:
-        return '#e0e0e0';
-      case 3:
-        return '#d0d0d0';
-      default:
-        return '#ffffff';
-    }
+  hasChildren(item: MenuItem): boolean {
+    return !!item.children?.length;
   }
 }

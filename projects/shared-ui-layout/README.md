@@ -6,6 +6,8 @@ Responsive page structure and navigation components for NetDevs Angular applicat
 
 The package exports PageHeaderComponent, SideMenu, MenuItem, SideMenuService, MENU_DATA_TOKEN and related page header data types. The authoritative export list is src/public-api.ts.
 
+`MenuItem.access` filters entire navigation branches reactively. `PageHeaderComponent.infoAccess` controls the optional information action. The side menu renders a named `nav` landmark; destinations are links and expandable groups are native buttons with `aria-expanded`, so the full interaction works without a pointer.
+
 ## Architectural role
 
 - Provide configurable headers, navigation and side-menu state without application-specific business logic.
