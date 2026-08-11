@@ -1,6 +1,6 @@
 export const NETDEVS_SHARED_UI_THEME_CLASS = 'netdevs-shared-ui-theme';
 
-export const NETDEVS_SHARED_UI_THEME_STYLES = '@netdevs/shared-ui-theme/styles/tokens.css';
+export const NETDEVS_SHARED_UI_THEME_STYLES = '@sebkuw/shared-ui-theme/styles/tokens.css';
 
 export const NETDEVS_SHARED_UI_THEME_TOKENS = {
   color: {

@@ -10,7 +10,7 @@ describe('NETDEVS_SHARED_UI_THEME_CLASS', () => {
   });
 
   it('exposes a stable stylesheet entry point and semantic token names', () => {
-    expect(NETDEVS_SHARED_UI_THEME_STYLES).toBe('@netdevs/shared-ui-theme/styles/tokens.css');
+    expect(NETDEVS_SHARED_UI_THEME_STYLES).toBe('@sebkuw/shared-ui-theme/styles/tokens.css');
     expect(NETDEVS_SHARED_UI_THEME_TOKENS.color.focus).toBe('--shared-ui-color-focus');
   });
 });

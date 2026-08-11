@@ -9,7 +9,7 @@ import {
   evaluateAccess,
   PermissionService,
   PUBLIC_ACCESS_RULE,
-} from '@netdevs/shared-ui-core';
+} from '@sebkuw/shared-ui-core';
 
 // The "contract" for the data our notification component will receive
 export interface NotificationData {

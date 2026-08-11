@@ -1,6 +1,14 @@
-# @netdevs/shared-ui-feedback
+# @sebkuw/shared-ui-feedback
 
 Configurable dialogs and notifications for NetDevs Angular applications.
+
+## Installation
+
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+
+```bash
+npm install @sebkuw/shared-ui-feedback
+```
 
 ## Current public API
 
@@ -29,7 +37,7 @@ Cover dialog labels/descriptions, focus trap/restore, Escape, backdrop, actions,
 - [Library agent instructions](AGENTS.md)
 - [Feedback development skill](../../.agents/skills/develop-shared-ui-feedback/SKILL.md)
 - [Changelog](CHANGELOG.md)
-- [Repository package guide](../../README.md#6-feedback---netdevsshared-ui-feedback)
+- [Repository package guide](../../README.md#6-feedback---sebkuwshared-ui-feedback)
 
 Verify changes with:
 

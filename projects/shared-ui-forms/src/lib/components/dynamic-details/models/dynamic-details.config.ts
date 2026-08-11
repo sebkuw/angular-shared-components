@@ -71,4 +71,4 @@ export interface DetailsConfig {
     remove?: { visible?: boolean; label?: string; access?: AccessRule };
   };
 }
-import { AccessRule } from '@netdevs/shared-ui-core';
+import { AccessRule } from '@sebkuw/shared-ui-core';

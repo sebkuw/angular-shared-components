@@ -1,6 +1,6 @@
 # Shared UI demo
 
-The Angular 20 demo is the integration host for every `@netdevs/shared-ui-*` package. It demonstrates reactive permissions/claims, theme tokens, keyboard interaction, safe feedback, forms, details, navigation and semantic tables.
+The Angular 20 demo is the integration host for every `@sebkuw/shared-ui-*` package. It demonstrates reactive permissions/claims, theme tokens, keyboard interaction, safe feedback, forms, details, navigation and semantic tables.
 
 The gallery loads Angular Material's free `azure-blue` theme together with the shared semantic tokens. It includes every supported dynamic form field, an editable details example with a spacer, and a table whose text, select, boolean, numeric-range and date-range filters operate on local demo data.
 

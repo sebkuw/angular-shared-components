@@ -1,10 +1,18 @@
-# @netdevs/shared-ui-theme
+# @sebkuw/shared-ui-theme
 
 Shared theming contracts and design tokens for NetDevs UI libraries.
 
+## Installation
+
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+
+```bash
+npm install @sebkuw/shared-ui-theme
+```
+
 ## Current public API
 
-The package exports `NETDEVS_SHARED_UI_THEME_CLASS`, `NETDEVS_SHARED_UI_THEME_TOKENS` and `NETDEVS_SHARED_UI_THEME_STYLES`. The published stylesheet is `@netdevs/shared-ui-theme/styles/tokens.css`.
+The package exports `NETDEVS_SHARED_UI_THEME_CLASS`, `NETDEVS_SHARED_UI_THEME_TOKENS` and `NETDEVS_SHARED_UI_THEME_STYLES`. The published stylesheet is `@sebkuw/shared-ui-theme/styles/tokens.css`.
 
 Include the stylesheet and apply `netdevs-shared-ui-theme` to the application shell. Set `data-theme="dark"` for the built-in dark palette. Consumer overrides can replace any documented CSS custom property at the shell boundary.
 
@@ -25,7 +33,7 @@ Theme changes must retain Angular 20 compatibility and include tests for public 
 - [Library agent instructions](AGENTS.md)
 - [Theme development skill](../../.agents/skills/develop-shared-ui-theme/SKILL.md)
 - [Changelog](CHANGELOG.md)
-- [Repository package guide](../../README.md#2-theme---netdevsshared-ui-theme)
+- [Repository package guide](../../README.md#2-theme---sebkuwshared-ui-theme)
 
 Verify changes with:
 

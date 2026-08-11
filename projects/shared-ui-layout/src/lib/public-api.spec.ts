@@ -3,7 +3,7 @@ import {
   PageHeaderComponent,
   SideMenu,
   SideMenuService,
-} from '@netdevs/shared-ui-layout';
+} from '@sebkuw/shared-ui-layout';
 
 describe('shared-ui-layout public API', () => {
   it('exports page header and side navigation contracts', () => {

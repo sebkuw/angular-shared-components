@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@netdevs/shared-ui-list` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
+All notable changes to `@sebkuw/shared-ui-list` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
 
 ## [Unreleased]
 
@@ -15,4 +15,5 @@ All notable changes to `@netdevs/shared-ui-list` are documented in this file. Th
 
 ### Changed
 
+- Changed the package coordinate from `@netdevs/shared-ui-list` to `@sebkuw/shared-ui-list`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.
 - Changed the filter panel to a responsive auto-fit grid with stacked range fields on narrow viewports.

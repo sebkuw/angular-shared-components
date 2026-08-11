@@ -12,24 +12,12 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "paths": {
-      "@netdevs/shared-ui-core": [
-        "./dist/shared-ui-core"
-      ],
-      "@netdevs/shared-ui-feedback": [
-        "./dist/shared-ui-feedback"
-      ],
-      "@netdevs/shared-ui-forms": [
-        "./dist/shared-ui-forms"
-      ],
-      "@netdevs/shared-ui-layout": [
-        "./dist/shared-ui-layout"
-      ],
-      "@netdevs/shared-ui-list": [
-        "./dist/shared-ui-list"
-      ],
-      "@netdevs/shared-ui-theme": [
-        "./dist/shared-ui-theme"
-      ]
+      "@sebkuw/shared-ui-core": ["./dist/shared-ui-core"],
+      "@sebkuw/shared-ui-feedback": ["./dist/shared-ui-feedback"],
+      "@sebkuw/shared-ui-forms": ["./dist/shared-ui-forms"],
+      "@sebkuw/shared-ui-layout": ["./dist/shared-ui-layout"],
+      "@sebkuw/shared-ui-list": ["./dist/shared-ui-list"],
+      "@sebkuw/shared-ui-theme": ["./dist/shared-ui-theme"]
     },
     "importHelpers": true,
     "target": "ES2022",

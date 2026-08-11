@@ -1,6 +1,14 @@
-# @netdevs/shared-ui-list
+# @sebkuw/shared-ui-list
 
 Configurable data lists and tables for NetDevs Angular applications.
+
+## Installation
+
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+
+```bash
+npm install @sebkuw/shared-ui-list
+```
 
 ## Current public API
 
@@ -33,7 +41,7 @@ Cover empty, large and changing datasets, sort, filter, pagination, selection, a
 - [Library agent instructions](AGENTS.md)
 - [List development skill](../../.agents/skills/develop-shared-ui-list/SKILL.md)
 - [Changelog](CHANGELOG.md)
-- [Repository package guide](../../README.md#4-list---netdevsshared-ui-list)
+- [Repository package guide](../../README.md#4-list---sebkuwshared-ui-list)
 
 Verify changes with:
 

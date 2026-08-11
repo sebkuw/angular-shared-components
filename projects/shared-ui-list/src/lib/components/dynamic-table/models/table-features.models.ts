@@ -159,4 +159,4 @@ export interface TableFeatures {
   selectionAccess?: AccessRule;
   columnVisibilityAccess?: AccessRule;
 }
-import { AccessRule } from '@netdevs/shared-ui-core';
+import { AccessRule } from '@sebkuw/shared-ui-core';

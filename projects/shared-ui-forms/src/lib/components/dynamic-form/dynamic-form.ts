@@ -18,7 +18,7 @@ import {
   InaccessibleBehavior,
   PermissionService,
   PUBLIC_ACCESS_RULE,
-} from '@netdevs/shared-ui-core';
+} from '@sebkuw/shared-ui-core';
 import {
   AbstractControl,
   FormArray,

@@ -15,7 +15,7 @@ import {
   signal,
   SimpleChanges,
 } from '@angular/core';
-import { AccessRule, PermissionService, PUBLIC_ACCESS_RULE } from '@netdevs/shared-ui-core';
+import { AccessRule, PermissionService, PUBLIC_ACCESS_RULE } from '@sebkuw/shared-ui-core';
 import {
   AbstractControl,
   FormBuilder,

@@ -1,4 +1,4 @@
-import { AccessRule } from '@netdevs/shared-ui-core';
+import { AccessRule } from '@sebkuw/shared-ui-core';
 
 export interface MenuItem {
   id: string;

@@ -1,7 +1,7 @@
 import {
   NETDEVS_SHARED_UI_THEME_CLASS,
   NETDEVS_SHARED_UI_THEME_TOKENS,
-} from '@netdevs/shared-ui-theme';
+} from '@sebkuw/shared-ui-theme';
 
 describe('shared-ui-theme public API', () => {
   it('exports the root class and semantic tokens', () => {

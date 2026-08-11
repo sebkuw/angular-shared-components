@@ -5,12 +5,12 @@
     "types": [],
     "baseUrl": ".",
     "paths": {
-      "@netdevs/shared-ui-core": ["../shared-ui-core/src/public-api.ts"],
-      "@netdevs/shared-ui-feedback": ["../shared-ui-feedback/src/public-api.ts"],
-      "@netdevs/shared-ui-forms": ["../shared-ui-forms/src/public-api.ts"],
-      "@netdevs/shared-ui-layout": ["../shared-ui-layout/src/public-api.ts"],
-      "@netdevs/shared-ui-list": ["../shared-ui-list/src/public-api.ts"],
-      "@netdevs/shared-ui-theme": ["../shared-ui-theme/src/public-api.ts"]
+      "@sebkuw/shared-ui-core": ["../shared-ui-core/src/public-api.ts"],
+      "@sebkuw/shared-ui-feedback": ["../shared-ui-feedback/src/public-api.ts"],
+      "@sebkuw/shared-ui-forms": ["../shared-ui-forms/src/public-api.ts"],
+      "@sebkuw/shared-ui-layout": ["../shared-ui-layout/src/public-api.ts"],
+      "@sebkuw/shared-ui-list": ["../shared-ui-list/src/public-api.ts"],
+      "@sebkuw/shared-ui-theme": ["../shared-ui-theme/src/public-api.ts"]
     }
   },
   "files": ["src/main.ts"],

@@ -1,12 +1,20 @@
-# @netdevs/shared-ui-forms
+# @sebkuw/shared-ui-forms
 
 Configurable dynamic details, forms and form controls for NetDevs Angular applications.
+
+## Installation
+
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+
+```bash
+npm install @sebkuw/shared-ui-forms
+```
 
 ## Current public API
 
 The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components, typed field/detail configuration models, FormFieldBaseComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
 
-`DynamicFormComponent`, individual fields, details fields and edit/remove actions accept shared `AccessRule` values. Form fields default to removal when denied and can set `inaccessibleBehavior: 'disable'`. Legacy `requiredPermissions` remains supported, but new code should use `access` with the reactive context from `@netdevs/shared-ui-core`.
+`DynamicFormComponent`, individual fields, details fields and edit/remove actions accept shared `AccessRule` values. Form fields default to removal when denied and can set `inaccessibleBehavior: 'disable'`. Legacy `requiredPermissions` remains supported, but new code should use `access` with the reactive context from `@sebkuw/shared-ui-core`.
 
 Labels, autocomplete tokens, accessible names, file actions and table row actions are typed configuration. Forms expose an accessible form name and collapse to one column on narrow viewports.
 
@@ -33,7 +41,7 @@ Cover each public field type and configuration variant with unit and host/integr
 - [Library agent instructions](AGENTS.md)
 - [Forms development skill](../../.agents/skills/develop-shared-ui-forms/SKILL.md)
 - [Changelog](CHANGELOG.md)
-- [Repository package guide](../../README.md#3-forms---netdevsshared-ui-forms)
+- [Repository package guide](../../README.md#3-forms---sebkuwshared-ui-forms)
 
 Verify changes with:
 

@@ -2,8 +2,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
-import { PermissionService, providePermissionContext } from '@netdevs/shared-ui-core';
-import { MENU_DATA_TOKEN } from '@netdevs/shared-ui-layout';
+import { PermissionService, providePermissionContext } from '@sebkuw/shared-ui-core';
+import { MENU_DATA_TOKEN } from '@sebkuw/shared-ui-layout';
 import { DemoComponent, demoMenu, permissionContext } from './app.component';
 
 bootstrapApplication(DemoComponent, {

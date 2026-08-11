@@ -1,6 +1,18 @@
 {
-  "name": "@netdevs/shared-ui-core",
+  "name": "@sebkuw/shared-ui-core",
   "version": "0.0.1",
+  "description": "Shared access-control contracts and helpers for Angular UI libraries.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sebkuw/angular-shared-components.git",
+    "directory": "projects/shared-ui-core"
+  },
+  "homepage": "https://github.com/sebkuw/angular-shared-components#readme",
+  "bugs": "https://github.com/sebkuw/angular-shared-components/issues",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "peerDependencies": {
     "@angular/common": "^20.3.0",
     "@angular/core": "^20.3.0"

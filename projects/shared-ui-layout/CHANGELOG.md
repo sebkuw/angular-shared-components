@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@netdevs/shared-ui-layout` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
+All notable changes to `@sebkuw/shared-ui-layout` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
 
 ## [Unreleased]
 
@@ -11,3 +11,7 @@ All notable changes to `@netdevs/shared-ui-layout` are documented in this file. 
 - Added reactive access rules to menu items and the page-header information action.
 - Rebuilt side navigation with a named `nav`, native group buttons, `aria-expanded`, keyboard operation and logical CSS properties.
 - Added OnPush page headers, semantic `header` markup, configurable accessible names, token-based responsive styles and public API/E2E/visual coverage.
+
+### Changed
+
+- Changed the package coordinate from `@netdevs/shared-ui-layout` to `@sebkuw/shared-ui-layout`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.

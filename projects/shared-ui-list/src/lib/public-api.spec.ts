@@ -3,7 +3,7 @@ import {
   DynamicTableComponent,
   provideValueFormatterOptions,
   TableExportService,
-} from '@netdevs/shared-ui-list';
+} from '@sebkuw/shared-ui-list';
 
 describe('shared-ui-list public API', () => {
   it('exports table components, services and configuration helpers', () => {

@@ -13,5 +13,6 @@
 
 ### Changed
 
+- Updated the integration host to resolve all libraries through their new `@sebkuw/shared-ui-*` public package coordinates.
 - Changed the development demo to resolve libraries from their public source entry points, removing the prerequisite to build `dist` packages before previewing and enabling live reload for library edits.
 - Added the Angular Material `azure-blue` theme and clearer section/action presentation to prevent unthemed controls, overlapping form content and indistinct square buttons.

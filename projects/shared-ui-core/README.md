@@ -1,6 +1,14 @@
-# @netdevs/shared-ui-core
+# @sebkuw/shared-ui-core
 
 Core contracts and helpers shared by NetDevs UI libraries.
+
+## Installation
+
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+
+```bash
+npm install @sebkuw/shared-ui-core
+```
 
 ## Current public API
 
@@ -40,7 +48,7 @@ New or changed APIs must retain Angular 20 and strict TypeScript compatibility, 
 - [Library agent instructions](AGENTS.md)
 - [Core development skill](../../.agents/skills/develop-shared-ui-core/SKILL.md)
 - [Changelog](CHANGELOG.md)
-- [Repository package guide](../../README.md#1-core---netdevsshared-ui-core)
+- [Repository package guide](../../README.md#1-core---sebkuwshared-ui-core)
 
 Verify changes with:
 

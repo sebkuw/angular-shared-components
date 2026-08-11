@@ -168,4 +168,4 @@ export const DEFAULT_TABLE_LABELS: TableLabels = {
   sortDescending: (column) => `${column}, sorted descending`,
   sortNone: (column) => `${column}, not sorted`,
 };
-import { AccessRule } from '@netdevs/shared-ui-core';
+import { AccessRule } from '@sebkuw/shared-ui-core';

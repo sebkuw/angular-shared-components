@@ -1,6 +1,14 @@
-# @netdevs/shared-ui-layout
+# @sebkuw/shared-ui-layout
 
 Responsive page structure and navigation components for NetDevs Angular applications.
+
+## Installation
+
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+
+```bash
+npm install @sebkuw/shared-ui-layout
+```
 
 ## Current public API
 
@@ -29,7 +37,7 @@ Cover active and nested routes, menu state, toggle/overlay behavior, permissions
 - [Library agent instructions](AGENTS.md)
 - [Layout development skill](../../.agents/skills/develop-shared-ui-layout/SKILL.md)
 - [Changelog](CHANGELOG.md)
-- [Repository package guide](../../README.md#5-layout---netdevsshared-ui-layout)
+- [Repository package guide](../../README.md#5-layout---sebkuwshared-ui-layout)
 
 Verify changes with:
 

@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Added GitHub Packages metadata, a scope-only `.npmrc` mapping and an automated GitHub Release workflow that tests, builds and publishes all six libraries with the repository `GITHUB_TOKEN`.
 - Added repository-wide and library-specific `AGENTS.md` guidance for Angular 20 architecture, free dependencies, reusable configuration, permissions/claims, WCAG 2.2 AA, keyboard support, responsive design, testing, documentation and releases.
 - Added repository-scoped Codex skills for the monorepo and each shared UI library under `.agents/skills`.
 - Established required changelog and documentation updates for every repository change.
@@ -18,6 +19,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Changed every public npm package coordinate from `@netdevs/shared-ui-*` to `@sebkuw/shared-ui-*`. Consumers must replace the old package names in dependencies, imports and stylesheet paths. The new GitHub Packages coordinates begin their own version history at `0.0.1`.
 - Expanded and themed the component gallery with all form field kinds, editable details, working responsive filters and regression coverage for form geometry and primary actions.
 - Strengthened dynamic form configuration with a discriminated field union and changed filter controls to an auto-fit responsive grid.
 - Changed the demo preview to use public library source entry points with live reload and a stable `npm start` command at `http://127.0.0.1:4200/`, without requiring prebuilt `dist` packages.
