@@ -1,5 +1,6 @@
 .dynamic-table {
   width: 100%;
+  overflow-x: auto;
 
   table {
     width: 100%;
@@ -10,7 +11,7 @@
 
   th,
   td {
-    border: 1px solid #eee;
+    border: 1px solid var(--shared-ui-color-border, #c6cad2);
     padding: 8px;
     text-align: left;
     word-wrap: break-word;
@@ -18,7 +19,7 @@
   }
 
   th {
-    background: #fafafa;
+    background: var(--shared-ui-color-background, #f7f8fa);
   }
 
   .iterator-column {
@@ -53,7 +54,7 @@
 
   // styl przycisku "usuń"
   button[mat-icon-button] {
-    color: #d32f2f;
+    color: var(--shared-ui-color-danger, #b42318);
   }
 
   // wrapper do wyrównania przycisku "Dodaj"

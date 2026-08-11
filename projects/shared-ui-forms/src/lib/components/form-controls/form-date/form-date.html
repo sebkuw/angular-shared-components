@@ -8,15 +8,13 @@
     [max]="field.maxDate"
     [readonly]="field.readonlyOnEdit && isEditMode"
     [placeholder]="field.placeholder || 'DD.MM.RRRR'"
+    [attr.aria-label]="field.ariaLabel || field.label"
   />
 
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker
-    #picker
-    [startView]="field.startView || 'month'"
-  ></mat-datepicker>
+  <mat-datepicker #picker [startView]="field.startView || 'month'"></mat-datepicker>
 
   @if (control?.touched && control?.invalid) {
-  <mat-error>{{ getErrorMessage() }}</mat-error>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
   }
 </mat-form-field>

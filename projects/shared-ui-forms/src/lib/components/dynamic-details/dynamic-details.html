@@ -1,42 +1,49 @@
-<mat-card>
-  <mat-card-content>
-    <div class="details-grid" [style.--grid-columns]="config.columns || 2">
-      <!-- 
+@if (canAccess(access)) {
+  <mat-card [attr.aria-label]="config.ariaLabel || 'Details'">
+    <mat-card-content>
+      <dl class="details-grid" [style.--grid-columns]="config.columns || 2">
+        <!--
         Loop through each item (field or spacer) defined in the configuration.
         The 'style.grid-column' property is used to apply column spanning based on 'field.colSpan'.
         A 'spacer' class is added for items of type 'spacer' to allow for specific styling (like hiding on mobile).
       -->
-      <div
-        *ngFor="let field of config.fields"
-        class="detail-item"
-        [class.spacer]="field.type === 'spacer'"
-        [style.grid-column]="field.colSpan ? 'span ' + field.colSpan : 'span 1'"
-      >
-        <!-- Content is only rendered for items of type 'field' -->
-        <ng-container *ngIf="field.type !== 'spacer'">
-          <div class="detail-label">{{ field.label }}</div>
-          <div class="detail-value">{{ getFieldValue(field) }}</div>
-        </ng-container>
-      </div>
-    </div>
-  </mat-card-content>
+        <div
+          *ngFor="let field of config.fields"
+          [hidden]="!isFieldVisible(field)"
+          class="detail-item"
+          [class.spacer]="field.type === 'spacer'"
+          [style.grid-column]="field.colSpan ? 'span ' + field.colSpan : 'span 1'"
+        >
+          <!-- Content is only rendered for items of type 'field' -->
+          <ng-container *ngIf="field.type !== 'spacer'">
+            <dt class="detail-label">{{ field.label }}</dt>
+            <dd class="detail-value">{{ getFieldValue(field) }}</dd>
+          </ng-container>
+        </div>
+      </dl>
+    </mat-card-content>
 
-  <mat-card-actions align="end">
-    <button
-      mat-icon-button
-      color="primary"
-      (click)="onEditClick()"
-      aria-label="Edit item"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      color="warn"
-      (click)="onRemoveClick()"
-      aria-label="Remove item"
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-  </mat-card-actions>
-</mat-card>
+    <mat-card-actions align="end">
+      @if (isActionVisible('edit')) {
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="onEditClick()"
+          [attr.aria-label]="getActionLabel('edit')"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      }
+      @if (isActionVisible('remove')) {
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="onRemoveClick()"
+          [attr.aria-label]="getActionLabel('remove')"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
+    </mat-card-actions>
+  </mat-card>
+}

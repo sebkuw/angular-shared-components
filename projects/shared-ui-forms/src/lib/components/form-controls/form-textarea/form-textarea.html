@@ -7,13 +7,13 @@
     [attr.maxLength]="field.maxLength || null"
     [readonly]="field.readonlyOnEdit && isEditMode"
     [placeholder]="field.placeholder || field.label"
+    [attr.aria-label]="field.ariaLabel || field.label"
   ></textarea>
 
   @if (field.maxLength) {
-  <mat-hint align="end"
-    >{{ control?.value?.length || 0 }} / {{ field.maxLength }}</mat-hint
-  >
-  } @if (control?.touched && control?.invalid) {
-  <mat-error>{{ getErrorMessage() }}</mat-error>
+    <mat-hint align="end">{{ control?.value?.length || 0 }} / {{ field.maxLength }}</mat-hint>
+  }
+  @if (control?.touched && control?.invalid) {
+    <mat-error>{{ getErrorMessage() }}</mat-error>
   }
 </mat-form-field>

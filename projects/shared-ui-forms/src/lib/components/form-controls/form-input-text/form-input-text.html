@@ -7,9 +7,11 @@
     [readonly]="field.readonlyOnEdit && isEditMode"
     [attr.maxlength]="field.maxLength || null"
     [placeholder]="field.placeholder || field.label"
+    [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.autocomplete]="field.autocomplete || null"
   />
 
   @if (control?.touched && control?.invalid) {
-  <mat-error>{{ getErrorMessage() }}</mat-error>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
   }
 </mat-form-field>

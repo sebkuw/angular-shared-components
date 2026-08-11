@@ -1,9 +1,14 @@
 <div class="form-checkbox" [formGroup]="formGroup">
-  <mat-checkbox [id]="field.key" [formControlName]="field.key" [color]="color">
+  <mat-checkbox
+    [id]="field.key"
+    [formControlName]="field.key"
+    [color]="color"
+    [attr.aria-label]="field.ariaLabel || field.label"
+  >
     {{ field.label }}
   </mat-checkbox>
 
   @if (control?.touched && control?.invalid) {
-  <mat-error>{{ getErrorMessage() }}</mat-error>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
   }
 </div>

@@ -1,4 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
+import { AccessRule, InaccessibleBehavior } from '@netdevs/shared-ui-core';
 
 export type FormFieldType =
   | 'text'
@@ -17,28 +18,21 @@ export type FormFieldType =
 export type FormMode = 'create' | 'edit' | 'always';
 
 export type FormConditionOperator =
-  | 'eq'
-  | 'neq'
-  | 'in'
-  | 'notIn'
-  | 'gt'
-  | 'gte'
-  | 'lt'
-  | 'lte'
-  | 'contains'
-  | 'empty'
-  | 'notEmpty';
+  'eq' | 'neq' | 'in' | 'notIn' | 'gt' | 'gte' | 'lt' | 'lte' | 'contains' | 'empty' | 'notEmpty';
 
 export interface DynamicFormConfig {
   /**
    * @description Form fields rendered by the dynamic form component.
    */
-  fields: FormField[];
+  fields: DynamicFormField[];
 
   /**
    * @description Number of CSS Grid columns used by the form layout.
    */
   columns?: number;
+
+  /** Accessible name announced for the form landmark. */
+  ariaLabel?: string;
 
   /**
    * @description Optional submit button configuration.
@@ -48,6 +42,7 @@ export interface DynamicFormConfig {
     labelEdit?: string;
     position?: 'left' | 'center' | 'right';
     disabled?: boolean;
+    ariaLabel?: string;
   };
 }
 
@@ -125,6 +120,12 @@ export interface FormField {
    */
   showWhen?: FormFieldVisibilityLogic;
 
+  /** Central permissions/claims rule. Restricted rules are denied until context is ready. */
+  access?: AccessRule;
+
+  /** Whether a denied field is removed or retained as disabled. Defaults to `hide`. */
+  inaccessibleBehavior?: InaccessibleBehavior;
+
   /**
    * @description Required permissions for rendering the field.
    */
@@ -154,6 +155,12 @@ export interface FormField {
    * @description Placeholder displayed inside the control.
    */
   placeholder?: string;
+
+  /** Accessible name when the visible label is not sufficient. */
+  ariaLabel?: string;
+
+  /** Browser autocomplete token, for example `name` or `email`. */
+  autocomplete?: string;
 
   /**
    * @description Allows nullable values in select-like controls.
@@ -200,6 +207,7 @@ export interface FormFieldTextarea extends FormField {
 export interface FormFieldFile extends FormField {
   type: 'file';
   acceptedFileTypes?: string;
+  clearLabel?: string;
 }
 
 export interface FormFieldCheckbox extends FormField {
@@ -208,9 +216,12 @@ export interface FormFieldCheckbox extends FormField {
 
 export interface FormFieldTable extends FormField {
   type: 'table';
-  columns: FormField[];
+  columns: DynamicFormField[];
   minRows?: number;
   maxRows?: number;
+  rowIndexLabel?: string;
+  addRowLabel?: string;
+  removeRowLabel?: (index: number) => string;
 }
 
 export interface FormFieldSpacer extends FormField {
@@ -221,6 +232,19 @@ export interface FormFieldSpacer extends FormField {
   fontWeight?: string | number;
   textColor?: string;
 }
+
+/** Strongly typed union of every field supported by DynamicFormComponent. */
+export type DynamicFormField =
+  | FormFieldText
+  | FormFieldNumber
+  | FormFieldDate
+  | FormFieldSelect
+  | FormFieldMultiSelect
+  | FormFieldTextarea
+  | FormFieldFile
+  | FormFieldCheckbox
+  | FormFieldTable
+  | FormFieldSpacer;
 
 export interface FormFieldCondition {
   /**

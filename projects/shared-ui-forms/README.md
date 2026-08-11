@@ -4,7 +4,13 @@ Configurable dynamic details, forms and form controls for NetDevs Angular applic
 
 ## Current public API
 
-The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components, typed field/detail configuration models, FormFieldBaseComponent and CastPipe. The authoritative export list is src/public-api.ts.
+The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components, typed field/detail configuration models, FormFieldBaseComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
+
+`DynamicFormComponent`, individual fields, details fields and edit/remove actions accept shared `AccessRule` values. Form fields default to removal when denied and can set `inaccessibleBehavior: 'disable'`. Legacy `requiredPermissions` remains supported, but new code should use `access` with the reactive context from `@netdevs/shared-ui-core`.
+
+Labels, autocomplete tokens, accessible names, file actions and table row actions are typed configuration. Forms expose an accessible form name and collapse to one column on narrow viewports.
+
+The primary submit action uses the filled Material button treatment. Applications must include an Angular Material theme; the repository demo loads the free `azure-blue` prebuilt theme before the shared semantic tokens.
 
 ## Architectural role
 
