@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@netdevs/shared-ui-theme` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
+All notable changes to `@sebkuw/shared-ui-theme` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
 
 ## [Unreleased]
 
@@ -11,3 +11,7 @@ All notable changes to `@netdevs/shared-ui-theme` are documented in this file. T
 - Added typed semantic token names and a published `styles/tokens.css` entry point.
 - Added light/dark palettes, visible focus, reduced-motion and forced-colors adaptations.
 - Added token and public API contract tests plus visual coverage in the demo application.
+
+### Changed
+
+- Changed the package coordinate and stylesheet entry point from `@netdevs/shared-ui-theme` to `@sebkuw/shared-ui-theme` and added GitHub Packages publication metadata. Consumers must update dependencies, imports and the `styles/tokens.css` path; the new coordinate starts at `0.0.1`.

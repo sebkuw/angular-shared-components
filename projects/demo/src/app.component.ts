@@ -3,15 +3,15 @@ import { Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PermissionContext } from '@netdevs/shared-ui-core';
-import { InfoDialogComponent, NotificationComponent } from '@netdevs/shared-ui-feedback';
+import { PermissionContext } from '@sebkuw/shared-ui-core';
+import { InfoDialogComponent, NotificationComponent } from '@sebkuw/shared-ui-feedback';
 import {
   DetailsConfig,
   DynamicDetailsComponent,
   DynamicFormComponent,
   DynamicFormConfig,
-} from '@netdevs/shared-ui-forms';
-import { MenuItem, PageHeaderComponent, SideMenu } from '@netdevs/shared-ui-layout';
+} from '@sebkuw/shared-ui-forms';
+import { MenuItem, PageHeaderComponent, SideMenu } from '@sebkuw/shared-ui-layout';
 import {
   BaseRow,
   Column,
@@ -19,7 +19,7 @@ import {
   FilterOperation,
   TableDataRequestEvent,
   TableFilter,
-} from '@netdevs/shared-ui-list';
+} from '@sebkuw/shared-ui-list';
 
 interface DemoRow extends BaseRow {
   name: string;

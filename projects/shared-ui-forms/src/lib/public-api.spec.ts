@@ -2,7 +2,7 @@ import {
   DynamicDetailsComponent,
   DynamicFormComponent,
   FormInputTextComponent,
-} from '@netdevs/shared-ui-forms';
+} from '@sebkuw/shared-ui-forms';
 
 describe('shared-ui-forms public API', () => {
   it('exports the reusable form, details and control components', () => {

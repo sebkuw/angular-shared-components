@@ -4,7 +4,7 @@ import {
   evaluateAccess,
   PermissionService,
   PUBLIC_ACCESS_RULE,
-} from '@netdevs/shared-ui-core';
+} from '@sebkuw/shared-ui-core';
 import { MenuItem } from '../models/menu-item.interface';
 import { MENU_DATA_TOKEN } from '../utils/menu-data.token';
 

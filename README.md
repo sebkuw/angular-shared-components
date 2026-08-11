@@ -21,12 +21,12 @@ All contributions must preserve Angular 20 compatibility, use only approved free
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Package Guide](#package-guide)
-  - [1. Core - `@netdevs/shared-ui-core`](#1-core---netdevsshared-ui-core)
-  - [2. Theme - `@netdevs/shared-ui-theme`](#2-theme---netdevsshared-ui-theme)
-  - [3. Forms - `@netdevs/shared-ui-forms`](#3-forms---netdevsshared-ui-forms)
-  - [4. List - `@netdevs/shared-ui-list`](#4-list---netdevsshared-ui-list)
-  - [5. Layout - `@netdevs/shared-ui-layout`](#5-layout---netdevsshared-ui-layout)
-  - [6. Feedback - `@netdevs/shared-ui-feedback`](#6-feedback---netdevsshared-ui-feedback)
+  - [1. Core - `@sebkuw/shared-ui-core`](#1-core---sebkuwshared-ui-core)
+  - [2. Theme - `@sebkuw/shared-ui-theme`](#2-theme---sebkuwshared-ui-theme)
+  - [3. Forms - `@sebkuw/shared-ui-forms`](#3-forms---sebkuwshared-ui-forms)
+  - [4. List - `@sebkuw/shared-ui-list`](#4-list---sebkuwshared-ui-list)
+  - [5. Layout - `@sebkuw/shared-ui-layout`](#5-layout---sebkuwshared-ui-layout)
+  - [6. Feedback - `@sebkuw/shared-ui-feedback`](#6-feedback---sebkuwshared-ui-feedback)
 - [Development](#development)
 - [Local Package Testing](#local-package-testing)
 - [Publishing](#publishing)
@@ -36,14 +36,14 @@ All contributions must preserve Angular 20 compatibility, use only approved free
 
 ## Packages
 
-| Package                       | Responsibility                                                                                 |
-| ----------------------------- | ---------------------------------------------------------------------------------------------- |
-| `@netdevs/shared-ui-core`     | Shared foundation for cross-package contracts and helpers.                                     |
-| `@netdevs/shared-ui-theme`    | Semantic CSS tokens, light/dark modes, focus, high-contrast and reduced-motion defaults.       |
-| `@netdevs/shared-ui-forms`    | Dynamic details view, create/edit form view, form field controls and form models.              |
-| `@netdevs/shared-ui-list`     | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
-| `@netdevs/shared-ui-layout`   | Application layout components: page header and side menu.                                      |
-| `@netdevs/shared-ui-feedback` | User feedback components: info dialog and notification.                                        |
+| Package                      | Responsibility                                                                                 |
+| ---------------------------- | ---------------------------------------------------------------------------------------------- |
+| `@sebkuw/shared-ui-core`     | Shared foundation for cross-package contracts and helpers.                                     |
+| `@sebkuw/shared-ui-theme`    | Semantic CSS tokens, light/dark modes, focus, high-contrast and reduced-motion defaults.       |
+| `@sebkuw/shared-ui-forms`    | Dynamic details view, create/edit form view, form field controls and form models.              |
+| `@sebkuw/shared-ui-list`     | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
+| `@sebkuw/shared-ui-layout`   | Application layout components: page header and side menu.                                      |
+| `@sebkuw/shared-ui-feedback` | User feedback components: info dialog and notification.                                        |
 
 ## Requirements
 
@@ -59,32 +59,32 @@ The UI components use Angular Material and CDK. Consuming applications should co
 
 ## Installation
 
-Configure the private npm registry in the consuming application:
+GitHub Packages requires authentication for npm package installation, including public packages. Create a GitHub Personal Access Token (classic) with `read:packages`, expose it as `GITHUB_PACKAGES_TOKEN`, and configure the consuming application without committing the token value:
 
 ```ini
-@netdevs:registry=https://gitlab.nik.gov.pl/api/v4/projects/9/packages/npm/
-//gitlab.nik.gov.pl/api/v4/projects/9/packages/npm/:_authToken=${NPM_TOKEN}
+@sebkuw:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
 ```
 
 Install only the packages needed by the application:
 
 ```bash
-npm install @netdevs/shared-ui-forms
-npm install @netdevs/shared-ui-list
-npm install @netdevs/shared-ui-layout
-npm install @netdevs/shared-ui-feedback
+npm install @sebkuw/shared-ui-forms
+npm install @sebkuw/shared-ui-list
+npm install @sebkuw/shared-ui-layout
+npm install @sebkuw/shared-ui-feedback
 ```
 
 For applications using the full component set:
 
 ```bash
 npm install \
-  @netdevs/shared-ui-core \
-  @netdevs/shared-ui-theme \
-  @netdevs/shared-ui-forms \
-  @netdevs/shared-ui-list \
-  @netdevs/shared-ui-layout \
-  @netdevs/shared-ui-feedback
+  @sebkuw/shared-ui-core \
+  @sebkuw/shared-ui-theme \
+  @sebkuw/shared-ui-forms \
+  @sebkuw/shared-ui-list \
+  @sebkuw/shared-ui-layout \
+  @sebkuw/shared-ui-feedback
 ```
 
 Angular Material and CDK are peer dependencies for UI packages that render Material components:
@@ -95,7 +95,9 @@ npm install @angular/material @angular/cdk
 
 ## Package Guide
 
-### 1. Core - `@netdevs/shared-ui-core`
+The former `@netdevs/shared-ui-*` coordinates are not aliases. Existing consumers must replace those dependency names, TypeScript imports and the theme stylesheet path with `@sebkuw/shared-ui-*`.
+
+### 1. Core - `@sebkuw/shared-ui-core`
 
 Core owns the provider-agnostic, reactive permissions/claims contract used by every UI package.
 
@@ -111,13 +113,13 @@ Current exports:
 Install:
 
 ```bash
-npm install @netdevs/shared-ui-core
+npm install @sebkuw/shared-ui-core
 ```
 
 Use:
 
 ```ts
-import { NETDEVS_SHARED_UI_VERSION } from '@netdevs/shared-ui-core';
+import { NETDEVS_SHARED_UI_VERSION } from '@sebkuw/shared-ui-core';
 
 console.info(`NetDevs Shared UI: ${NETDEVS_SHARED_UI_VERSION}`);
 ```
@@ -130,7 +132,7 @@ When to put code here:
 
 Avoid putting feature components here. Forms, lists, layout and feedback should stay in their dedicated packages.
 
-### 2. Theme - `@netdevs/shared-ui-theme`
+### 2. Theme - `@sebkuw/shared-ui-theme`
 
 Theme is the styling foundation package. Its `styles/tokens.css` entry point defines semantic light/dark tokens and accessible platform adaptations.
 
@@ -145,7 +147,7 @@ Current exports:
 Install:
 
 ```bash
-npm install @netdevs/shared-ui-theme
+npm install @sebkuw/shared-ui-theme
 ```
 
 Use:
@@ -153,7 +155,7 @@ Use:
 ```ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NETDEVS_SHARED_UI_THEME_CLASS } from '@netdevs/shared-ui-theme';
+import { NETDEVS_SHARED_UI_THEME_CLASS } from '@sebkuw/shared-ui-theme';
 
 @Component({
   selector: 'app-shell',
@@ -170,9 +172,9 @@ export class AppShellComponent {
 }
 ```
 
-Include `@netdevs/shared-ui-theme/styles/tokens.css`, add `netdevs-shared-ui-theme` to the application shell and keep an Angular Material theme configured in the consuming application.
+Include `@sebkuw/shared-ui-theme/styles/tokens.css`, add `netdevs-shared-ui-theme` to the application shell and keep an Angular Material theme configured in the consuming application.
 
-### 3. Forms - `@netdevs/shared-ui-forms`
+### 3. Forms - `@sebkuw/shared-ui-forms`
 
 Forms contains schema-driven UI for common create, edit and details screens.
 
@@ -190,7 +192,7 @@ Main exports:
 Install:
 
 ```bash
-npm install @netdevs/shared-ui-forms
+npm install @sebkuw/shared-ui-forms
 ```
 
 Use `DynamicFormComponent`:
@@ -198,7 +200,7 @@ Use `DynamicFormComponent`:
 ```ts
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { DynamicFormComponent, type DynamicFormConfig } from '@netdevs/shared-ui-forms';
+import { DynamicFormComponent, type DynamicFormConfig } from '@sebkuw/shared-ui-forms';
 
 @Component({
   selector: 'app-user-form-page',
@@ -261,7 +263,7 @@ Use `DynamicDetailsComponent`:
 
 ```ts
 import { Component } from '@angular/core';
-import { DynamicDetailsComponent, type DetailsConfig } from '@netdevs/shared-ui-forms';
+import { DynamicDetailsComponent, type DetailsConfig } from '@sebkuw/shared-ui-forms';
 
 @Component({
   selector: 'app-user-details-page',
@@ -306,7 +308,7 @@ export class UserDetailsPageComponent {
 }
 ```
 
-### 4. List - `@netdevs/shared-ui-list`
+### 4. List - `@sebkuw/shared-ui-list`
 
 List contains the dynamic table component and models used to build server-driven list views.
 
@@ -324,7 +326,7 @@ Main exports:
 Install:
 
 ```bash
-npm install @netdevs/shared-ui-list
+npm install @sebkuw/shared-ui-list
 ```
 
 Use:
@@ -337,7 +339,7 @@ import {
   type BaseRow,
   type Column,
   type TableDataRequestEvent,
-} from '@netdevs/shared-ui-list';
+} from '@sebkuw/shared-ui-list';
 
 interface UserRow extends BaseRow {
   Id: string;
@@ -410,7 +412,7 @@ export class UserListPageComponent {
 
 The table expects data from the consuming application. It emits `dataRequest` whenever pagination, sorting or filtering changes.
 
-### 5. Layout - `@netdevs/shared-ui-layout`
+### 5. Layout - `@sebkuw/shared-ui-layout`
 
 Layout contains components used to compose the application shell and page-level navigation.
 
@@ -428,14 +430,14 @@ Main exports:
 Install:
 
 ```bash
-npm install @netdevs/shared-ui-layout
+npm install @sebkuw/shared-ui-layout
 ```
 
 Use `PageHeaderComponent`:
 
 ```ts
 import { Component } from '@angular/core';
-import { PageHeaderComponent, type InfoClickData } from '@netdevs/shared-ui-layout';
+import { PageHeaderComponent, type InfoClickData } from '@sebkuw/shared-ui-layout';
 
 @Component({
   selector: 'app-orders-page',
@@ -462,7 +464,7 @@ Use `SideMenu`:
 
 ```ts
 import { Component } from '@angular/core';
-import { MENU_DATA_TOKEN, SideMenu, type MenuItem } from '@netdevs/shared-ui-layout';
+import { MENU_DATA_TOKEN, SideMenu, type MenuItem } from '@sebkuw/shared-ui-layout';
 
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -508,7 +510,7 @@ export class AppShellComponent {
 
 `SideMenu` uses Angular Router links, so it should be used inside an application that has routing configured.
 
-### 6. Feedback - `@netdevs/shared-ui-feedback`
+### 6. Feedback - `@sebkuw/shared-ui-feedback`
 
 Feedback contains components for user-facing messages and informational overlays.
 
@@ -524,7 +526,7 @@ Main exports:
 Install:
 
 ```bash
-npm install @netdevs/shared-ui-feedback
+npm install @sebkuw/shared-ui-feedback
 ```
 
 Use `InfoDialogComponent`:
@@ -533,7 +535,7 @@ Use `InfoDialogComponent`:
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { InfoDialogComponent } from '@netdevs/shared-ui-feedback';
+import { InfoDialogComponent } from '@sebkuw/shared-ui-feedback';
 
 @Component({
   selector: 'app-info-example',
@@ -562,7 +564,7 @@ Use `NotificationComponent`:
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NotificationComponent } from '@netdevs/shared-ui-feedback';
+import { NotificationComponent } from '@sebkuw/shared-ui-feedback';
 
 @Component({
   selector: 'app-notification-example',
@@ -667,7 +669,7 @@ npm link
 In the consuming Angular project:
 
 ```bash
-npm link @netdevs/shared-ui-forms
+npm link @sebkuw/shared-ui-forms
 ```
 
 For more stable local verification, prefer `npm pack` and install the generated `.tgz` file in the consuming application.
@@ -678,55 +680,17 @@ npm pack ./dist/shared-ui-forms
 
 ## Publishing
 
-The root workspace package is private and should not be published. Publish packages from their generated `dist` directories.
+The root workspace package is private and must not be published. The [GitHub Packages workflow](.github/workflows/publish.yml) runs when a GitHub Release is published. It uses the repository-scoped `GITHUB_TOKEN`, runs the complete test and build suites, and publishes all six generated packages in dependency order.
 
-```bash
-npm run build
+Before creating a release:
 
-npm publish ./dist/shared-ui-core
-npm publish ./dist/shared-ui-theme
-npm publish ./dist/shared-ui-forms
-npm publish ./dist/shared-ui-list
-npm publish ./dist/shared-ui-layout
-npm publish ./dist/shared-ui-feedback
-```
+1. Update each package version under `projects/<package-name>/package.json`.
+2. When the core version changes, update its version in the peer dependencies of forms, list, layout and feedback.
+3. Update the package and repository changelogs.
+4. Run `npm run build` and then `npm test` locally so public-package import tests use fresh `dist` artifacts.
+5. Push the commit, create a matching GitHub tag/release, and publish the release.
 
-Recommended CI flow:
-
-```yaml
-image: node:20
-
-stages:
-  - build
-  - publish
-
-build:
-  stage: build
-  script:
-    - npm ci
-    - npm run build
-  artifacts:
-    paths:
-      - dist/
-
-publish:
-  stage: publish
-  dependencies:
-    - build
-  script:
-    - echo "@netdevs:registry=https://gitlab.nik.gov.pl/api/v4/projects/9/packages/npm/" > .npmrc
-    - echo "//gitlab.nik.gov.pl/api/v4/projects/9/packages/npm/:_authToken=${NPM_TOKEN}" >> .npmrc
-    - npm publish ./dist/shared-ui-core
-    - npm publish ./dist/shared-ui-theme
-    - npm publish ./dist/shared-ui-forms
-    - npm publish ./dist/shared-ui-list
-    - npm publish ./dist/shared-ui-layout
-    - npm publish ./dist/shared-ui-feedback
-  rules:
-    - if: $CI_COMMIT_TAG
-```
-
-Configure `NPM_TOKEN` in GitLab CI/CD with permission to publish to the package registry.
+The first release can use version and tag `0.0.1`. Published npm versions are immutable, so every later release must use a new version.
 
 ## Versioning
 
@@ -767,7 +731,7 @@ Keep Angular package versions aligned between the consuming application and thes
 
 ### Registry authentication fails
 
-Check that `.npmrc` points to the correct GitLab package registry and that `NPM_TOKEN` has read or publish permissions for the target project.
+Check that `.npmrc` maps `@sebkuw` to `https://npm.pkg.github.com`, that `GITHUB_PACKAGES_TOKEN` is available to npm, and that the Personal Access Token (classic) has `read:packages`. For private packages, the user or consuming repository must also have package access.
 
 ## License
 

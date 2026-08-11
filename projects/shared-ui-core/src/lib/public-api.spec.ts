@@ -3,7 +3,7 @@ import {
   PermissionService,
   evaluateAccess,
   providePermissionContext,
-} from '@netdevs/shared-ui-core';
+} from '@sebkuw/shared-ui-core';
 
 describe('shared-ui-core public API', () => {
   it('exports access-control primitives through the package entry point', () => {

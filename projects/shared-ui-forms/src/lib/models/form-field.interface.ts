@@ -1,5 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
-import { AccessRule, InaccessibleBehavior } from '@netdevs/shared-ui-core';
+import { AccessRule, InaccessibleBehavior } from '@sebkuw/shared-ui-core';
 
 export type FormFieldType =
   | 'text'

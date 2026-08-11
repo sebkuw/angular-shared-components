@@ -15,7 +15,7 @@ import {
   evaluateAccess,
   PermissionService,
   PUBLIC_ACCESS_RULE,
-} from '@netdevs/shared-ui-core';
+} from '@sebkuw/shared-ui-core';
 
 export interface InfoClickData {
   title: string;

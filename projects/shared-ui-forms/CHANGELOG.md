@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@netdevs/shared-ui-forms` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
+All notable changes to `@sebkuw/shared-ui-forms` are documented in this file. The format follows Keep a Changelog, and releases follow Semantic Versioning.
 
 ## [Unreleased]
 
@@ -15,4 +15,5 @@ All notable changes to `@netdevs/shared-ui-forms` are documented in this file. T
 
 ### Changed
 
+- Changed the package coordinate from `@netdevs/shared-ui-forms` to `@sebkuw/shared-ui-forms`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.
 - Changed the form submit action to the filled Material button treatment so the primary action remains visually distinct.
