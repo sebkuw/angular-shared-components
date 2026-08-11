@@ -1,0 +1,104 @@
+@import 'material-icons/iconfont/material-icons.css';
+
+* {
+  box-sizing: border-box;
+}
+
+.mat-icon {
+  font-family: 'Material Icons', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+}
+
+html,
+body {
+  min-width: 20rem;
+  min-height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.demo-shell {
+  display: grid;
+  grid-template-columns: minmax(4rem, 15rem) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.demo-shell > aside {
+  border-inline-end: 1px solid var(--shared-ui-color-border);
+}
+
+.demo-shell > main {
+  min-width: 0;
+  padding: var(--shared-ui-spacing-lg);
+}
+
+.demo-section {
+  margin-block: var(--shared-ui-spacing-xl);
+  padding: var(--shared-ui-spacing-lg);
+  border: 1px solid var(--shared-ui-color-border);
+  border-radius: var(--shared-ui-radius-lg);
+  background: var(--shared-ui-color-surface);
+  box-shadow: 0 0.25rem 1rem rgb(16 24 40 / 6%);
+}
+
+.demo-section > h2 {
+  margin-block-start: 0;
+}
+
+.section-description {
+  max-width: 70ch;
+  color: var(--shared-ui-color-text-muted);
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--shared-ui-spacing-sm);
+}
+
+.action-row .mat-mdc-button-base {
+  min-height: 2.75rem;
+}
+
+.form-submit-status {
+  margin-block: var(--shared-ui-spacing-md) 0;
+  color: var(--shared-ui-color-text-muted);
+}
+
+.details-editor,
+.empty-demo-state {
+  padding: var(--shared-ui-spacing-md);
+  border: 1px dashed var(--shared-ui-color-border);
+  border-radius: var(--shared-ui-radius-md);
+  background: var(--shared-ui-color-background);
+}
+
+.details-editor > button {
+  margin-block-start: var(--shared-ui-spacing-sm);
+}
+
+@media (max-width: 40rem) {
+  .demo-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-shell > aside {
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--shared-ui-color-border);
+  }
+
+  .demo-shell > main {
+    padding: var(--shared-ui-spacing-md);
+  }
+
+  .demo-section {
+    padding: var(--shared-ui-spacing-md);
+  }
+}

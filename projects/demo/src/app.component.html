@@ -1,0 +1,94 @@
+<div class="netdevs-shared-ui-theme demo-shell">
+  <aside><shared-side-menu [collapsed]="false" ariaLabel="Demo navigation" /></aside>
+  <main id="main-content">
+    <shared-page-header
+      headerText="Shared UI gallery"
+      infoContent="All controls in this page are keyboard accessible."
+      infoAriaLabel="Open gallery information"
+      (infoClick)="openInfo()"
+    />
+
+    <section class="demo-section" aria-labelledby="permissions-heading">
+      <h2 id="permissions-heading">Reactive access context</h2>
+      <p id="access-state" role="status" aria-live="polite">
+        Admin controls are {{ isAdmin() ? 'visible' : 'hidden' }}.
+      </p>
+      <div class="action-row">
+        <button mat-flat-button type="button" (click)="toggleAdmin()">
+          {{ isAdmin() ? 'Disable' : 'Enable' }} admin permission
+        </button>
+        <button mat-stroked-button type="button" (click)="showNotification()">
+          Show notification
+        </button>
+      </div>
+    </section>
+
+    <section class="demo-section" aria-labelledby="form-heading">
+      <h2 id="form-heading">All form field types</h2>
+      <p class="section-description">
+        Text, email, password, number, date, select, multi-select, textarea, checkbox, file, spacer
+        and editable table controls.
+      </p>
+      <shared-dynamic-form
+        [config]="formConfig"
+        [initialData]="formInitialData"
+        (formSubmit)="submitExampleForm($event)"
+      />
+      <p class="form-submit-status" role="status" aria-live="polite">{{ formStatus() }}</p>
+    </section>
+
+    <section class="demo-section" aria-labelledby="details-heading">
+      <h2 id="details-heading">Details with edit mode</h2>
+      <p class="section-description">
+        The view includes formatted values, column spans, an intentional layout spacer and an
+        access-protected field.
+      </p>
+
+      @if (!detailsVisible()) {
+        <div class="empty-demo-state" role="status">
+          <p>Order details are removed from the demo.</p>
+          <button mat-stroked-button type="button" (click)="restoreDetails()">
+            Restore details
+          </button>
+        </div>
+      } @else if (detailsEditing()) {
+        <div class="details-editor">
+          <shared-dynamic-form
+            [config]="detailsEditConfig"
+            [initialData]="details()"
+            [isEditMode]="true"
+            (formSubmit)="saveDetails($event)"
+          />
+          <button mat-stroked-button type="button" (click)="cancelDetailsEdit()">
+            Cancel editing
+          </button>
+        </div>
+      } @else {
+        <shared-dynamic-details
+          [data]="details()"
+          [config]="detailsConfig"
+          (edit)="startDetailsEdit()"
+          (remove)="removeDetails()"
+        />
+      }
+    </section>
+
+    <section class="demo-section" aria-labelledby="table-heading">
+      <h2 id="table-heading">Filterable data table</h2>
+      <p class="section-description">
+        Open the filter panel to test text, select, boolean, amount range and date range filters.
+        Filtering, sorting and pagination run locally in this demo.
+      </p>
+      <shared-dynamic-table
+        [columns]="columns"
+        [data]="rows"
+        [totalItems]="total"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [loading]="loading"
+        [labels]="{ caption: 'Demo orders' }"
+        (dataRequest)="onDataRequest($event)"
+      />
+    </section>
+  </main>
+</div>
