@@ -6,6 +6,12 @@ Configurable data lists and tables for NetDevs Angular applications.
 
 The package exports DynamicTableComponent, typed table/pagination/filter/feature/export models, TableExportService and ValueFormatterPipe. The authoritative export list is src/public-api.ts.
 
+The component accepts a top-level `access` rule. Columns, cell actions, toolbar actions, filtering, selection, column visibility and CSV export can each define their own access rule. `labels` configures table copy and accessible names; `provideValueFormatterOptions` configures locale-sensitive boolean/empty values.
+
+Sorting uses native buttons and `aria-sort`. Actionable cells support Enter and Space. Frontend CSV export uses the supplied rows, escapes RFC-style fields, neutralizes spreadsheet formulas and avoids browser APIs during SSR.
+
+The filter panel lays out configured text, select, boolean and range controls in a responsive auto-fit grid. Numeric and date ranges stack at very small widths instead of forcing the whole filter panel to scroll horizontally.
+
 ## Architectural role
 
 - Keep data transport separate from table state and rendering.

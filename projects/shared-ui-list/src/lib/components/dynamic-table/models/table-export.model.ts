@@ -6,6 +6,8 @@ import { TableFilter, TableSort } from './dynamic-table.models';
  * Zawiera wszystkie informacje potrzebne do wygenerowania danych na backendu
  */
 export interface ExportRequest {
+  /** Rows currently available for a frontend export. */
+  data?: readonly Readonly<Record<string, unknown>>[];
   /**
    * @property selectedRecordIds
    * @description IDs zaznaczonych rekordów
@@ -184,5 +186,5 @@ export interface TableExportConfig {
    * @property formatters
    * @description Custom formattery dla kolumn
    */
-  formatters?: Record<string, (value: any) => string>;
+  formatters?: Record<string, (value: unknown) => string>;
 }

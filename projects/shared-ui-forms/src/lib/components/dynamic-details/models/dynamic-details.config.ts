@@ -29,7 +29,10 @@ export interface DetailField {
    * @param value The original value from the data object.
    * @returns The formatted string to be displayed.
    */
-  render?: (value: any) => string;
+  render?: (value: unknown, data: Readonly<Record<string, unknown>>) => string;
+
+  /** Permissions/claims rule used to filter this field. */
+  access?: AccessRule;
 
   /**
    * @property colSpan
@@ -60,4 +63,12 @@ export interface DetailsConfig {
    * @description The number of columns for the grid layout on larger screens. Defaults to 2.
    */
   columns?: number;
+
+  ariaLabel?: string;
+
+  actions?: {
+    edit?: { visible?: boolean; label?: string; access?: AccessRule };
+    remove?: { visible?: boolean; label?: string; access?: AccessRule };
+  };
 }
+import { AccessRule } from '@netdevs/shared-ui-core';

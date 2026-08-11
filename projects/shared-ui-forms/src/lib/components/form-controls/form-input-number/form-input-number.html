@@ -10,9 +10,10 @@
     [attr.max]="field.max ?? null"
     [attr.pattern]="field.isInteger ? '^-?[0-9]*$' : null"
     [placeholder]="field.placeholder || field.label"
+    [attr.aria-label]="field.ariaLabel || field.label"
   />
 
   @if (control?.touched && control?.invalid) {
-  <mat-error>{{ getErrorMessage() }}</mat-error>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
   }
 </mat-form-field>

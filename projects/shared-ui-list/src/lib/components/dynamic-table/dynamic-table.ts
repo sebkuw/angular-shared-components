@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,10 +10,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  PLATFORM_ID,
   Signal,
   signal,
   SimpleChanges,
 } from '@angular/core';
+import { AccessRule, PermissionService, PUBLIC_ACCESS_RULE } from '@netdevs/shared-ui-core';
 import {
   AbstractControl,
   FormBuilder,
@@ -44,7 +46,13 @@ import {
   TableFilter,
   TableSort,
 } from './models/dynamic-table.models';
-import { BaseRow, Column, CustomButton } from './models/table-config.model';
+import {
+  BaseRow,
+  Column,
+  CustomButton,
+  DEFAULT_TABLE_LABELS,
+  TableLabels,
+} from './models/table-config.model';
 import { ExportRequest } from './models/table-export.model';
 import { TableFeatures } from './models/table-features.models';
 import { FilterFieldConfig } from './models/table-filter.model';
@@ -81,9 +89,7 @@ import { TableExportService } from './services/table-export.service';
   styleUrls: ['./dynamic-table.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DynamicTableComponent<T extends BaseRow>
-  implements OnInit, OnChanges, OnDestroy
-{
+export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChanges, OnDestroy {
   @Input() columns: Column[] = [];
   @Input({ required: true }) data!: Signal<T[]>;
   @Input({ required: true }) totalItems!: Signal<number>;
@@ -94,6 +100,8 @@ export class DynamicTableComponent<T extends BaseRow>
   @Input() showCustomMenu = false;
   @Input() customButtons: CustomButton[] = [];
   @Input() pageSizeOptions: number[] = [10, 25, 50, 100];
+  @Input() access: AccessRule = PUBLIC_ACCESS_RULE;
+  @Input() labels: Partial<TableLabels> = {};
   @Input() features: TableFeatures = {
     filtering: true,
     sorting: true,
@@ -125,15 +133,43 @@ export class DynamicTableComponent<T extends BaseRow>
 
   private readonly destroy$ = new Subject<void>();
   private readonly exportService = inject(TableExportService);
+  private readonly permissionService = inject(PermissionService);
+  private readonly platformId = inject(PLATFORM_ID);
+
+  get tableLabels(): TableLabels {
+    return { ...DEFAULT_TABLE_LABELS, ...this.labels };
+  }
+
+  canRenderTable(): boolean {
+    return this.permissionService.canAccess(this.access);
+  }
+
+  canAccess(rule: AccessRule | undefined): boolean {
+    return this.permissionService.canAccess(rule ?? PUBLIC_ACCESS_RULE);
+  }
+
+  selectionEnabled(): boolean {
+    return this.features.selection !== false && this.canAccess(this.features.selectionAccess);
+  }
+
+  filteringEnabled(): boolean {
+    return this.features.filtering !== false && this.canAccess(this.features.filteringAccess);
+  }
+
+  accessibleColumns = computed(() =>
+    this.columns.filter((column) => this.canAccess(column.access)),
+  );
+
+  accessibleButtons = computed(() =>
+    this.customButtons.filter((button) => this.canAccess(button.access)),
+  );
 
   hiddenColumnCount = computed(() => {
-    const hideableColumns = this.columns.filter(
+    const hideableColumns = this.accessibleColumns().filter(
       (column) => column.visibilityConfig?.hideable !== false,
     );
 
-    return hideableColumns.filter(
-      (column) => !this.visibleColumns().has(column.name),
-    ).length;
+    return hideableColumns.filter((column) => !this.visibleColumns().has(column.name)).length;
   });
 
   selectionCount = computed(() => {
@@ -145,15 +181,15 @@ export class DynamicTableComponent<T extends BaseRow>
   });
 
   displayedColumns = computed(() => {
-    const columns = this.columns
+    const columns = this.accessibleColumns()
       .filter((column) => column.name && this.isColumnVisible(column.name))
       .map((column) => column.name);
 
-    return this.features.selection === false ? columns : ['select', ...columns];
+    return this.selectionEnabled() ? ['select', ...columns] : columns;
   });
 
   filterableColumns = computed(() =>
-    this.columns.filter((column) => column.filterable),
+    this.accessibleColumns().filter((column) => column.filterable),
   );
 
   hasActiveFilters = computed(() => {
@@ -162,12 +198,12 @@ export class DynamicTableComponent<T extends BaseRow>
     return Object.values(formValue).some((value) => this.hasFilterValue(value));
   });
 
-  hasCustomButtons = computed(() => this.customButtons.length > 0);
+  hasCustomButtons = computed(() => this.accessibleButtons().length > 0);
 
   canExport = computed(() => {
     const csvConfig = this.features.csvExport;
 
-    if (!csvConfig?.enabled) {
+    if (!csvConfig?.enabled || !this.canAccess(csvConfig.access)) {
       return false;
     }
 
@@ -253,11 +289,8 @@ export class DynamicTableComponent<T extends BaseRow>
     let direction: 'asc' | 'desc' | '' = 'asc';
 
     if (currentSort.column === columnName) {
-      direction = currentSort.direction === 'asc'
-        ? 'desc'
-        : currentSort.direction === 'desc'
-          ? ''
-          : 'asc';
+      direction =
+        currentSort.direction === 'asc' ? 'desc' : currentSort.direction === 'desc' ? '' : 'asc';
     }
 
     this.sortState.set({ column: direction ? columnName : '', direction });
@@ -334,6 +367,35 @@ export class DynamicTableComponent<T extends BaseRow>
     return (row as Record<string, unknown>)[column.name];
   }
 
+  getAriaSort(columnName: string): 'ascending' | 'descending' | 'none' {
+    const sort = this.sortState();
+    if (sort.column !== columnName) {
+      return 'none';
+    }
+    return sort.direction === 'asc'
+      ? 'ascending'
+      : sort.direction === 'desc'
+        ? 'descending'
+        : 'none';
+  }
+
+  getSortLabel(column: Column): string {
+    const state = this.getAriaSort(column.name);
+    if (state === 'ascending') {
+      return this.tableLabels.sortAscending(column.displayName);
+    }
+    if (state === 'descending') {
+      return this.tableLabels.sortDescending(column.displayName);
+    }
+    return this.tableLabels.sortNone(column.displayName);
+  }
+
+  activateCell(column: Column, row: T): void {
+    if (column.action && this.canAccess(column.action.access)) {
+      this.rowClick.emit({ column, row });
+    }
+  }
+
   /**
    * @description Converts a Set to an array.
    * @param set Set to convert.
@@ -387,9 +449,9 @@ export class DynamicTableComponent<T extends BaseRow>
    */
   getBooleanOptions(): { key: string; value: string }[] {
     return [
-      { key: '', value: 'Wszystkie' },
-      { key: 'true', value: 'Tak' },
-      { key: 'false', value: 'Nie' },
+      { key: '', value: this.tableLabels.booleanAll },
+      { key: 'true', value: this.tableLabels.booleanTrue },
+      { key: 'false', value: this.tableLabels.booleanFalse },
     ];
   }
 
@@ -424,8 +486,8 @@ export class DynamicTableComponent<T extends BaseRow>
    */
   getRangeFilterErrorMessage(column: Column): string {
     return column.filterFieldConfig?.type === 'date'
-      ? 'Data "Od" nie może być późniejsza niż "Do".'
-      : 'Liczba "Od" nie może być większa niż "Do".';
+      ? this.tableLabels.invalidDateRange
+      : this.tableLabels.invalidNumberRange;
   }
 
   /**
@@ -565,7 +627,7 @@ export class DynamicTableComponent<T extends BaseRow>
    * @returns Void.
    */
   public toggleColumnVisibility(columnName: string): void {
-    const column = this.columns.find((item) => item.name === columnName);
+    const column = this.accessibleColumns().find((item) => item.name === columnName);
 
     if (column?.visibilityConfig?.hideable === false) {
       return;
@@ -608,7 +670,7 @@ export class DynamicTableComponent<T extends BaseRow>
   public hideAllColumns(): void {
     const visible = new Set<string>();
 
-    for (const column of this.columns) {
+    for (const column of this.accessibleColumns()) {
       if (column.visibilityConfig?.hideable === false) {
         visible.add(column.name);
       }
@@ -623,9 +685,11 @@ export class DynamicTableComponent<T extends BaseRow>
    * @returns Void.
    */
   public resetColumnVisibility(): void {
-    for (const column of this.columns) {
+    for (const column of this.accessibleColumns()) {
       if (column.visibilityConfig?.persistVisibility) {
-        localStorage.removeItem(this.getColumnVisibilityStorageKey(column));
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.removeItem(this.getColumnVisibilityStorageKey(column));
+        }
       }
     }
 
@@ -639,7 +703,7 @@ export class DynamicTableComponent<T extends BaseRow>
   public exportToCSVFile(): void {
     const exportConfig = this.features.csvExport;
 
-    if (!exportConfig?.enabled) {
+    if (!exportConfig?.enabled || !this.canAccess(exportConfig.access)) {
       return;
     }
 
@@ -674,9 +738,10 @@ export class DynamicTableComponent<T extends BaseRow>
             to: new FormControl(''),
           },
           {
-            validators: filterConfig.type === 'date'
-              ? [this.dateRangeValidator]
-              : [this.numberRangeValidator],
+            validators:
+              filterConfig.type === 'date'
+                ? [this.dateRangeValidator]
+                : [this.numberRangeValidator],
           },
         );
 
@@ -713,7 +778,7 @@ export class DynamicTableComponent<T extends BaseRow>
   }): void {
     const request: TableDataRequestEvent = {
       pagination: {
-        pageIndex: options?.resetPage ? 0 : options?.pageIndex ?? this.pageIndex(),
+        pageIndex: options?.resetPage ? 0 : (options?.pageIndex ?? this.pageIndex()),
         pageSize: options?.pageSize ?? this.pageSize(),
       },
       sort: this.sortState(),
@@ -730,7 +795,7 @@ export class DynamicTableComponent<T extends BaseRow>
   private buildFilters(): TableFilter[] {
     const filters: TableFilter[] = [];
 
-    for (const column of this.columns) {
+    for (const column of this.accessibleColumns()) {
       if (!column.filterable) {
         continue;
       }
@@ -833,11 +898,7 @@ export class DynamicTableComponent<T extends BaseRow>
    * @param value Selected value or values.
    * @returns Void.
    */
-  private addSelectFilter(
-    filters: TableFilter[],
-    column: Column,
-    value: string | string[],
-  ): void {
+  private addSelectFilter(filters: TableFilter[], column: Column, value: string | string[]): void {
     if (Array.isArray(value)) {
       if (!value.length) {
         return;
@@ -890,11 +951,7 @@ export class DynamicTableComponent<T extends BaseRow>
    * @param value Numeric value.
    * @returns Void.
    */
-  private addNumericFilter(
-    filters: TableFilter[],
-    column: Column,
-    value: string | number,
-  ): void {
+  private addNumericFilter(filters: TableFilter[], column: Column, value: string | number): void {
     if (value === '' || value === null || value === undefined) {
       return;
     }
@@ -939,9 +996,13 @@ export class DynamicTableComponent<T extends BaseRow>
       return null;
     }
 
+    if (!isPlatformBrowser(this.platformId)) {
+      return null;
+    }
+
     const value = localStorage.getItem(this.getColumnVisibilityStorageKey(column));
 
-    return value === null ? null : JSON.parse(value) as boolean;
+    return value === null ? null : (JSON.parse(value) as boolean);
   }
 
   /**
@@ -951,16 +1012,13 @@ export class DynamicTableComponent<T extends BaseRow>
    * @returns Void.
    */
   private saveColumnVisibility(columnName: string, isVisible: boolean): void {
-    const column = this.columns.find((item) => item.name === columnName);
+    const column = this.accessibleColumns().find((item) => item.name === columnName);
 
-    if (!column?.visibilityConfig?.persistVisibility) {
+    if (!column?.visibilityConfig?.persistVisibility || !isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    localStorage.setItem(
-      this.getColumnVisibilityStorageKey(column),
-      JSON.stringify(isVisible),
-    );
+    localStorage.setItem(this.getColumnVisibilityStorageKey(column), JSON.stringify(isVisible));
   }
 
   /**
@@ -969,7 +1027,7 @@ export class DynamicTableComponent<T extends BaseRow>
    * @returns Void.
    */
   private saveAllColumnVisibility(isVisible: boolean): void {
-    for (const column of this.columns) {
+    for (const column of this.accessibleColumns()) {
       if (column.visibilityConfig?.persistVisibility) {
         this.saveColumnVisibility(column.name, isVisible);
       }
@@ -1007,6 +1065,7 @@ export class DynamicTableComponent<T extends BaseRow>
    */
   private buildExportRequest(): ExportRequest {
     return {
+      data: this.data() as unknown as readonly Readonly<Record<string, unknown>>[],
       selectedRecordIds: this.getSelectedRecordIds(),
       filters: this.buildFilters(),
       sort: this.sortState(),
@@ -1026,10 +1085,7 @@ export class DynamicTableComponent<T extends BaseRow>
    */
   private getSelectedRecordIds(): string[] | undefined {
     if (this.allElementsSelected()) {
-      return [
-        '*ALL*',
-        ...Array.from(this.excludedElements()).map((id) => `!${id}`),
-      ];
+      return ['*ALL*', ...Array.from(this.excludedElements()).map((id) => `!${id}`)];
     }
 
     return this.selectedIds().size ? Array.from(this.selectedIds()) : undefined;
@@ -1093,9 +1149,7 @@ export class DynamicTableComponent<T extends BaseRow>
    * @param control Range form group.
    * @returns Validation errors or null.
    */
-  private readonly dateRangeValidator = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
+  private readonly dateRangeValidator = (control: AbstractControl): ValidationErrors | null => {
     const from = control.get('from')?.value;
     const to = control.get('to')?.value;
 
@@ -1111,9 +1165,7 @@ export class DynamicTableComponent<T extends BaseRow>
    * @param control Range form group.
    * @returns Validation errors or null.
    */
-  private readonly numberRangeValidator = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
+  private readonly numberRangeValidator = (control: AbstractControl): ValidationErrors | null => {
     const from = control.get('from')?.value;
     const to = control.get('to')?.value;
 

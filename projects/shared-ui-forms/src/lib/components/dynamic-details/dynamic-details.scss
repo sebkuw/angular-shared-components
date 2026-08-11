@@ -5,13 +5,13 @@
 
 .details-grid {
   display: grid;
-  gap: 16px;
+  gap: var(--shared-ui-spacing-md, 1rem);
   grid-template-columns: repeat(var(--grid-columns, 2), 1fr);
 }
 
 .detail-item {
   padding: 8px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--shared-ui-color-border, #c6cad2);
   min-width: 0; /* Prevents overflow for long content in grid cells */
 }
 
@@ -23,18 +23,18 @@
 
 .detail-label {
   font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--shared-ui-color-text-muted, #555d6d);
   font-weight: 500;
   margin-bottom: 4px;
 }
 
 .detail-value {
+  margin: 0;
   font-size: 1rem;
   word-wrap: break-word; /* Helps break long words */
 }
 
-
-@media (max-width: 600px) {
+@media (max-width: 37.5rem) {
   .details-grid {
     grid-template-columns: 1fr;
   }
@@ -45,7 +45,7 @@
      * '!important' is used here to override the inline style set by [style.grid-column]
      * in the component's template, ensuring a consistent single-column layout.
     */
-    grid-column: 1 / -1 !important; 
+    grid-column: 1 / -1 !important;
   }
 
   /* 

@@ -9,7 +9,16 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  Optional,
 } from '@angular/core';
+import {
+  AccessRule,
+  EMPTY_PERMISSION_CONTEXT,
+  evaluateAccess,
+  InaccessibleBehavior,
+  PermissionService,
+  PUBLIC_ACCESS_RULE,
+} from '@netdevs/shared-ui-core';
 import {
   AbstractControl,
   FormArray,
@@ -71,14 +80,33 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() initialData: Record<string, unknown> | null = null;
   @Input() isSubmitting = false;
   @Input() formGroup: FormGroup = new FormGroup({});
+  /** @deprecated Provide a reactive permission context through shared-ui-core. */
   @Input() userPermissions: string[] = [];
+  @Input() access: AccessRule = PUBLIC_ACCESS_RULE;
+  @Input() inaccessibleBehavior: InaccessibleBehavior = 'hide';
   @Output() formSubmit = new EventEmitter<Record<string, unknown>>();
 
   form: FormGroup = new FormGroup({});
   private formSnapshot: Record<string, unknown> = {};
   private conditionalSubscriptions = new Subscription();
+  private readonly permissionService: Pick<PermissionService, 'canAccess'>;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    @Optional() permissionService?: PermissionService,
+  ) {
+    this.permissionService = permissionService ?? {
+      canAccess: (rule) => evaluateAccess(rule, EMPTY_PERMISSION_CONTEXT),
+    };
+  }
+
+  canRenderForm(): boolean {
+    return this.permissionService.canAccess(this.access) || this.inaccessibleBehavior === 'disable';
+  }
+
+  isFormAccessDisabled(): boolean {
+    return !this.permissionService.canAccess(this.access);
+  }
 
   /**
    * @description Initializes the form structure, initial values and conditional logic.
@@ -148,7 +176,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
    * @returns True when the field is visible.
    */
   isFieldVisible(field: FormField): boolean {
-    if (!this.checkPermissions(field) || !this.isVisibleForMode(field)) {
+    if (
+      (!this.checkPermissions(field) && field.inaccessibleBehavior !== 'disable') ||
+      !this.isVisibleForMode(field)
+    ) {
       return false;
     }
 
@@ -164,8 +195,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
    * @returns CSS justify-content value.
    */
   getButtonPosition(): string {
-    const configuredPosition =
-      this.config.submitButton?.position || this.createButtonPosition;
+    const configuredPosition = this.config.submitButton?.position || this.createButtonPosition;
 
     switch (configuredPosition) {
       case 'right':
@@ -258,12 +288,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (Array.isArray(initialRows)) {
           for (const row of initialRows) {
-            array.push(
-              this.createTableRowGroup(
-                field.columns,
-                row as Record<string, unknown>,
-              ),
-            );
+            array.push(this.createTableRowGroup(field.columns, row as Record<string, unknown>));
           }
         }
 
@@ -360,16 +385,12 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
    * @param visibilityLogic Visibility logic configuration.
    * @returns True when conditions are satisfied.
    */
-  private evaluateConditions(
-    visibilityLogic: FormFieldVisibilityLogic,
-  ): boolean {
+  private evaluateConditions(visibilityLogic: FormFieldVisibilityLogic): boolean {
     const results = visibilityLogic.conditions.map((condition) =>
       this.evaluateCondition(condition),
     );
 
-    return visibilityLogic.logic === 'AND'
-      ? results.every(Boolean)
-      : results.some(Boolean);
+    return visibilityLogic.logic === 'AND' ? results.every(Boolean) : results.some(Boolean);
   }
 
   /**
@@ -387,15 +408,9 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
       case 'neq':
         return currentValue !== condition.value;
       case 'in':
-        return (
-          Array.isArray(condition.value) &&
-          condition.value.includes(currentValue)
-        );
+        return Array.isArray(condition.value) && condition.value.includes(currentValue);
       case 'notIn':
-        return (
-          Array.isArray(condition.value) &&
-          !condition.value.includes(currentValue)
-        );
+        return Array.isArray(condition.value) && !condition.value.includes(currentValue);
       case 'gt':
         return Number(currentValue) > Number(condition.value);
       case 'gte':
@@ -409,17 +424,9 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
           ? currentValue.includes(condition.value)
           : String(currentValue ?? '').includes(String(condition.value ?? ''));
       case 'empty':
-        return (
-          currentValue === null ||
-          currentValue === undefined ||
-          currentValue === ''
-        );
+        return currentValue === null || currentValue === undefined || currentValue === '';
       case 'notEmpty':
-        return !(
-          currentValue === null ||
-          currentValue === undefined ||
-          currentValue === ''
-        );
+        return !(currentValue === null || currentValue === undefined || currentValue === '');
       default:
         return false;
     }
@@ -444,6 +451,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
    * @returns True when the user has required permissions.
    */
   private checkPermissions(field: FormField): boolean {
+    if (field.access) {
+      return this.permissionService.canAccess(field.access);
+    }
+
     const requiredPermissions = field.requiredPermissions;
     const permissionLogic = field.permissionLogic || 'ALL';
 
@@ -451,13 +462,19 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
       return true;
     }
 
-    return permissionLogic === 'ANY'
-      ? requiredPermissions.some((permission) =>
-          this.userPermissions.includes(permission),
-        )
-      : requiredPermissions.every((permission) =>
-          this.userPermissions.includes(permission),
-        );
+    const legacyRule: AccessRule =
+      permissionLogic === 'ANY' ? { any: requiredPermissions } : { all: requiredPermissions };
+
+    if (this.userPermissions.length) {
+      return evaluateAccess(legacyRule, {
+        status: 'ready',
+        authenticated: true,
+        permissions: this.userPermissions,
+        claims: {},
+      });
+    }
+
+    return this.permissionService.canAccess(legacyRule);
   }
 
   /**
@@ -467,6 +484,8 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
    */
   private shouldBeDisabled(field: FormField): boolean {
     return (
+      this.isFormAccessDisabled() ||
+      (!this.checkPermissions(field) && field.inaccessibleBehavior === 'disable') ||
       field.disabledOn === 'always' ||
       (field.disabledOn === 'create' && !this.isEditMode) ||
       (field.disabledOn === 'edit' && this.isEditMode) ||
@@ -508,13 +527,9 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
       array.clear({ emitEvent: false });
 
       for (const row of value) {
-        array.push(
-          this.createTableRowGroup(
-            field.columns,
-            row as Record<string, unknown>,
-          ),
-          { emitEvent: false },
-        );
+        array.push(this.createTableRowGroup(field.columns, row as Record<string, unknown>), {
+          emitEvent: false,
+        });
       }
     }
 
@@ -527,10 +542,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
    * @param value Optional row value.
    * @returns Created table row form group.
    */
-  private createTableRowGroup(
-    columns: FormField[],
-    value?: Record<string, unknown>,
-  ): FormGroup {
+  private createTableRowGroup(columns: FormField[], value?: Record<string, unknown>): FormGroup {
     const group = new FormGroup({});
 
     for (const column of columns) {

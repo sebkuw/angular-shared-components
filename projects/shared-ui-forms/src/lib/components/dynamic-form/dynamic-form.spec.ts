@@ -1,5 +1,4 @@
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { FormFieldSelect, FormFieldTable } from '../../models/form-field.interface';
 import { DynamicFormComponent } from './dynamic-form';
 
 describe('DynamicFormComponent', () => {
@@ -43,7 +42,7 @@ describe('DynamicFormComponent', () => {
             { key: 'name', label: 'Name', type: 'text' },
             { key: 'quantity', label: 'Quantity', type: 'number' },
           ],
-        } as FormFieldTable,
+        },
       ],
     };
     component.initialData = {
@@ -66,7 +65,7 @@ describe('DynamicFormComponent', () => {
 
     component.config = {
       fields: [
-        { key: 'type', label: 'Type', type: 'select', options: [] } as FormFieldSelect,
+        { key: 'type', label: 'Type', type: 'select', options: [] },
         {
           key: 'reason',
           label: 'Reason',
@@ -99,9 +98,7 @@ describe('DynamicFormComponent', () => {
 
     component.formSubmit.subscribe((value) => emittedValues.push(value));
     component.config = {
-      fields: [
-        { key: 'name', label: 'Name', type: 'text', validators: [Validators.required] },
-      ],
+      fields: [{ key: 'name', label: 'Name', type: 'text', validators: [Validators.required] }],
     };
 
     component.ngOnInit();
@@ -113,5 +110,38 @@ describe('DynamicFormComponent', () => {
     component.onSubmit();
 
     expect(emittedValues).toEqual([{ name: 'Anna' }]);
+  });
+
+  it('accepts type-specific configuration for every supported field kind', () => {
+    const component = createComponent();
+
+    component.config = {
+      fields: [
+        { key: 'text', label: 'Text', type: 'text', maxLength: 20 },
+        { key: 'email', label: 'Email', type: 'email', autocomplete: 'email' },
+        { key: 'password', label: 'Password', type: 'password', maxLength: 64 },
+        { key: 'number', label: 'Number', type: 'number', min: 0, max: 10, step: 1 },
+        { key: 'date', label: 'Date', type: 'date', minDate: new Date(2026, 0, 1) },
+        { key: 'select', label: 'Select', type: 'select', options: [] },
+        { key: 'multi', label: 'Multi', type: 'multi-select', options: [] },
+        { key: 'textarea', label: 'Textarea', type: 'textarea', rows: 3, maxLength: 80 },
+        { key: 'checkbox', label: 'Checkbox', type: 'checkbox' },
+        { key: 'file', label: 'File', type: 'file', acceptedFileTypes: '.pdf' },
+        { key: 'spacer', label: 'Spacer', type: 'spacer', text: 'Section' },
+        {
+          key: 'table',
+          label: 'Table',
+          type: 'table',
+          minRows: 1,
+          columns: [{ key: 'cell', label: 'Cell', type: 'text', maxLength: 10 }],
+        },
+      ],
+    };
+
+    component.ngOnInit();
+
+    expect(component.form.contains('spacer')).toBeFalse();
+    expect(component.form.get('table') instanceof FormArray).toBeTrue();
+    expect(Object.keys(component.form.controls).length).toBe(11);
   });
 });

@@ -1,0 +1,76 @@
+.netdevs-shared-ui-theme {
+  color-scheme: light;
+  --shared-ui-color-background: #f7f8fa;
+  --shared-ui-color-surface: #ffffff;
+  --shared-ui-color-text: #1a1d24;
+  --shared-ui-color-text-muted: #555d6d;
+  --shared-ui-color-border: #c6cad2;
+  --shared-ui-color-primary: #155eef;
+  --shared-ui-color-primary-contrast: #ffffff;
+  --shared-ui-color-danger: #b42318;
+  --shared-ui-color-success: #067647;
+  --shared-ui-color-info: #175cd3;
+  --shared-ui-color-focus: #004eeb;
+  --shared-ui-spacing-xs: 0.25rem;
+  --shared-ui-spacing-sm: 0.5rem;
+  --shared-ui-spacing-md: 1rem;
+  --shared-ui-spacing-lg: 1.5rem;
+  --shared-ui-spacing-xl: 2rem;
+  --shared-ui-radius-sm: 0.25rem;
+  --shared-ui-radius-md: 0.5rem;
+  --shared-ui-radius-lg: 0.75rem;
+  --shared-ui-motion-duration: 160ms;
+  background: var(--shared-ui-color-background);
+  color: var(--shared-ui-color-text);
+}
+
+.netdevs-shared-ui-theme[data-theme='dark'] {
+  color-scheme: dark;
+  --shared-ui-color-background: #10131a;
+  --shared-ui-color-surface: #1b202b;
+  --shared-ui-color-text: #f5f7fa;
+  --shared-ui-color-text-muted: #c5cad3;
+  --shared-ui-color-border: #596273;
+  --shared-ui-color-primary: #84adff;
+  --shared-ui-color-primary-contrast: #071a3d;
+  --shared-ui-color-danger: #fda29b;
+  --shared-ui-color-success: #75e0a7;
+  --shared-ui-color-info: #84caff;
+  --shared-ui-color-focus: #b2ccff;
+}
+
+.netdevs-shared-ui-theme :focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .netdevs-shared-ui-theme {
+    --shared-ui-motion-duration: 0ms;
+  }
+
+  .netdevs-shared-ui-theme *,
+  .netdevs-shared-ui-theme *::before,
+  .netdevs-shared-ui-theme *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .netdevs-shared-ui-theme {
+    --shared-ui-color-background: Canvas;
+    --shared-ui-color-surface: Canvas;
+    --shared-ui-color-text: CanvasText;
+    --shared-ui-color-text-muted: GrayText;
+    --shared-ui-color-border: CanvasText;
+    --shared-ui-color-primary: LinkText;
+    --shared-ui-color-primary-contrast: Canvas;
+    --shared-ui-color-danger: Mark;
+    --shared-ui-color-success: LinkText;
+    --shared-ui-color-info: LinkText;
+    --shared-ui-color-focus: Highlight;
+  }
+}

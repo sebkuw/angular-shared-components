@@ -6,6 +6,7 @@
     (change)="onFileSelected($event)"
     [accept]="field.acceptedFileTypes || '*/*'"
     [disabled]="disabled"
+    [attr.aria-label]="field.ariaLabel || field.label"
   />
 
   <div class="file-input-controls">
@@ -14,28 +15,29 @@
       type="button"
       (click)="fileInput.click()"
       [disabled]="disabled"
+      [attr.aria-label]="field.ariaLabel || field.label"
     >
       <mat-icon>attach_file</mat-icon>
       {{ field.placeholder || 'Wybierz plik' }}
     </button>
 
     @if (fileName) {
-    <div class="file-name-display">
-      <span>{{ fileName }}</span>
-      <button
-        mat-icon-button
-        type="button"
-        (click)="clearFile()"
-        aria-label="Wyczyść plik"
-        [disabled]="disabled"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+      <div class="file-name-display">
+        <span>{{ fileName }}</span>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="clearFile()"
+          [attr.aria-label]="field.clearLabel || 'Clear file'"
+          [disabled]="disabled"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     }
   </div>
 
   @if (control?.touched && control?.invalid) {
-  <mat-error>{{ getErrorMessage() }}</mat-error>
+    <mat-error>{{ getErrorMessage() }}</mat-error>
   }
 </div>

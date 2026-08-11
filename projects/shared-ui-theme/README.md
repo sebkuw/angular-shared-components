@@ -4,7 +4,9 @@ Shared theming contracts and design tokens for NetDevs UI libraries.
 
 ## Current public API
 
-The package currently exports NETDEVS_SHARED_UI_THEME_CLASS. Future shared CSS custom properties, semantic tokens and style assets belong here.
+The package exports `NETDEVS_SHARED_UI_THEME_CLASS`, `NETDEVS_SHARED_UI_THEME_TOKENS` and `NETDEVS_SHARED_UI_THEME_STYLES`. The published stylesheet is `@netdevs/shared-ui-theme/styles/tokens.css`.
+
+Include the stylesheet and apply `netdevs-shared-ui-theme` to the application shell. Set `data-theme="dark"` for the built-in dark palette. Consumer overrides can replace any documented CSS custom property at the shell boundary.
 
 ## Architectural role
 

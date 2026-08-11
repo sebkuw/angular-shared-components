@@ -1,45 +1,42 @@
-<div class="side-menu-container" [class.collapsed]="collapsed">
+<nav class="side-menu-container" [class.collapsed]="collapsed" [attr.aria-label]="ariaLabel">
   <ul class="menu-body">
     @for (item of menuService.flatMenuItems(); track item.id) {
       <li class="menu-list-item">
-        <a
-          class="menu-row"
-          [style.padding-left.px]="collapsed ? null : item.level * 16"
-          [style.background-color]="getLevelColor(item.level)"
-          [routerLink]="item.route"
-          routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="onItemClick(item, $event)"
-        >
-          @if (item.icon && item.icon.length > 0) {
-            <mat-icon class="item-icon">{{ item.icon }}</mat-icon>
-          }
-
-          @if (!collapsed) {
-            <span class="item-title">{{ item.title }}</span>
-            @if (item.children && item.children.length > 0) {
-              <mat-icon class="expand-icon">{{
-                item.expanded ? 'expand_less' : 'expand_more'
-              }}</mat-icon>
+        @if (hasChildren(item)) {
+          <button
+            type="button"
+            class="menu-row"
+            [style.padding-left.px]="collapsed ? null : item.level * 16"
+            [attr.data-level]="item.level"
+            [attr.aria-expanded]="item.expanded"
+            [attr.aria-label]="item.ariaLabel || item.title"
+            (click)="toggleItem(item)"
+          >
+            @if (item.icon) {
+              <mat-icon class="item-icon" aria-hidden="true">{{ item.icon }}</mat-icon>
             }
-          }
-        </a>
-
-        @if (collapsed && item.children && item.children.length > 0) {
-          <ul class="flyout-submenu">
-            @for (child of item.children; track child.id) {
-              <li>
-                <a [routerLink]="child.route" routerLinkActive="active-link">
-                  @if (child.icon && child.icon.length > 0) {
-                    <mat-icon class="item-icon">{{ child.icon }}</mat-icon>
-                  }
-                  <span class="item-title">{{ child.title }}</span>
-                </a>
-              </li>
+            <span class="item-title" [class.visually-hidden]="collapsed">{{ item.title }}</span>
+            <mat-icon class="expand-icon" aria-hidden="true">
+              {{ item.expanded ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </button>
+        } @else {
+          <a
+            class="menu-row"
+            [style.padding-left.px]="collapsed ? null : item.level * 16"
+            [attr.data-level]="item.level"
+            [attr.aria-label]="item.ariaLabel || item.title"
+            [routerLink]="item.route"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            @if (item.icon) {
+              <mat-icon class="item-icon" aria-hidden="true">{{ item.icon }}</mat-icon>
             }
-          </ul>
+            <span class="item-title" [class.visually-hidden]="collapsed">{{ item.title }}</span>
+          </a>
         }
       </li>
     }
   </ul>
-</div>
+</nav>

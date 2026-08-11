@@ -6,6 +6,8 @@ Configurable dialogs and notifications for NetDevs Angular applications.
 
 The package exports InfoDialogComponent, InfoDialogData, NotificationComponent and NotificationData. The authoritative export list is src/public-api.ts.
 
+Dialog content is rendered as safe text by default or through an explicit Angular `TemplateRef`; raw `[innerHTML]` is not used. Confirmation and notification actions can define shared access rules. Notifications use `status`/polite announcements except errors, which use `alert`/assertive, and expose configurable dismiss labels.
+
 ## Architectural role
 
 - Provide reusable feedback primitives without application-specific text, transport or global error handling.

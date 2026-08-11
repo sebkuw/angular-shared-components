@@ -10,7 +10,7 @@
 
 .form-grid {
   display: grid;
-  gap: 1rem;
+  gap: var(--shared-ui-spacing-md, 1rem);
   align-items: start;
   width: 100%;
   box-sizing: border-box;
@@ -31,10 +31,10 @@
   font-weight: 600;
   font-size: 0.95rem;
   line-height: 1.25rem;
-  color: #222;
+  color: var(--shared-ui-color-text, #1a1d24);
 }
 
-[data-type="spacer"] {
+[data-type='spacer'] {
   min-height: 1px;
   min-width: 1px;
 }
@@ -46,10 +46,10 @@ mat-form-field,
 
 .save-button-container {
   display: flex;
-  margin-top: 1.5rem;
+  margin-top: var(--shared-ui-spacing-lg, 1.5rem);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 56.25rem) {
   .form-grid {
     grid-template-columns: 1fr !important;
   }
