@@ -4,7 +4,24 @@ Core contracts and helpers shared by NetDevs UI libraries.
 
 ## Current public API
 
-The package currently exports NETDEVS_SHARED_UI_VERSION. New cross-library contracts, injection tokens and provider functions belong here when they are independent of a particular UI package.
+The package exports `NETDEVS_SHARED_UI_VERSION`, access models, `evaluateAccess`, `PERMISSION_CONTEXT`, `providePermissionContext`, `PermissionService` and `CanAccessDirective`.
+
+Provide a signal once during bootstrap:
+
+```ts
+const accessContext = signal<PermissionContext>({
+  status: 'ready',
+  authenticated: true,
+  permissions: ['orders.read'],
+  claims: { tenant: 'acme' },
+});
+
+bootstrapApplication(AppComponent, {
+  providers: [providePermissionContext(accessContext)],
+});
+```
+
+Restricted rules are denied while the context is loading, missing or in error. `none` has deny precedence. Use `{ public: true }` for an explicitly public resource. UI filtering complements backend authorization and never replaces it.
 
 ## Architectural role
 
