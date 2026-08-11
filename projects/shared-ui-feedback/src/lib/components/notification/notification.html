@@ -1,11 +1,24 @@
-<div class="notification-container" [ngClass]="'notification--' + data.type">
-  <mat-icon class="notification-icon">{{ iconName }}</mat-icon>
+<div
+  class="notification-container"
+  [ngClass]="'notification--' + data.type"
+  [attr.role]="role"
+  [attr.aria-live]="ariaLive"
+  aria-atomic="true"
+>
+  <mat-icon class="notification-icon" aria-hidden="true">{{ iconName }}</mat-icon>
   <span class="notification-message">{{ data.message }}</span>
+  @if (canShowAction()) {
+    <button mat-button type="button" (click)="snackBarRef.dismissWithAction()">
+      {{ data.action?.label }}
+    </button>
+  }
   <button
     mat-icon-button
+    type="button"
     (click)="snackBarRef.dismiss()"
     class="notification-close-btn"
+    [attr.aria-label]="data.dismissLabel || 'Dismiss notification'"
   >
-    <mat-icon>close</mat-icon>
+    <mat-icon aria-hidden="true">close</mat-icon>
   </button>
 </div>

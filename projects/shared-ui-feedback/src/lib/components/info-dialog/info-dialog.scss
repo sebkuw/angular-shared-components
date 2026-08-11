@@ -1,16 +1,6 @@
-:host ::ng-deep {
-  p,
-  ul,
-  li {
-    color: #333;
-  }
-
-  strong,
-  b {
-    color: #000;
-  }
-
-  a {
-    color: #3f51b5;
-  }
+.dialog-content {
+  color: var(--shared-ui-color-text, #1a1d24);
+  max-inline-size: min(42rem, calc(100vw - 2rem));
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
