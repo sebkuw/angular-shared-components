@@ -91,7 +91,7 @@ export interface CSVExportConfig {
    * Pozwala na transformację danych w pliku CSV
    * @example { price: (value) => `$${value}`, date: (value) => new Date(value).toLocaleDateString() }
    */
-  formatters?: Record<string, (value: any) => string>;
+  formatters?: Record<string, (value: unknown) => string>;
 
   /**
    * @property requiredSelection
@@ -107,6 +107,7 @@ export interface CSVExportConfig {
    * Zapobiega eksportowaniu zbyt dużych plików
    */
   maxRecords?: number;
+  access?: AccessRule;
 }
 
 /**
@@ -154,4 +155,8 @@ export interface TableFeatures {
    * @default true
    */
   pagination?: boolean;
+  filteringAccess?: AccessRule;
+  selectionAccess?: AccessRule;
+  columnVisibilityAccess?: AccessRule;
 }
+import { AccessRule } from '@netdevs/shared-ui-core';

@@ -27,7 +27,8 @@ export interface NavigationAction {
    * @param row The data object for the clicked row.
    * @returns An array of path segments for navigation (e.g., ['/details', 123]).
    */
-  getRoute: (row: any) => any[];
+  getRoute: (row: BaseRow) => readonly (string | number)[];
+  access?: AccessRule;
 }
 
 export type ColumnAction = NavigationAction;
@@ -36,14 +37,7 @@ export type ColumnAction = NavigationAction;
  * @type ColumnType
  * @description Supported column data types for filtering and formatting
  */
-export type ColumnType =
-  | 'string'
-  | 'int'
-  | 'decimal'
-  | 'date'
-  | 'boolean'
-  | 'enum'
-  | 'guid';
+export type ColumnType = 'string' | 'int' | 'decimal' | 'date' | 'boolean' | 'enum' | 'guid';
 
 /**
  * @type FilterType
@@ -86,7 +80,8 @@ export interface Column {
   action?: ColumnAction;
   filterFieldConfig?: FilterFieldConfig;
   visibilityConfig?: ColumnVisibilityConfig;
-  valueAccessor?: (row: any) => any;
+  valueAccessor?: (row: BaseRow) => unknown;
+  access?: AccessRule;
 }
 
 /**
@@ -102,4 +97,75 @@ export interface CustomButton {
   action: (selectedIds?: string[]) => void;
   /** Only show button when items are selected (default: false) */
   showOnlyWhenSelection?: boolean;
+  access?: AccessRule;
+  ariaLabel?: string;
 }
+
+export interface TableLabels {
+  caption: string;
+  filterShow: string;
+  filterHide: string;
+  filterClear: string;
+  export: string;
+  exportSelectionRequired: string;
+  exportInProgress: string;
+  columns: string;
+  columnsShowAll: string;
+  columnsHideAll: string;
+  columnsReset: string;
+  columnAlwaysVisible: string;
+  actions: string;
+  selectAll: string;
+  selectRow: (id: string) => string;
+  selected: (count: number) => string;
+  clearSelection: string;
+  empty: string;
+  loading: string;
+  rangeFrom: string;
+  rangeTo: string;
+  invalidDateRange: string;
+  invalidNumberRange: string;
+  booleanTrue: string;
+  booleanFalse: string;
+  booleanAll: string;
+  total: (count: number) => string;
+  page: (current: number, total: number) => string;
+  sortAscending: (column: string) => string;
+  sortDescending: (column: string) => string;
+  sortNone: (column: string) => string;
+}
+
+export const DEFAULT_TABLE_LABELS: TableLabels = {
+  caption: 'Data table',
+  filterShow: 'Show filters',
+  filterHide: 'Hide filters',
+  filterClear: 'Clear filters',
+  export: 'Export CSV',
+  exportSelectionRequired: 'Select rows to export',
+  exportInProgress: 'Exporting',
+  columns: 'Column visibility',
+  columnsShowAll: 'Show all columns',
+  columnsHideAll: 'Hide all columns',
+  columnsReset: 'Reset column visibility',
+  columnAlwaysVisible: 'Always visible',
+  actions: 'Actions',
+  selectAll: 'Select all rows',
+  selectRow: (id) => `Select row ${id}`,
+  selected: (count) => `${count} selected`,
+  clearSelection: 'Clear selection',
+  empty: 'No data to display.',
+  loading: 'Loading data',
+  rangeFrom: 'From',
+  rangeTo: 'To',
+  invalidDateRange: 'The start date cannot be after the end date.',
+  invalidNumberRange: 'The minimum cannot be greater than the maximum.',
+  booleanTrue: 'Yes',
+  booleanFalse: 'No',
+  booleanAll: 'All',
+  total: (count) => `${count} items total`,
+  page: (current, total) => `Page ${current} of ${total}`,
+  sortAscending: (column) => `${column}, sorted ascending`,
+  sortDescending: (column) => `${column}, sorted descending`,
+  sortNone: (column) => `${column}, not sorted`,
+};
+import { AccessRule } from '@netdevs/shared-ui-core';
