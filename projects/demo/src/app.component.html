@@ -148,12 +148,12 @@
       </p>
 
       @if (!detailsVisible()) {
-        <div class="empty-demo-state" role="status">
-          <p>Order details are removed from the demo.</p>
-          <shared-button appearance="outlined" (activated)="restoreDetails()">
-            Restore details
-          </shared-button>
-        </div>
+        <shared-empty-state
+          title="No order details"
+          description="Order details are removed from the demo."
+          actionLabel="Restore details"
+          (actionTriggered)="restoreDetails()"
+        />
       } @else if (detailsEditing()) {
         <div class="details-editor">
           <shared-dynamic-form
@@ -182,6 +182,11 @@
         Open the filter panel to test text, select, boolean, amount range and date range filters.
         Filtering, sorting and pagination run locally in this demo.
       </p>
+      <div class="action-row table-demo-actions">
+        <shared-button tone="negative" appearance="outlined" (activated)="showTableError()">
+          Simulate table error
+        </shared-button>
+      </div>
       <shared-dynamic-table
         [columns]="columns"
         [data]="rows"
@@ -189,8 +194,21 @@
         [pageSize]="pageSize"
         [pageIndex]="pageIndex"
         [loading]="loading"
+        [errorMessage]="tableError"
+        [emptyState]="{
+          title: 'No matching orders',
+          description: 'Change the filters or restore the complete demo data.',
+          action: { label: 'Restore demo orders' },
+        }"
+        [errorState]="{
+          title: 'Orders unavailable',
+          description: 'The data source could not be reached.',
+          action: { label: 'Try again' },
+        }"
         [labels]="{ caption: 'Demo orders' }"
         (dataRequest)="onDataRequest($event)"
+        (emptyStateAction)="restoreDemoRows()"
+        (retry)="retryTable()"
       />
     </section>
   </main>

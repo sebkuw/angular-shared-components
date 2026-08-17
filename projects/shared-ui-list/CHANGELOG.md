@@ -6,6 +6,7 @@ All notable changes to `@sebkuw/shared-ui-list` are documented in this file. The
 
 ### Added
 
+- Added configurable empty and error states, retry/empty actions and an error signal to `DynamicTableComponent`.
 - Added library-specific development rules and a Codex skill for configurable lists, tables and data interactions.
 - Defined permissions/claims, semantic table, keyboard, responsive, E2E and visual regression requirements for future list changes.
 - Added access rules for tables, columns, actions, filters, selection, visibility and export.

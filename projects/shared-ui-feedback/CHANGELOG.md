@@ -6,6 +6,9 @@ All notable changes to `@sebkuw/shared-ui-feedback` are documented in this file.
 
 ### Added
 
+- Added configurable empty and error states with optional icons, accessible announcements and access-aware actions.
+- Added a focus-managed confirmation-dialog service with positive/negative actions and safe cancel-first initial focus.
+- Added `NotificationService` and `provideSharedNotifications` for consistent message types, timeouts, placement and dismiss labels.
 - Added library-specific development rules and a Codex skill for accessible dialogs and notifications.
 - Defined live region, focus management, keyboard, timeout, permissions/claims, E2E and visual regression requirements for future feedback changes.
 - Replaced raw HTML dialog rendering with safe text or explicit `TemplateRef` content.

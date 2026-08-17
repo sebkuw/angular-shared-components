@@ -1,5 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
-import { signal } from '@angular/core';
+import { signal, WritableSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { PermissionContext, providePermissionContext } from '@sebkuw/shared-ui-core';
@@ -13,6 +13,8 @@ interface TestRow extends BaseRow {
 describe('DynamicTableComponent', () => {
   let fixture: ComponentFixture<DynamicTableComponent<TestRow>>;
   let component: DynamicTableComponent<TestRow>;
+  let dataSignal: WritableSignal<TestRow[]>;
+  let errorSignal: WritableSignal<string | null>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -44,11 +46,14 @@ describe('DynamicTableComponent', () => {
     ];
 
     fixture.componentRef.setInput('columns', columns);
-    fixture.componentRef.setInput('data', signal<TestRow[]>([{ Id: 1, name: 'First' }]));
+    dataSignal = signal<TestRow[]>([{ Id: 1, name: 'First' }]);
+    errorSignal = signal<string | null>(null);
+    fixture.componentRef.setInput('data', dataSignal);
     fixture.componentRef.setInput('totalItems', signal(1));
     fixture.componentRef.setInput('pageSize', signal(10));
     fixture.componentRef.setInput('pageIndex', signal(0));
     fixture.componentRef.setInput('loading', signal(false));
+    fixture.componentRef.setInput('errorMessage', errorSignal);
     fixture.detectChanges();
   });
 
@@ -65,5 +70,38 @@ describe('DynamicTableComponent', () => {
 
     expect(component.hasActiveFilters()).toBeFalse();
     expect(fixture.nativeElement.querySelector('shared-button')).toBeNull();
+  });
+
+  it('renders the configurable shared empty state and hides pagination', () => {
+    fixture.componentRef.setInput('emptyState', {
+      title: 'No matching orders',
+      description: 'Change the active filters.',
+    });
+    dataSignal.set([]);
+    fixture.detectChanges();
+
+    const state = fixture.nativeElement.querySelector('shared-empty-state') as HTMLElement;
+    expect(state.textContent).toContain('No matching orders');
+    expect(state.textContent).toContain('Change the active filters.');
+    expect(fixture.nativeElement.querySelector('mat-paginator')).toBeNull();
+  });
+
+  it('renders an error state and emits retry without exposing stale data', () => {
+    let retried = false;
+    component.retry.subscribe(() => (retried = true));
+    fixture.componentRef.setInput('errorState', {
+      title: 'Orders unavailable',
+      action: { label: 'Try again' },
+    });
+    errorSignal.set('The server did not respond.');
+    fixture.detectChanges();
+
+    const state = fixture.nativeElement.querySelector('shared-error-state') as HTMLElement;
+    expect(state.textContent).toContain('Orders unavailable');
+    expect(state.textContent).toContain('The server did not respond.');
+    expect(fixture.nativeElement.querySelector('table')).toBeNull();
+
+    (state.querySelector('button') as HTMLButtonElement).click();
+    expect(retried).toBeTrue();
   });
 });

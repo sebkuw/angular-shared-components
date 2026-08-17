@@ -17,6 +17,12 @@ import {
 } from '@angular/core';
 import { AccessRule, PermissionService, PUBLIC_ACCESS_RULE } from '@sebkuw/shared-ui-core';
 import {
+  EmptyStateComponent,
+  EmptyStateConfig,
+  ErrorStateComponent,
+  ErrorStateConfig,
+} from '@sebkuw/shared-ui-feedback';
+import {
   ButtonComponent,
   IconButtonComponent,
   LoadingComponent,
@@ -89,6 +95,8 @@ import { TableExportService } from './services/table-export.service';
     ButtonComponent,
     IconButtonComponent,
     LoadingComponent,
+    EmptyStateComponent,
+    ErrorStateComponent,
     ValueFormatterPipe,
   ],
   templateUrl: './dynamic-table.html',
@@ -102,6 +110,9 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   @Input({ required: true }) pageSize!: Signal<number>;
   @Input({ required: true }) pageIndex!: Signal<number>;
   @Input({ required: true }) loading!: Signal<boolean>;
+  @Input() errorMessage: Signal<string | null> = signal(null);
+  @Input() emptyState: EmptyStateConfig = {};
+  @Input() errorState: ErrorStateConfig = {};
   @Input() showFilterButton = true;
   @Input() showCustomMenu = false;
   @Input() customButtons: CustomButton[] = [];
@@ -127,6 +138,8 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   @Output() rowClick = new EventEmitter<{ column: Column; row: T }>();
   @Output() selectionChange = new EventEmitter<string[]>();
   @Output() exportToCSV = new EventEmitter<void>();
+  @Output() emptyStateAction = new EventEmitter<void>();
+  @Output() retry = new EventEmitter<void>();
 
   filterForm: FormGroup = new FormGroup({});
   showFilters = signal(false);

@@ -120,6 +120,7 @@ export interface TableLabels {
   selected: (count: number) => string;
   clearSelection: string;
   empty: string;
+  error: string;
   loading: string;
   rangeFrom: string;
   rangeTo: string;
@@ -154,6 +155,7 @@ export const DEFAULT_TABLE_LABELS: TableLabels = {
   selected: (count) => `${count} selected`,
   clearSelection: 'Clear selection',
   empty: 'No data to display.',
+  error: 'Could not load data.',
   loading: 'Loading data',
   rangeFrom: 'From',
   rangeTo: 'To',

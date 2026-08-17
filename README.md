@@ -44,7 +44,7 @@ All contributions must preserve Angular 20 compatibility, use only approved free
 | `@sebkuw/shared-ui-forms`      | Dynamic details view, create/edit form view, form field controls and form models.              |
 | `@sebkuw/shared-ui-list`       | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
 | `@sebkuw/shared-ui-layout`     | Application layout components: page header and side menu.                                      |
-| `@sebkuw/shared-ui-feedback`   | User feedback components: info dialog and notification.                                        |
+| `@sebkuw/shared-ui-feedback`   | Dialogs, notifications, confirmations and reusable empty/error states.                         |
 | `@sebkuw/shared-ui-primitives` | Accessible buttons, field labels, loading indicators and inline alerts.                        |
 
 ## Requirements
@@ -72,7 +72,7 @@ Install only the packages needed by the application:
 
 ```bash
 npm install @sebkuw/shared-ui-forms
-npm install @sebkuw/shared-ui-list
+npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-feedback
 npm install @sebkuw/shared-ui-layout
 npm install @sebkuw/shared-ui-feedback
 npm install @sebkuw/shared-ui-primitives
@@ -520,12 +520,12 @@ Feedback contains components for user-facing messages and informational overlays
 
 Main exports:
 
-| Export                  | Description                                                          |
-| ----------------------- | -------------------------------------------------------------------- |
-| `InfoDialogComponent`   | Angular Material dialog content component for informational dialogs. |
-| `InfoDialogData`        | Dialog data contract.                                                |
-| `NotificationComponent` | Angular Material snack-bar component.                                |
-| `NotificationData`      | Snack-bar data contract.                                             |
+| Export                                              | Description                                                     |
+| --------------------------------------------------- | --------------------------------------------------------------- |
+| `InfoDialogComponent`, `InfoDialogData`             | Informational Angular Material dialog.                          |
+| `ConfirmationDialogService`                         | Focus-managed positive/negative confirmation workflow.          |
+| `NotificationService`, `provideSharedNotifications` | Central notification API and configurable application defaults. |
+| `EmptyStateComponent`, `ErrorStateComponent`        | Configurable page/list states with optional actions.            |
 
 Install:
 
@@ -562,36 +562,29 @@ export class InfoExampleComponent {
 }
 ```
 
-Use `NotificationComponent`:
+Use `NotificationService`:
 
 ```ts
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { NotificationComponent } from '@sebkuw/shared-ui-feedback';
+import { NotificationService } from '@sebkuw/shared-ui-feedback';
+import { ButtonComponent } from '@sebkuw/shared-ui-primitives';
 
 @Component({
   selector: 'app-notification-example',
   standalone: true,
-  imports: [MatButtonModule],
-  template: ` <button mat-raised-button type="button" (click)="showSuccess()">Save</button> `,
+  imports: [ButtonComponent],
+  template: ` <shared-button (activated)="showSuccess()">Save</shared-button> `,
 })
 export class NotificationExampleComponent {
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notifications = inject(NotificationService);
 
   showSuccess(): void {
-    this.snackBar.openFromComponent(NotificationComponent, {
-      duration: 4000,
-      data: {
-        message: 'Saved successfully.',
-        type: 'success',
-      },
-    });
+    this.notifications.success('Saved successfully.');
   }
 }
 ```
 
-The consuming application must configure Angular Material dialog and snack-bar providers according to its app setup.
+Add `provideSharedNotifications()` to the application providers to customize defaults. The consuming application owns WebSocket connections and maps incoming domain events to this presentation service.
 
 ### 7. Primitives - `@sebkuw/shared-ui-primitives`
 

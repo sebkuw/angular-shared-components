@@ -1,0 +1,43 @@
+<section
+  class="shared-state shared-empty-state"
+  [attr.role]="role"
+  [attr.aria-live]="announcement === 'off' ? null : announcement"
+  [attr.aria-label]="title"
+  aria-atomic="true"
+>
+  @if (iconName || iconSrc) {
+    <shared-icon class="shared-state__icon" [name]="iconName" [src]="iconSrc" size="large" />
+  } @else {
+    <span class="shared-state__icon" aria-hidden="true"
+      ><ng-content select="[sharedStateIcon]"
+    /></span>
+  }
+
+  @switch (headingLevel) {
+    @case (2) {
+      <h2>{{ title }}</h2>
+    }
+    @case (4) {
+      <h4>{{ title }}</h4>
+    }
+    @default {
+      <h3>{{ title }}</h3>
+    }
+  }
+
+  @if (description) {
+    <p>{{ description }}</p>
+  }
+
+  @if (actionLabel) {
+    <shared-button
+      [tone]="actionTone"
+      appearance="outlined"
+      [access]="actionAccess || publicAccess"
+      [ariaLabel]="actionAriaLabel || actionLabel"
+      (activated)="actionTriggered.emit()"
+    >
+      {{ actionLabel }}
+    </shared-button>
+  }
+</section>

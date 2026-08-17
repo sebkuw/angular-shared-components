@@ -20,6 +20,7 @@
     "@angular/material": "^20.2.14",
     "@angular/cdk": "^20.2.14",
     "@sebkuw/shared-ui-core": "^0.0.1",
+    "@sebkuw/shared-ui-feedback": "^0.0.1",
     "@sebkuw/shared-ui-primitives": "^0.0.1",
     "rxjs": "~7.8.0"
   },

@@ -6,7 +6,7 @@
     "dev": "ng serve demo --configuration development",
     "ng": "ng",
     "build": "npm run build:libs && npm run build:demo",
-    "build:libs": "npm run build:shared-ui-core && npm run build:shared-ui-theme && npm run build:shared-ui-primitives && npm run build:shared-ui-forms && npm run build:shared-ui-list && npm run build:shared-ui-layout && npm run build:shared-ui-feedback",
+    "build:libs": "npm run build:shared-ui-core && npm run build:shared-ui-theme && npm run build:shared-ui-primitives && npm run build:shared-ui-forms && npm run build:shared-ui-feedback && npm run build:shared-ui-list && npm run build:shared-ui-layout",
     "build:shared-ui-core": "ng build shared-ui-core",
     "build:shared-ui-theme": "ng build shared-ui-theme",
     "build:shared-ui-primitives": "ng build shared-ui-primitives",

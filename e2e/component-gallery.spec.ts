@@ -224,6 +224,39 @@ test('edits details and applies the configured table filters', async ({ page }) 
   ).toHaveCount(0);
 });
 
+test('confirms destructive actions and restores an empty details state', async ({ page }) => {
+  await page.getByRole('button', { name: 'Remove order details' }).click();
+
+  const dialog = page.getByRole('dialog', { name: 'Remove order details?' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Keep details' })).toBeFocused();
+  await dialog.getByRole('button', { name: 'Keep details' }).click();
+  await expect(page.getByRole('definition').filter({ hasText: 'First order' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Remove order details' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Remove details' }).click();
+  const emptyDetails = page.getByRole('status', { name: 'No order details' });
+  await expect(emptyDetails).toBeVisible();
+  await emptyDetails.getByRole('button', { name: 'Restore details' }).click();
+  await expect(page.getByRole('button', { name: 'Remove order details' })).toBeVisible();
+});
+
+test('shows empty and error states in the data table', async ({ page }) => {
+  await page.getByRole('button', { name: 'Show filters' }).click();
+  await page.getByLabel('Search order name').fill('No order has this name');
+  await expect(page.getByRole('status', { name: 'No matching orders' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await expect(page.getByRole('table', { name: 'Demo orders' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Simulate table error' }).click();
+  const errorState = page.getByRole('status', { name: 'Orders unavailable' });
+  await expect(errorState).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Demo orders' })).toHaveCount(0);
+  await errorState.getByRole('button', { name: 'Try again' }).click();
+  await expect(page.getByRole('table', { name: 'Demo orders' })).toBeVisible();
+});
+
 test('@visual component gallery remains visually stable', async ({ page }) => {
   await expect(page).toHaveScreenshot('component-gallery.png', {
     fullPage: true,

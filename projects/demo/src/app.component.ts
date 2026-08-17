@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionContext } from '@sebkuw/shared-ui-core';
-import { InfoDialogComponent, NotificationComponent } from '@sebkuw/shared-ui-feedback';
+import {
+  ConfirmationDialogService,
+  EmptyStateComponent,
+  InfoDialogComponent,
+  NotificationService,
+} from '@sebkuw/shared-ui-feedback';
 import {
   DetailsConfig,
   DynamicDetailsComponent,
@@ -36,6 +40,7 @@ import {
   LoadingComponent,
   VisuallyHiddenDirective,
 } from '@sebkuw/shared-ui-primitives';
+import { take } from 'rxjs';
 
 interface DemoRow extends BaseRow {
   name: string;
@@ -141,6 +146,7 @@ const DEMO_ROWS: DemoRow[] = [
     FieldLabelComponent,
     LoadingComponent,
     InlineAlertComponent,
+    EmptyStateComponent,
     VisuallyHiddenDirective,
   ],
   templateUrl: './app.component.html',
@@ -148,13 +154,15 @@ const DEMO_ROWS: DemoRow[] = [
 })
 export class DemoComponent {
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly confirmationDialog = inject(ConfirmationDialogService);
+  private readonly notifications = inject(NotificationService);
 
   readonly rows = signal<DemoRow[]>([...DEMO_ROWS]);
   readonly total = signal(DEMO_ROWS.length);
   readonly pageSize = signal(10);
   readonly pageIndex = signal(0);
   readonly loading = signal(false);
+  readonly tableError = signal<string | null>(null);
   readonly isAdmin = signal(false);
   readonly formStatus = signal('The example form has not been submitted yet.');
   readonly detailsEditing = signal(false);
@@ -538,16 +546,49 @@ export class DemoComponent {
   }
 
   removeDetails(): void {
-    this.detailsVisible.set(false);
-    this.detailsEditing.set(false);
-    this.showSnackBar('Order details were removed from the demo.');
+    this.confirmationDialog
+      .confirm({
+        title: 'Remove order details?',
+        message: 'This removes the details from the demo. You can restore them afterwards.',
+        confirmLabel: 'Remove details',
+        cancelLabel: 'Keep details',
+        confirmTone: 'negative',
+        actionsAriaLabel: 'Remove order details confirmation actions',
+      })
+      .pipe(take(1))
+      .subscribe((confirmed) => {
+        if (!confirmed) {
+          return;
+        }
+
+        this.detailsVisible.set(false);
+        this.detailsEditing.set(false);
+        this.showSnackBar('Order details were removed from the demo.');
+      });
   }
 
   restoreDetails(): void {
     this.detailsVisible.set(true);
   }
 
+  showTableError(): void {
+    this.tableError.set('The demo data source returned an error.');
+  }
+
+  retryTable(): void {
+    this.tableError.set(null);
+    this.restoreDemoRows();
+    this.notifications.success('The table data was loaded again.');
+  }
+
+  restoreDemoRows(): void {
+    this.rows.set([...DEMO_ROWS]);
+    this.total.set(DEMO_ROWS.length);
+    this.pageIndex.set(0);
+  }
+
   onDataRequest(request: TableDataRequestEvent): void {
+    this.tableError.set(null);
     let result = DEMO_ROWS.filter((row) =>
       (request.filters ?? []).every((filter) => this.matchesFilter(row, filter)),
     );
@@ -581,18 +622,11 @@ export class DemoComponent {
   }
 
   showNotification(): void {
-    this.showSnackBar('The notification is announced by a live region.');
+    this.notifications.info('The notification is announced by a live region.');
   }
 
   private showSnackBar(message: string): void {
-    this.snackBar.openFromComponent(NotificationComponent, {
-      duration: 5000,
-      data: {
-        message,
-        type: 'success',
-        dismissLabel: 'Dismiss example notification',
-      },
-    });
+    this.notifications.success(message);
   }
 
   private matchesFilter(row: DemoRow, filter: TableFilter): boolean {

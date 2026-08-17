@@ -4,6 +4,8 @@
 
 ### Added
 
+- Added cancel-first destructive confirmation, reusable empty/error states and retryable table-state scenarios.
+- Added centralized notification configuration and service usage in place of direct snack-bar setup.
 - Added dynamic-form completion progress, shared field shells, associated hints and linked/focus-managed error-summary interactions.
 - Added integrated icon-registry, action-link, icon-link, action-bar, visually-hidden and keyboard skip-link examples with Playwright coverage.
 - Added integration examples for public text, text + image and image-only buttons, a visible required field label, block loading state and all inline alert tones with working action and dismiss interactions.

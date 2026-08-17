@@ -119,12 +119,15 @@ body {
   color: var(--shared-ui-color-text-muted);
 }
 
-.details-editor,
-.empty-demo-state {
+.details-editor {
   padding: var(--shared-ui-spacing-md);
   border: 1px dashed var(--shared-ui-color-border);
   border-radius: var(--shared-ui-radius-md);
   background: var(--shared-ui-color-background);
+}
+
+.table-demo-actions {
+  margin-block-end: var(--shared-ui-spacing-md);
 }
 
 .details-editor > shared-button {

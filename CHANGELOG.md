@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Added reusable empty/error states, a focus-managed destructive confirmation service and centralized notification defaults/service, with dynamic-table and demo integration.
 - Added shared form-field shell, linked error-summary and required-field completion components and integrated them with dynamic forms and the demo.
 - Added icon-registry, semantic link, responsive action-bar, visually-hidden and skip-link foundations with unit, public API, demo and keyboard E2E coverage.
 - Added the `@sebkuw/shared-ui-primitives` package with configurable text/image buttons, image-only icon buttons, visible field labels, loading indicators and inline alerts, including unit, integration, public API, accessibility, responsive demo and Playwright coverage.
