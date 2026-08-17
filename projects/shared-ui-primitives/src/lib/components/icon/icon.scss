@@ -1,0 +1,45 @@
+:host {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: inherit;
+  line-height: 1;
+}
+
+.shared-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  color: inherit;
+  line-height: 1;
+}
+
+.shared-icon--small {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.shared-icon--large {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+
+.shared-icon__image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.shared-icon ::ng-deep .mat-icon {
+  inline-size: 100%;
+  block-size: 100%;
+  font-size: inherit;
+  line-height: 1;
+}
+
+@media (forced-colors: active) {
+  .shared-icon__image {
+    forced-color-adjust: auto;
+  }
+}

@@ -1,0 +1,16 @@
+<div
+  class="shared-action-bar"
+  [class.shared-action-bar--no-wrap]="!wrap"
+  [class.shared-action-bar--sticky]="sticky"
+  [class.shared-action-bar--start]="alignment === 'start'"
+  [class.shared-action-bar--space-between]="alignment === 'space-between'"
+  role="group"
+  [attr.aria-label]="ariaLabel"
+>
+  <div class="shared-action-bar__start">
+    <ng-content select="[sharedActionBarStart]" />
+  </div>
+  <div class="shared-action-bar__end">
+    <ng-content />
+  </div>
+</div>

@@ -14,14 +14,17 @@ Include `@sebkuw/shared-ui-theme/styles/tokens.css` and apply `netdevs-shared-ui
 
 ## Public API
 
-| Export                                                                                                                                          | Purpose                                                   |
-| ----------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `ButtonComponent`                                                                                                                               | Text button or text + image/projected icon button.        |
-| `IconButtonComponent`                                                                                                                           | Image/projected-icon button with an accessible label.     |
-| `FieldLabelComponent`                                                                                                                           | Visible native field label with optional required marker. |
-| `LoadingComponent`                                                                                                                              | Inline, block or overlay loading status.                  |
-| `InlineAlertComponent`                                                                                                                          | Inline info, success, warning or error message.           |
-| `ButtonTone`, `ButtonAppearance`, `ButtonSize`, `ButtonType`, `IconPosition`, `LoadingMode`, `LoadingSize`, `InlineAlertTone`, `LivePoliteness` | Typed configuration contracts.                            |
+| Export                                                                                                                                                      | Purpose                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `ButtonComponent`, `IconButtonComponent`                                                                                                                    | Text, text + icon and icon-only buttons.                            |
+| `ActionLinkComponent`, `IconLinkComponent`                                                                                                                  | Button-styled native links preserving navigation semantics.         |
+| `IconComponent`, `provideSharedIcons`, `SHARED_ICON_REGISTRY`                                                                                               | Safe image/projected icons and application-owned icon registration. |
+| `ActionBarComponent`                                                                                                                                        | Responsive grouping and alignment for related page/form actions.    |
+| `VisuallyHiddenDirective`                                                                                                                                   | Screen-reader content that remains in the accessibility tree.       |
+| `FieldLabelComponent`                                                                                                                                       | Visible native field label with optional required marker.           |
+| `LoadingComponent`                                                                                                                                          | Inline, block or overlay loading status.                            |
+| `InlineAlertComponent`                                                                                                                                      | Inline info, success, warning or error message.                     |
+| `ButtonTone`, `ButtonAppearance`, `ButtonSize`, `ButtonType`, `IconPosition`, `IconSize`, `LoadingMode`, `LoadingSize`, `InlineAlertTone`, `LivePoliteness` | Typed configuration contracts.                                      |
 
 ## Buttons
 
@@ -53,6 +56,33 @@ Use `iconSrc` for an image URL or project an existing icon component. Add the `s
 Available tones are `primary`, `positive`, `negative` and `neutral`. Appearances are `filled`, `outlined` and `text`; sizes are `small`, `medium` and `large`. Both components support `disabled`, `loading`, native button `type`, accessible descriptions, programmatic `focus()` and the shared `access` plus `inaccessibleBehavior` contract.
 
 If an access rule is restricted, missing/loading/error permission context denies access. `remove` removes the native button, `hide` keeps it hidden, and `disable` renders a non-activatable disabled button. UI visibility is only a UX layer; backend authorization remains authoritative.
+
+## Icons, links and action bars
+
+Register application-owned image URLs during bootstrap. The registry never injects raw SVG markup:
+
+```ts
+import { provideSharedIcons } from '@sebkuw/shared-ui-primitives';
+
+bootstrapApplication(AppComponent, {
+  providers: [provideSharedIcons({ save: '/icons/save.svg' })],
+});
+```
+
+```html
+<shared-icon name="save" />
+<shared-icon name="save" [decorative]="false" ariaLabel="Save" />
+
+<a sharedActionLink routerLink="/orders/new">Create order</a>
+<a sharedIconLink href="#filters" ariaLabel="Go to filters" iconName="save"></a>
+
+<shared-action-bar ariaLabel="Editor actions" alignment="space-between">
+  <shared-button sharedActionBarStart appearance="text">Back</shared-button>
+  <shared-button tone="positive">Save</shared-button>
+</shared-action-bar>
+```
+
+Links render as native anchors, retain browser navigation behavior and expose `aria-disabled` when disabled. Use the structural `*sharedCanAccess` directive when a permission-denied link must be removed from the DOM. `sharedVisuallyHidden` visually clips supporting text without applying `aria-hidden`.
 
 ## Field label
 

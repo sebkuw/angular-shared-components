@@ -1,3 +1,4 @@
+<shared-skip-link targetId="main-content" label="Skip to component gallery" />
 <div class="netdevs-shared-ui-theme demo-shell">
   <aside><shared-side-menu [collapsed]="false" ariaLabel="Demo navigation" /></aside>
   <main id="main-content">
@@ -55,6 +56,27 @@
       <p id="primitive-action-status" role="status" aria-live="polite">
         {{ primitiveStatus() }}
       </p>
+
+      <h3>Icons, links and action bar</h3>
+      <div class="foundation-example">
+        <p>
+          <shared-icon name="save" [decorative]="false" ariaLabel="Save icon" />
+          A meaningful icon from the application registry.
+        </p>
+        <shared-action-bar ariaLabel="Primitive navigation examples" alignment="space-between">
+          <span sharedActionBarStart>
+            <span sharedVisuallyHidden>Action group: </span>Gallery shortcuts
+          </span>
+          <a sharedActionLink appearance="outlined" href="#form-heading">Go to form examples</a>
+          <a
+            sharedIconLink
+            href="#table-heading"
+            ariaLabel="Go to table examples"
+            iconName="refresh"
+            appearance="outlined"
+          ></a>
+        </shared-action-bar>
+      </div>
 
       <div class="primitive-grid">
         <div class="primitive-field-example">

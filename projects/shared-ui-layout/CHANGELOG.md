@@ -6,6 +6,7 @@ All notable changes to `@sebkuw/shared-ui-layout` are documented in this file. T
 
 ### Added
 
+- Added an SSR-safe skip link that reveals itself on keyboard focus and moves focus to the configured main-content target.
 - Added library-specific development rules and a Codex skill for responsive page structure and navigation.
 - Defined permissions/claims, landmark, focus, keyboard, Router integration, E2E and visual regression requirements for future layout changes.
 - Added reactive access rules to menu items and the page-header information action.

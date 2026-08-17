@@ -125,8 +125,29 @@ test('keeps a visible focus indicator for keyboard users', async ({ page }) => {
   await page.keyboard.press('Tab');
   const focused = page.locator(':focus');
   await expect(focused).toBeVisible();
+  await expect(focused).toHaveAccessibleName('Skip to component gallery');
   const outlineStyle = await focused.evaluate((element) => getComputedStyle(element).outlineStyle);
   expect(outlineStyle).not.toBe('none');
+
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#main-content')).toBeFocused();
+});
+
+test('uses semantic action links, icon registry and a grouped action bar', async ({ page }) => {
+  const primitives = page.getByRole('region', { name: 'Public UI primitives' });
+
+  await expect(primitives.getByRole('img', { name: 'Save icon' })).toBeVisible();
+  await expect(
+    primitives.getByRole('group', { name: 'Primitive navigation examples' }),
+  ).toBeVisible();
+  await expect(primitives.getByRole('link', { name: 'Go to form examples' })).toHaveAttribute(
+    'href',
+    '#form-heading',
+  );
+  await expect(primitives.getByRole('link', { name: 'Go to table examples' })).toHaveAttribute(
+    'href',
+    '#table-heading',
+  );
 });
 
 test('renders themed controls without label overlap and exposes every form field kind', async ({

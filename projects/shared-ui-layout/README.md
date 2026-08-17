@@ -12,9 +12,18 @@ npm install @sebkuw/shared-ui-layout @sebkuw/shared-ui-core @sebkuw/shared-ui-pr
 
 ## Current public API
 
-The package exports PageHeaderComponent, SideMenu, MenuItem, SideMenuService, MENU_DATA_TOKEN and related page header data types. The authoritative export list is src/public-api.ts.
+The package exports PageHeaderComponent, SkipLinkComponent, SideMenu, MenuItem, SideMenuService, MENU_DATA_TOKEN and related page header data types. The authoritative export list is src/public-api.ts.
 
 `MenuItem.access` filters entire navigation branches reactively. `PageHeaderComponent.infoAccess` controls the optional information action, which uses the public icon-button primitive. The side menu renders a named `nav` landmark; destinations are links and expandable groups remain native buttons with `aria-expanded`, so the full navigation-row interaction works without a pointer.
+
+Place the skip link before the application shell and give the main landmark a matching stable id:
+
+```html
+<shared-skip-link targetId="main-content" label="Skip to main content" />
+<main id="main-content">...</main>
+```
+
+The native fragment remains useful without JavaScript. In the browser, activation also makes a non-focusable target programmatically focusable and moves keyboard focus to it. DOM access is guarded for SSR.
 
 ## Architectural role
 

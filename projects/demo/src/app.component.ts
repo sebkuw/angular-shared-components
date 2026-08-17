@@ -10,7 +10,12 @@ import {
   DynamicFormComponent,
   DynamicFormConfig,
 } from '@sebkuw/shared-ui-forms';
-import { MenuItem, PageHeaderComponent, SideMenu } from '@sebkuw/shared-ui-layout';
+import {
+  MenuItem,
+  PageHeaderComponent,
+  SideMenu,
+  SkipLinkComponent,
+} from '@sebkuw/shared-ui-layout';
 import {
   BaseRow,
   Column,
@@ -20,11 +25,16 @@ import {
   TableFilter,
 } from '@sebkuw/shared-ui-list';
 import {
+  ActionBarComponent,
+  ActionLinkComponent,
   ButtonComponent,
   FieldLabelComponent,
+  IconComponent,
   IconButtonComponent,
+  IconLinkComponent,
   InlineAlertComponent,
   LoadingComponent,
+  VisuallyHiddenDirective,
 } from '@sebkuw/shared-ui-primitives';
 
 interface DemoRow extends BaseRow {
@@ -118,14 +128,20 @@ const DEMO_ROWS: DemoRow[] = [
   imports: [
     PageHeaderComponent,
     SideMenu,
+    SkipLinkComponent,
     DynamicFormComponent,
     DynamicDetailsComponent,
     DynamicTableComponent,
     ButtonComponent,
+    ActionLinkComponent,
+    IconLinkComponent,
+    ActionBarComponent,
+    IconComponent,
     IconButtonComponent,
     FieldLabelComponent,
     LoadingComponent,
     InlineAlertComponent,
+    VisuallyHiddenDirective,
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

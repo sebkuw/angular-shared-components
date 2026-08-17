@@ -71,6 +71,23 @@ body {
   margin-block: var(--shared-ui-spacing-lg);
 }
 
+.foundation-example {
+  display: grid;
+  gap: var(--shared-ui-spacing-sm);
+  margin-block: var(--shared-ui-spacing-md);
+  padding: var(--shared-ui-spacing-md);
+  border: 1px dashed var(--shared-ui-color-border);
+  border-radius: var(--shared-ui-radius-md);
+  background: var(--shared-ui-color-background);
+}
+
+.foundation-example > p {
+  display: flex;
+  align-items: center;
+  gap: var(--shared-ui-spacing-sm);
+  margin: 0;
+}
+
 .primitive-field-example {
   align-self: center;
   min-width: 0;

@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Added icon-registry, semantic link, responsive action-bar, visually-hidden and skip-link foundations with unit, public API, demo and keyboard E2E coverage.
 - Added the `@sebkuw/shared-ui-primitives` package with configurable text/image buttons, image-only icon buttons, visible field labels, loading indicators and inline alerts, including unit, integration, public API, accessibility, responsive demo and Playwright coverage.
 - Added semantic warning and status contrast tokens for accessible positive, negative, warning and informational primitives in light, dark and forced-colors modes.
 - Added GitHub Packages metadata, a scope-only `.npmrc` mapping and an automated GitHub Release workflow that tests, builds and publishes all seven libraries with the repository `GITHUB_TOKEN`.
