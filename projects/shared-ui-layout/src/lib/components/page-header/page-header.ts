@@ -7,7 +7,6 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
   AccessRule,
@@ -16,6 +15,7 @@ import {
   PermissionService,
   PUBLIC_ACCESS_RULE,
 } from '@sebkuw/shared-ui-core';
+import { IconButtonComponent } from '@sebkuw/shared-ui-primitives';
 
 export interface InfoClickData {
   title: string;
@@ -27,7 +27,7 @@ export interface InfoClickData {
 @Component({
   selector: 'shared-page-header',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, IconButtonComponent],
   templateUrl: './page-header.html',
   styleUrl: './page-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

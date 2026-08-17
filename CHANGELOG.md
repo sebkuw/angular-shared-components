@@ -8,7 +8,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
-- Added GitHub Packages metadata, a scope-only `.npmrc` mapping and an automated GitHub Release workflow that tests, builds and publishes all six libraries with the repository `GITHUB_TOKEN`.
+- Added the `@sebkuw/shared-ui-primitives` package with configurable text/image buttons, image-only icon buttons, visible field labels, loading indicators and inline alerts, including unit, integration, public API, accessibility, responsive demo and Playwright coverage.
+- Added semantic warning and status contrast tokens for accessible positive, negative, warning and informational primitives in light, dark and forced-colors modes.
+- Added GitHub Packages metadata, a scope-only `.npmrc` mapping and an automated GitHub Release workflow that tests, builds and publishes all seven libraries with the repository `GITHUB_TOKEN`.
 - Added repository-wide and library-specific `AGENTS.md` guidance for Angular 20 architecture, free dependencies, reusable configuration, permissions/claims, WCAG 2.2 AA, keyboard support, responsive design, testing, documentation and releases.
 - Added repository-scoped Codex skills for the monorepo and each shared UI library under `.agents/skills`.
 - Established required changelog and documentation updates for every repository change.
@@ -19,6 +21,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Normalized repository source, configuration, documentation and agent files to the enforced Prettier style so the global formatting check succeeds on a clean checkout.
+- Migrated standard actions across forms, lists, page headers, feedback and the demo to `ButtonComponent`, `IconButtonComponent` and `LoadingComponent`; native/Material buttons remain only for menu, sortable-header and navigation-row semantics.
 - Changed every public npm package coordinate from `@netdevs/shared-ui-*` to `@sebkuw/shared-ui-*`. Consumers must replace the old package names in dependencies, imports and stylesheet paths. The new GitHub Packages coordinates begin their own version history at `0.0.1`.
 - Expanded and themed the component gallery with all form field kinds, editable details, working responsive filters and regression coverage for form geometry and primary actions.
 - Strengthened dynamic form configuration with a discriminated field union and changed filter controls to an auto-fit responsive grid.

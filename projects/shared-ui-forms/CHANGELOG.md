@@ -15,5 +15,7 @@ All notable changes to `@sebkuw/shared-ui-forms` are documented in this file. Th
 
 ### Changed
 
+- Normalized library source, tests, templates, styles, metadata and documentation to the repository Prettier style.
 - Changed the package coordinate from `@netdevs/shared-ui-forms` to `@sebkuw/shared-ui-forms`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.
 - Changed the form submit action to the filled Material button treatment so the primary action remains visually distinct.
+- Migrated submit, details, file and editable-table row actions to the public shared button and icon-button primitives while retaining their configured labels, permissions and events.

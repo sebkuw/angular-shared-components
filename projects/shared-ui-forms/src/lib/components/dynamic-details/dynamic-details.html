@@ -25,24 +25,22 @@
 
     <mat-card-actions align="end">
       @if (isActionVisible('edit')) {
-        <button
-          mat-icon-button
-          color="primary"
-          (click)="onEditClick()"
-          [attr.aria-label]="getActionLabel('edit')"
+        <shared-icon-button
+          tone="primary"
+          [ariaLabel]="getActionLabel('edit')"
+          (activated)="onEditClick()"
         >
-          <mat-icon>edit</mat-icon>
-        </button>
+          <mat-icon aria-hidden="true">edit</mat-icon>
+        </shared-icon-button>
       }
       @if (isActionVisible('remove')) {
-        <button
-          mat-icon-button
-          color="warn"
-          (click)="onRemoveClick()"
-          [attr.aria-label]="getActionLabel('remove')"
+        <shared-icon-button
+          tone="negative"
+          [ariaLabel]="getActionLabel('remove')"
+          (activated)="onRemoveClick()"
         >
-          <mat-icon>delete</mat-icon>
-        </button>
+          <mat-icon aria-hidden="true">delete</mat-icon>
+        </shared-icon-button>
       }
     </mat-card-actions>
   </mat-card>

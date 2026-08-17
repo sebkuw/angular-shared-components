@@ -8,17 +8,23 @@
   <mat-icon class="notification-icon" aria-hidden="true">{{ iconName }}</mat-icon>
   <span class="notification-message">{{ data.message }}</span>
   @if (canShowAction()) {
-    <button mat-button type="button" (click)="snackBarRef.dismissWithAction()">
+    <shared-button
+      tone="neutral"
+      appearance="text"
+      size="small"
+      (activated)="snackBarRef.dismissWithAction()"
+    >
       {{ data.action?.label }}
-    </button>
+    </shared-button>
   }
-  <button
-    mat-icon-button
-    type="button"
-    (click)="snackBarRef.dismiss()"
+  <shared-icon-button
+    tone="neutral"
+    appearance="text"
+    size="small"
     class="notification-close-btn"
-    [attr.aria-label]="data.dismissLabel || 'Dismiss notification'"
+    [ariaLabel]="data.dismissLabel || 'Dismiss notification'"
+    (activated)="snackBarRef.dismiss()"
   >
     <mat-icon aria-hidden="true">close</mat-icon>
-  </button>
+  </shared-icon-button>
 </div>

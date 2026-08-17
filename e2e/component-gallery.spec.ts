@@ -58,6 +58,69 @@ test('exposes accessible names and announces notifications', async ({ page }) =>
   await expect(page.getByRole('button', { name: 'Dismiss example notification' })).toBeVisible();
 });
 
+test('demonstrates every public primitive and its interactions', async ({ page }) => {
+  const primitives = page.getByRole('region', { name: 'Public UI primitives' });
+
+  await expect(primitives.getByRole('button', { name: 'Save changes' })).toBeVisible();
+  await expect(primitives.getByRole('button', { name: 'Remove item' })).toBeVisible();
+  await expect(primitives.getByRole('button', { name: 'Save with image' })).toBeVisible();
+  await expect(
+    primitives.getByRole('button', { name: 'Refresh primitive examples' }),
+  ).toBeVisible();
+  await expect(primitives.getByLabel('Visible order reference label')).toBeVisible();
+  await expect(primitives.getByRole('status', { name: 'Loading primitive example' })).toBeVisible();
+
+  await primitives.getByRole('button', { name: 'Save changes' }).click();
+  await expect(page.locator('#primitive-action-status')).toContainText('Positive Save action');
+
+  await primitives.getByRole('button', { name: 'Refresh primitive examples' }).click();
+  await expect(page.locator('#primitive-action-status')).toContainText('Icon-only Refresh action');
+
+  await primitives.getByRole('button', { name: 'Review' }).click();
+  await expect(page.locator('#primitive-action-status')).toContainText(
+    'Inline alert Review action',
+  );
+  await primitives.getByRole('button', { name: 'Dismiss primitive warning' }).click();
+  await expect(primitives.getByText('Check the values')).toHaveCount(0);
+  await expect(primitives.getByRole('alert').filter({ hasText: 'Could not save' })).toBeVisible();
+});
+
+test('uses public action primitives throughout the integrated libraries', async ({ page }) => {
+  await expect(page.locator('shared-page-header shared-icon-button')).toHaveCount(1);
+  await expect(page.locator('shared-dynamic-details shared-icon-button')).toHaveCount(2);
+  await expect(page.locator('shared-dynamic-form shared-button')).not.toHaveCount(0);
+  await expect(page.locator('shared-dynamic-form shared-icon-button')).not.toHaveCount(0);
+  await expect(page.locator('shared-dynamic-table shared-icon-button')).not.toHaveCount(0);
+
+  await page.getByRole('button', { name: 'Show filters' }).click();
+  await page.getByLabel('Search order name').fill('First');
+  const clearFilters = page.locator('shared-dynamic-table').getByRole('button', {
+    name: 'Clear filters',
+  });
+  await expect(clearFilters).toBeVisible();
+  await clearFilters.click();
+  await expect(clearFilters).toHaveCount(0);
+
+  await page.getByRole('button', { name: 'Show notification' }).click();
+  await expect(page.locator('shared-notification shared-icon-button')).toHaveCount(1);
+});
+
+test('keeps public primitives usable with RTL and 320px reflow', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.locator('.demo-shell').evaluate((shell) => shell.setAttribute('dir', 'rtl'));
+
+  const primitives = page.getByRole('region', { name: 'Public UI primitives' });
+  await expect(
+    primitives.getByRole('button', { name: 'Refresh primitive examples' }),
+  ).toBeVisible();
+  await expect(primitives.getByText('A deliberately long translated message')).toBeVisible();
+
+  const hasOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  );
+  expect(hasOverflow).toBe(false);
+});
+
 test('keeps a visible focus indicator for keyboard users', async ({ page }) => {
   await page.keyboard.press('Tab');
   const focused = page.locator(':focus');

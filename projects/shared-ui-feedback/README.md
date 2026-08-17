@@ -4,17 +4,17 @@ Configurable dialogs and notifications for NetDevs Angular applications.
 
 ## Installation
 
-Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package and its shared peers:
 
 ```bash
-npm install @sebkuw/shared-ui-feedback
+npm install @sebkuw/shared-ui-feedback @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives
 ```
 
 ## Current public API
 
 The package exports InfoDialogComponent, InfoDialogData, NotificationComponent and NotificationData. The authoritative export list is src/public-api.ts.
 
-Dialog content is rendered as safe text by default or through an explicit Angular `TemplateRef`; raw `[innerHTML]` is not used. Confirmation and notification actions can define shared access rules. Notifications use `status`/polite announcements except errors, which use `alert`/assertive, and expose configurable dismiss labels.
+Dialog content is rendered as safe text by default or through an explicit Angular `TemplateRef`; raw `[innerHTML]` is not used. Confirmation, notification action and dismiss controls use the public button primitives. Confirmation and notification actions can define shared access rules. Notifications use `status`/polite announcements except errors, which use `alert`/assertive, and expose configurable dismiss labels.
 
 ## Architectural role
 

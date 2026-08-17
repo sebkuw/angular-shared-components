@@ -1,23 +1,9 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import {
-  FormArray,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  FormField,
-  FormFieldTable,
-} from '../../../models/form-field.interface';
+import { IconButtonComponent } from '@sebkuw/shared-ui-primitives';
+import { FormField, FormFieldTable } from '../../../models/form-field.interface';
 import { CastPipe } from '../../../pipes/cast.pipe';
 import { FormInputNumberComponent } from '../form-input-number/form-input-number';
 import { FormInputTextComponent } from '../form-input-text/form-input-text';
@@ -29,8 +15,8 @@ import { FormSelectComponent } from '../form-select/form-select';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatButtonModule,
     MatIconModule,
+    IconButtonComponent,
     FormInputTextComponent,
     FormInputNumberComponent,
     FormSelectComponent,

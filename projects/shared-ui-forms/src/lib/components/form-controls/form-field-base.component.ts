@@ -3,9 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { FormField } from '../../models/form-field.interface';
 
 @Directive()
-export abstract class FormFieldBaseComponent<
-  TField extends FormField = FormField,
-> {
+export abstract class FormFieldBaseComponent<TField extends FormField = FormField> {
   @Input({ required: true }) field!: TField;
   @Input({ required: true }) formGroup!: FormGroup;
   @Input() isEditMode = false;
@@ -35,9 +33,7 @@ export abstract class FormFieldBaseComponent<
       (this.field.disabledOn === 'edit' && this.isEditMode) ||
       (this.field.readonlyOnEdit && this.isEditMode);
 
-    shouldDisable
-      ? control.disable({ emitEvent: false })
-      : control.enable({ emitEvent: false });
+    shouldDisable ? control.disable({ emitEvent: false }) : control.enable({ emitEvent: false });
   }
 
   /**

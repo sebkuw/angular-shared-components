@@ -17,6 +17,7 @@
       "@sebkuw/shared-ui-forms": ["./dist/shared-ui-forms"],
       "@sebkuw/shared-ui-layout": ["./dist/shared-ui-layout"],
       "@sebkuw/shared-ui-list": ["./dist/shared-ui-list"],
+      "@sebkuw/shared-ui-primitives": ["./dist/shared-ui-primitives"],
       "@sebkuw/shared-ui-theme": ["./dist/shared-ui-theme"]
     },
     "importHelpers": true,
@@ -43,6 +44,12 @@
     },
     {
       "path": "./projects/shared-ui-theme/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/shared-ui-primitives/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/shared-ui-primitives/tsconfig.spec.json"
     },
     {
       "path": "./projects/shared-ui-forms/tsconfig.lib.json"

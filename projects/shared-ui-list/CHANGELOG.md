@@ -15,5 +15,11 @@ All notable changes to `@sebkuw/shared-ui-list` are documented in this file. The
 
 ### Changed
 
+- Normalized library source, tests, metadata and documentation to the repository Prettier style.
 - Changed the package coordinate from `@netdevs/shared-ui-list` to `@sebkuw/shared-ui-list`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.
 - Changed the filter panel to a responsive auto-fit grid with stacked range fields on narrow viewports.
+- Migrated standard filter, export and selection actions plus the table loading overlay to shared primitives; retained native/Material buttons for menus and sortable headers where their focus semantics are integral.
+
+### Fixed
+
+- Fixed the clear-filter action so it reacts to filter-form changes and continues to do so after a dynamic column reconfiguration.

@@ -14,25 +14,25 @@
 
       <div class="toolbar-right">
         @if (filteringEnabled() && showFilterButton) {
-          <button
-            mat-icon-button
+          <shared-icon-button
             type="button"
-            (click)="toggleFilters()"
-            [attr.aria-label]="showFilters() ? tableLabels.filterHide : tableLabels.filterShow"
-            [attr.aria-expanded]="showFilters()"
+            (activated)="toggleFilters()"
+            [ariaLabel]="showFilters() ? tableLabels.filterHide : tableLabels.filterShow"
+            [ariaExpanded]="showFilters()"
             [matTooltip]="showFilters() ? tableLabels.filterHide : tableLabels.filterShow"
           >
-            <mat-icon [class.active]="showFilters()">filter_list</mat-icon>
-          </button>
+            <mat-icon aria-hidden="true" [class.active]="showFilters()">filter_list</mat-icon>
+          </shared-icon-button>
         }
 
         @if (features.csvExport?.enabled && canAccess(features.csvExport?.access)) {
-          <button
-            mat-icon-button
+          <shared-icon-button
             type="button"
-            (click)="exportToCSVFile(); exportToCSV.emit()"
+            (activated)="exportToCSVFile(); exportToCSV.emit()"
             [disabled]="!canExport() || isExporting()"
-            [attr.aria-label]="isExporting() ? tableLabels.exportInProgress : tableLabels.export"
+            [loading]="isExporting()"
+            [loadingLabel]="tableLabels.exportInProgress"
+            [ariaLabel]="tableLabels.export"
             [matTooltip]="
               !canExport()
                 ? tableLabels.exportSelectionRequired
@@ -41,12 +41,8 @@
                   : tableLabels.export
             "
           >
-            @if (!isExporting()) {
-              <mat-icon>download</mat-icon>
-            } @else {
-              <mat-progress-spinner diameter="24" class="spinner-inline" />
-            }
-          </button>
+            <mat-icon aria-hidden="true">download</mat-icon>
+          </shared-icon-button>
         }
 
         @if (features.columnVisibility && canAccess(features.columnVisibilityAccess)) {
@@ -316,10 +312,15 @@
 
           @if (hasActiveFilters()) {
             <div class="filter-actions">
-              <button mat-stroked-button type="button" (click)="clearFilters()" class="clear-btn">
-                <mat-icon>clear</mat-icon>
+              <shared-button
+                appearance="outlined"
+                type="button"
+                (activated)="clearFilters()"
+                class="clear-btn"
+              >
+                <mat-icon sharedButtonIcon aria-hidden="true">clear</mat-icon>
                 {{ tableLabels.filterClear }}
-              </button>
+              </shared-button>
             </div>
           }
         </div>
@@ -333,17 +334,21 @@
           {{ tableLabels.selected(selectionCount()) }}
         </span>
         <span class="spacer"></span>
-        <button mat-button type="button" (click)="clearSelection()" class="clear-selection-btn">
+        <shared-button
+          appearance="text"
+          size="small"
+          type="button"
+          (activated)="clearSelection()"
+          class="clear-selection-btn"
+        >
           {{ tableLabels.clearSelection }}
-        </button>
+        </shared-button>
       </div>
     }
 
     <div class="table-wrapper">
       @if (loading()) {
-        <div class="loading-overlay" role="status" [attr.aria-label]="tableLabels.loading">
-          <mat-progress-spinner mode="indeterminate" diameter="50" />
-        </div>
+        <shared-loading [label]="tableLabels.loading" mode="overlay" size="large" />
       }
 
       <table mat-table [dataSource]="data()" class="dynamic-table">

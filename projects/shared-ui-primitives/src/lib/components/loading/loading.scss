@@ -1,0 +1,89 @@
+:host {
+  display: inline-block;
+  max-inline-size: 100%;
+}
+
+:host:has(.shared-loading--block),
+:host:has(.shared-loading--overlay) {
+  display: block;
+  inline-size: 100%;
+}
+
+.shared-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-inline-size: 100%;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  color: var(--shared-ui-color-primary, #155eef);
+}
+
+.shared-loading--block {
+  inline-size: 100%;
+  min-block-size: 5rem;
+  padding: var(--shared-ui-spacing-md, 1rem);
+}
+
+.shared-loading--overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  inline-size: 100%;
+  min-block-size: 3rem;
+  padding: var(--shared-ui-spacing-md, 1rem);
+  background: color-mix(in srgb, var(--shared-ui-color-surface, #fff) 88%, transparent);
+  backdrop-filter: blur(1px);
+}
+
+.shared-loading__spinner {
+  flex: 0 0 auto;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  border: 0.1875rem solid color-mix(in srgb, currentColor 30%, transparent);
+  border-block-start-color: currentColor;
+  border-radius: 50%;
+  animation: shared-loading-spin 0.8s linear infinite;
+}
+
+.shared-loading--small .shared-loading__spinner {
+  inline-size: 1rem;
+  block-size: 1rem;
+  border-width: 0.125rem;
+}
+
+.shared-loading--large .shared-loading__spinner {
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border-width: 0.25rem;
+}
+
+.shared-loading__label {
+  min-inline-size: 0;
+  color: var(--shared-ui-color-text, #1a1d24);
+  overflow-wrap: anywhere;
+}
+
+@keyframes shared-loading-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shared-loading__spinner {
+    animation: none;
+    border-style: dotted;
+  }
+}
+
+@media (forced-colors: active) {
+  .shared-loading--overlay {
+    background: Canvas;
+    backdrop-filter: none;
+  }
+
+  .shared-loading__spinner {
+    border-color: GrayText;
+    border-block-start-color: Highlight;
+  }
+}

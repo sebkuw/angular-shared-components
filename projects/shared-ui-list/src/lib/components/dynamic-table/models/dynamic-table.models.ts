@@ -95,11 +95,14 @@ export interface TableDataRequestEvent {
  * @param event Table request emitted by the dynamic table.
  * @returns Backend request object with PascalCase property names.
  */
-export function toPaginationRequestDto(event: TableDataRequestEvent): import('./pagination.model').RequestDto {
+export function toPaginationRequestDto(
+  event: TableDataRequestEvent,
+): import('./pagination.model').RequestDto {
   return {
-    SortParam: event.sort?.column && event.sort.direction
-      ? `${event.sort.column} ${event.sort.direction}`
-      : undefined,
+    SortParam:
+      event.sort?.column && event.sort.direction
+        ? `${event.sort.column} ${event.sort.direction}`
+        : undefined,
     Filters: event.filters?.map((filter) => ({
       PropertyPath: filter.id,
       Operation: filter.operation,

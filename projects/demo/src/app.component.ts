@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionContext } from '@sebkuw/shared-ui-core';
@@ -20,6 +19,13 @@ import {
   TableDataRequestEvent,
   TableFilter,
 } from '@sebkuw/shared-ui-list';
+import {
+  ButtonComponent,
+  FieldLabelComponent,
+  IconButtonComponent,
+  InlineAlertComponent,
+  LoadingComponent,
+} from '@sebkuw/shared-ui-primitives';
 
 interface DemoRow extends BaseRow {
   name: string;
@@ -110,12 +116,16 @@ const DEMO_ROWS: DemoRow[] = [
   selector: 'demo-root',
   standalone: true,
   imports: [
-    MatButtonModule,
     PageHeaderComponent,
     SideMenu,
     DynamicFormComponent,
     DynamicDetailsComponent,
     DynamicTableComponent,
+    ButtonComponent,
+    IconButtonComponent,
+    FieldLabelComponent,
+    LoadingComponent,
+    InlineAlertComponent,
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -133,6 +143,8 @@ export class DemoComponent {
   readonly formStatus = signal('The example form has not been submitted yet.');
   readonly detailsEditing = signal(false);
   readonly detailsVisible = signal(true);
+  readonly showInlineWarning = signal(true);
+  readonly primitiveStatus = signal('No primitive action has been activated yet.');
 
   readonly columns: Column[] = [
     {
@@ -454,6 +466,31 @@ export class DemoComponent {
       ...context,
       permissions: enabled ? ['orders.read', 'admin.read'] : ['orders.read'],
     }));
+  }
+
+  savePrimitiveExample(): void {
+    this.primitiveStatus.set('Positive Save action activated.');
+  }
+
+  removePrimitiveExample(): void {
+    this.primitiveStatus.set('Negative Remove action activated.');
+  }
+
+  refreshPrimitiveExample(): void {
+    this.primitiveStatus.set('Icon-only Refresh action activated.');
+  }
+
+  reviewPrimitiveAlert(): void {
+    this.primitiveStatus.set('Inline alert Review action activated.');
+  }
+
+  dismissPrimitiveAlert(): void {
+    this.showInlineWarning.set(false);
+    this.primitiveStatus.set('Inline warning dismissed.');
+  }
+
+  restorePrimitiveAlert(): void {
+    this.showInlineWarning.set(true);
   }
 
   submitExampleForm(value: Record<string, unknown>): void {

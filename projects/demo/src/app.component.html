@@ -14,12 +14,93 @@
         Admin controls are {{ isAdmin() ? 'visible' : 'hidden' }}.
       </p>
       <div class="action-row">
-        <button mat-flat-button type="button" (click)="toggleAdmin()">
+        <shared-button (activated)="toggleAdmin()">
           {{ isAdmin() ? 'Disable' : 'Enable' }} admin permission
-        </button>
-        <button mat-stroked-button type="button" (click)="showNotification()">
+        </shared-button>
+        <shared-button appearance="outlined" (activated)="showNotification()">
           Show notification
-        </button>
+        </shared-button>
+      </div>
+    </section>
+
+    <section class="demo-section" aria-labelledby="primitives-heading">
+      <h2 id="primitives-heading">Public UI primitives</h2>
+      <p class="section-description">
+        Text, text with image and image-only buttons, a visible field label, loading states and
+        inline alert variants.
+      </p>
+
+      <h3>Buttons</h3>
+      <div class="action-row" aria-label="Button examples">
+        <shared-button tone="positive" (activated)="savePrimitiveExample()">
+          Save changes
+        </shared-button>
+        <shared-button tone="negative" appearance="outlined" (activated)="removePrimitiveExample()">
+          Remove item
+        </shared-button>
+        <shared-button
+          appearance="outlined"
+          iconSrc="/icons/save.svg"
+          (activated)="savePrimitiveExample()"
+        >
+          Save with image
+        </shared-button>
+        <shared-icon-button
+          iconSrc="/icons/refresh.svg"
+          ariaLabel="Refresh primitive examples"
+          appearance="outlined"
+          (activated)="refreshPrimitiveExample()"
+        />
+      </div>
+      <p id="primitive-action-status" role="status" aria-live="polite">
+        {{ primitiveStatus() }}
+      </p>
+
+      <div class="primitive-grid">
+        <div class="primitive-field-example">
+          <shared-field-label
+            forId="primitive-reference"
+            text="Visible order reference label"
+            [required]="true"
+          />
+          <input
+            id="primitive-reference"
+            class="demo-text-input"
+            type="text"
+            required
+            aria-required="true"
+          />
+        </div>
+        <shared-loading label="Loading primitive example" mode="block" [showLabel]="true" />
+      </div>
+
+      <div class="alert-stack" aria-label="Inline alert examples">
+        <shared-inline-alert tone="info" title="Information">
+          This is an informational inline message placed in the normal page flow.
+        </shared-inline-alert>
+        <shared-inline-alert tone="success" title="Saved">
+          The changes were stored successfully.
+        </shared-inline-alert>
+        @if (showInlineWarning()) {
+          <shared-inline-alert
+            tone="warning"
+            title="Check the values"
+            actionLabel="Review"
+            [dismissible]="true"
+            dismissLabel="Dismiss primitive warning"
+            (actionTriggered)="reviewPrimitiveAlert()"
+            (dismissed)="dismissPrimitiveAlert()"
+          >
+            A deliberately long translated message can wrap without hiding either alert action.
+          </shared-inline-alert>
+        } @else {
+          <shared-button appearance="text" (activated)="restorePrimitiveAlert()">
+            Restore inline warning
+          </shared-button>
+        }
+        <shared-inline-alert tone="error" title="Could not save" announcement="assertive">
+          Correct the highlighted data and try again.
+        </shared-inline-alert>
       </div>
     </section>
 
@@ -47,9 +128,9 @@
       @if (!detailsVisible()) {
         <div class="empty-demo-state" role="status">
           <p>Order details are removed from the demo.</p>
-          <button mat-stroked-button type="button" (click)="restoreDetails()">
+          <shared-button appearance="outlined" (activated)="restoreDetails()">
             Restore details
-          </button>
+          </shared-button>
         </div>
       } @else if (detailsEditing()) {
         <div class="details-editor">
@@ -59,9 +140,9 @@
             [isEditMode]="true"
             (formSubmit)="saveDetails($event)"
           />
-          <button mat-stroked-button type="button" (click)="cancelDetailsEdit()">
+          <shared-button appearance="outlined" (activated)="cancelDetailsEdit()">
             Cancel editing
-          </button>
+          </shared-button>
         </div>
       } @else {
         <shared-dynamic-details

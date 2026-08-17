@@ -1,4 +1,4 @@
 interface:
-  display_name: "Develop Shared UI Core"
-  short_description: "Build shared contracts and permission primitives"
-  default_prompt: "Use $develop-shared-ui-core to implement and verify a core library change."
+  display_name: 'Develop Shared UI Core'
+  short_description: 'Build shared contracts and permission primitives'
+  default_prompt: 'Use $develop-shared-ui-core to implement and verify a core library change.'

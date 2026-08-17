@@ -1,0 +1,36 @@
+<section
+  [class]="containerClasses"
+  [attr.role]="role"
+  [attr.aria-live]="announcement === 'off' ? null : announcement"
+  aria-atomic="true"
+>
+  <div class="shared-inline-alert__body">
+    <span class="shared-inline-alert__status">{{ resolvedStatusLabel }}</span>
+    @if (title) {
+      <strong class="shared-inline-alert__title">{{ title }}</strong>
+    }
+    <div class="shared-inline-alert__content"><ng-content /></div>
+  </div>
+
+  @if (actionLabel || dismissible) {
+    <div class="shared-inline-alert__actions">
+      @if (actionLabel) {
+        <shared-button
+          [tone]="actionTone"
+          appearance="text"
+          size="small"
+          [access]="actionAccess"
+          [inaccessibleBehavior]="actionInaccessibleBehavior"
+          (activated)="triggerAction()"
+        >
+          {{ actionLabel }}
+        </shared-button>
+      }
+      @if (dismissible) {
+        <shared-icon-button [ariaLabel]="dismissLabel" (activated)="dismiss()">
+          <span class="shared-inline-alert__dismiss-icon" aria-hidden="true">×</span>
+        </shared-icon-button>
+      }
+    </div>
+  }
+</section>

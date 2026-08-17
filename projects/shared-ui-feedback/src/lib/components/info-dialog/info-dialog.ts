@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Optional, TemplateRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {
   AccessRule,
   EMPTY_PERMISSION_CONTEXT,
@@ -8,6 +8,7 @@ import {
   PermissionService,
   PUBLIC_ACCESS_RULE,
 } from '@sebkuw/shared-ui-core';
+import { ButtonComponent } from '@sebkuw/shared-ui-primitives';
 
 export interface InfoDialogData {
   title: string;
@@ -21,7 +22,7 @@ export interface InfoDialogData {
 @Component({
   selector: 'shared-info-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, ButtonComponent],
   templateUrl: './info-dialog.html',
   styleUrl: './info-dialog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +33,7 @@ export class InfoDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: InfoDialogData,
     @Optional() permissionService?: PermissionService,
+    @Optional() private readonly dialogRef?: MatDialogRef<InfoDialogComponent>,
   ) {
     this.permissionService = permissionService ?? {
       canAccess: (rule) => evaluateAccess(rule, EMPTY_PERMISSION_CONTEXT),
@@ -40,5 +42,9 @@ export class InfoDialogComponent {
 
   canConfirm(): boolean {
     return this.permissionService.canAccess(this.data.confirmationAccess ?? PUBLIC_ACCESS_RULE);
+  }
+
+  confirm(): void {
+    this.dialogRef?.close(true);
   }
 }

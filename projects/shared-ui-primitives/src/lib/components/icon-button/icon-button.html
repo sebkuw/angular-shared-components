@@ -1,0 +1,23 @@
+@if (canRender()) {
+  <button
+    #nativeButton
+    [class]="buttonClasses"
+    [type]="type"
+    [disabled]="isDisabled()"
+    [hidden]="isHidden()"
+    [attr.aria-label]="accessibleLabel()"
+    [attr.aria-describedby]="ariaDescribedBy || null"
+    [attr.aria-controls]="ariaControls || null"
+    [attr.aria-expanded]="ariaExpanded === undefined ? null : ariaExpanded"
+    [attr.aria-busy]="loading ? 'true' : null"
+    (click)="onButtonClick($event)"
+  >
+    @if (loading) {
+      <span class="shared-icon-button__spinner" aria-hidden="true"></span>
+    } @else if (iconSrc) {
+      <img class="shared-icon-button__image" [src]="iconSrc" alt="" />
+    } @else {
+      <span class="shared-icon-button__content" aria-hidden="true"><ng-content /></span>
+    }
+  </button>
+}

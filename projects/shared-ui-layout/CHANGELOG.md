@@ -14,4 +14,6 @@ All notable changes to `@sebkuw/shared-ui-layout` are documented in this file. T
 
 ### Changed
 
+- Normalized library source, tests, templates, styles, metadata and documentation to the repository Prettier style.
 - Changed the package coordinate from `@netdevs/shared-ui-layout` to `@sebkuw/shared-ui-layout`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.
+- Migrated the page-header information action to the public icon-button primitive while retaining the native side-menu group trigger for full-row navigation semantics.

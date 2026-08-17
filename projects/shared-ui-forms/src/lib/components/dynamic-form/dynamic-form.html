@@ -108,17 +108,18 @@
     </div>
 
     <div class="save-button-container" [style.justify-content]="getButtonPosition()">
-      <button
-        mat-flat-button
-        color="primary"
+      <shared-button
         type="submit"
         [disabled]="
-          isSubmitting || form.invalid || createButtonDisabled || config.submitButton?.disabled
+          isSubmitting ||
+          form.invalid ||
+          createButtonDisabled ||
+          config.submitButton?.disabled === true
         "
-        [attr.aria-label]="config.submitButton?.ariaLabel || getSubmitButtonLabel()"
+        [ariaLabel]="config.submitButton?.ariaLabel || getSubmitButtonLabel()"
       >
         {{ getSubmitButtonLabel() }}
-      </button>
+      </shared-button>
     </div>
   </form>
 }

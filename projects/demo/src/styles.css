@@ -63,8 +63,38 @@ body {
   gap: var(--shared-ui-spacing-sm);
 }
 
-.action-row .mat-mdc-button-base {
-  min-height: 2.75rem;
+.primitive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  align-items: stretch;
+  gap: var(--shared-ui-spacing-md);
+  margin-block: var(--shared-ui-spacing-lg);
+}
+
+.primitive-field-example {
+  align-self: center;
+  min-width: 0;
+}
+
+.demo-text-input {
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--shared-ui-color-border);
+  border-radius: var(--shared-ui-radius-md);
+  background: var(--shared-ui-color-surface);
+  color: var(--shared-ui-color-text);
+  font: inherit;
+}
+
+.demo-text-input:focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus);
+  outline-offset: 2px;
+}
+
+.alert-stack {
+  display: grid;
+  gap: var(--shared-ui-spacing-sm);
 }
 
 .form-submit-status {
@@ -80,7 +110,7 @@ body {
   background: var(--shared-ui-color-background);
 }
 
-.details-editor > button {
+.details-editor > shared-button {
   margin-block-start: var(--shared-ui-spacing-sm);
 }
 

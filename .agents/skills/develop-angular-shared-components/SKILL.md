@@ -1,6 +1,6 @@
 ---
 name: develop-angular-shared-components
-description: "Prowadź zmiany przekrojowe w monorepo Angular 20 z bibliotekami @netdevs/shared-ui-*. Używaj przy dodawaniu lub modyfikowaniu komponentów, publicznego API, zależności, konfiguracji, permissions/claims, dostępności, responsywności, testów, dokumentacji, changelogów, buildów i wydań obejmujących jedną lub więcej bibliotek."
+description: 'Prowadź zmiany przekrojowe w monorepo Angular 20 z bibliotekami @netdevs/shared-ui-*. Używaj przy dodawaniu lub modyfikowaniu komponentów, publicznego API, zależności, konfiguracji, permissions/claims, dostępności, responsywności, testów, dokumentacji, changelogów, buildów i wydań obejmujących jedną lub więcej bibliotek.'
 ---
 
 # Rozwijanie Angular Shared Components

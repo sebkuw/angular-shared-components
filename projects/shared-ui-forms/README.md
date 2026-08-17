@@ -4,10 +4,10 @@ Configurable dynamic details, forms and form controls for NetDevs Angular applic
 
 ## Installation
 
-Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package and its shared peers:
 
 ```bash
-npm install @sebkuw/shared-ui-forms
+npm install @sebkuw/shared-ui-forms @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives
 ```
 
 ## Current public API
@@ -18,7 +18,7 @@ The package exports DynamicFormComponent, DynamicDetailsComponent, the form cont
 
 Labels, autocomplete tokens, accessible names, file actions and table row actions are typed configuration. Forms expose an accessible form name and collapse to one column on narrow viewports.
 
-The primary submit action uses the filled Material button treatment. Applications must include an Angular Material theme; the repository demo loads the free `azure-blue` prebuilt theme before the shared semantic tokens.
+Submit, details, file and editable-table row actions use the public button primitives from `@sebkuw/shared-ui-primitives`. Material remains responsible for the form controls themselves. Applications must include an Angular Material theme; the repository demo loads the free `azure-blue` prebuilt theme before the shared semantic tokens.
 
 ## Architectural role
 

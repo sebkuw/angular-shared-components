@@ -14,4 +14,6 @@ All notable changes to `@sebkuw/shared-ui-feedback` are documented in this file.
 
 ### Changed
 
+- Normalized library source, tests, styles, metadata and documentation to the repository Prettier style.
 - Changed the package coordinate from `@netdevs/shared-ui-feedback` to `@sebkuw/shared-ui-feedback`, migrated its core peer dependency and added GitHub Packages publication metadata. Consumers must update dependencies and imports; the new coordinate starts at `0.0.1`.
+- Migrated dialog confirmation and notification action/dismiss controls to the public shared button primitives while preserving dialog close results and live-region behavior.

@@ -1,6 +1,6 @@
 ---
 name: develop-shared-ui-forms
-description: "Rozwijaj bibliotekę @netdevs/shared-ui-forms w Angular 20. Używaj przy zmianach w projects/shared-ui-forms, dynamic forms, dynamic details, kontrolkach Angular Forms, walidacji, konfiguracji pól, uploadzie, dostępności formularzy oraz widoczności pól i akcji według permissions/claims."
+description: 'Rozwijaj bibliotekę @netdevs/shared-ui-forms w Angular 20. Używaj przy zmianach w projects/shared-ui-forms, dynamic forms, dynamic details, kontrolkach Angular Forms, walidacji, konfiguracji pól, uploadzie, dostępności formularzy oraz widoczności pól i akcji według permissions/claims.'
 ---
 
 # Rozwijanie Shared UI Forms

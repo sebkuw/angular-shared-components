@@ -1,6 +1,6 @@
 ---
 name: develop-shared-ui-theme
-description: "Rozwijaj bibliotekę @netdevs/shared-ui-theme w Angular 20. Używaj przy zmianach w projects/shared-ui-theme, design tokens, CSS custom properties, kontraktach motywu, kolorach, typografii, spacingu, focus styles, reduced motion, high contrast i RTL."
+description: 'Rozwijaj bibliotekę @netdevs/shared-ui-theme w Angular 20. Używaj przy zmianach w projects/shared-ui-theme, design tokens, CSS custom properties, kontraktach motywu, kolorach, typografii, spacingu, focus styles, reduced motion, high contrast i RTL.'
 ---
 
 # Rozwijanie Shared UI Theme

@@ -28,7 +28,7 @@ import {
   ReactiveFormsModule,
   ValidatorFn,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@sebkuw/shared-ui-primitives';
 import { combineLatest, startWith, Subscription } from 'rxjs';
 import {
   DynamicFormConfig,
@@ -55,7 +55,7 @@ import { FormTextareaComponent } from '../form-controls/form-textarea/form-texta
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatButtonModule,
+    ButtonComponent,
     FormCheckboxComponent,
     FormDateComponent,
     FormFileComponent,

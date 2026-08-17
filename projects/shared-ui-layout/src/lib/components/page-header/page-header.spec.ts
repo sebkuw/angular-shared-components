@@ -8,7 +8,7 @@ describe('PageHeaderComponent', () => {
     component.infoTitle = 'Orders';
     component.infoContent = 'Orders help text';
     component.confirmationBtnText = 'Close';
-    component.infoClick.subscribe((value) => emittedTitle = value.title);
+    component.infoClick.subscribe((value) => (emittedTitle = value.title));
 
     component.onInfoClick();
 
@@ -19,7 +19,7 @@ describe('PageHeaderComponent', () => {
     const component = new PageHeaderComponent();
     let emitted = false;
 
-    component.infoClick.subscribe(() => emitted = true);
+    component.infoClick.subscribe(() => (emitted = true));
 
     component.onInfoClick();
 

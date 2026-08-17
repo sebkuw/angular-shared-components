@@ -14,4 +14,5 @@ All notable changes to `@sebkuw/shared-ui-core` are documented in this file. The
 
 ### Changed
 
+- Normalized library source, tests, metadata and documentation to the repository Prettier style.
 - Changed the package coordinate from `@netdevs/shared-ui-core` to `@sebkuw/shared-ui-core` and added GitHub Packages publication metadata. Consumers migrating from the previous coordinate must update dependencies and imports; the new coordinate starts at `0.0.1`.

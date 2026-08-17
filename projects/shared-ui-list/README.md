@@ -4,10 +4,10 @@ Configurable data lists and tables for NetDevs Angular applications.
 
 ## Installation
 
-Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package and its shared peers:
 
 ```bash
-npm install @sebkuw/shared-ui-list
+npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives
 ```
 
 ## Current public API
@@ -19,6 +19,8 @@ The component accepts a top-level `access` rule. Columns, cell actions, toolbar 
 Sorting uses native buttons and `aria-sort`. Actionable cells support Enter and Space. Frontend CSV export uses the supplied rows, escapes RFC-style fields, neutralizes spreadsheet formulas and avoids browser APIs during SSR.
 
 The filter panel lays out configured text, select, boolean and range controls in a responsive auto-fit grid. Numeric and date ranges stack at very small widths instead of forcing the whole filter panel to scroll horizontally.
+
+Standard toolbar, filter and selection actions use the public button primitives, and the table loading state uses the public loading component. Native/Material buttons remain only where their directives provide menu-trigger, menu-item or sortable-header focus and keyboard semantics.
 
 ## Architectural role
 

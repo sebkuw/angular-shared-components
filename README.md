@@ -27,6 +27,7 @@ All contributions must preserve Angular 20 compatibility, use only approved free
   - [4. List - `@sebkuw/shared-ui-list`](#4-list---sebkuwshared-ui-list)
   - [5. Layout - `@sebkuw/shared-ui-layout`](#5-layout---sebkuwshared-ui-layout)
   - [6. Feedback - `@sebkuw/shared-ui-feedback`](#6-feedback---sebkuwshared-ui-feedback)
+  - [7. Primitives - `@sebkuw/shared-ui-primitives`](#7-primitives---sebkuwshared-ui-primitives)
 - [Development](#development)
 - [Local Package Testing](#local-package-testing)
 - [Publishing](#publishing)
@@ -36,14 +37,15 @@ All contributions must preserve Angular 20 compatibility, use only approved free
 
 ## Packages
 
-| Package                      | Responsibility                                                                                 |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- |
-| `@sebkuw/shared-ui-core`     | Shared foundation for cross-package contracts and helpers.                                     |
-| `@sebkuw/shared-ui-theme`    | Semantic CSS tokens, light/dark modes, focus, high-contrast and reduced-motion defaults.       |
-| `@sebkuw/shared-ui-forms`    | Dynamic details view, create/edit form view, form field controls and form models.              |
-| `@sebkuw/shared-ui-list`     | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
-| `@sebkuw/shared-ui-layout`   | Application layout components: page header and side menu.                                      |
-| `@sebkuw/shared-ui-feedback` | User feedback components: info dialog and notification.                                        |
+| Package                        | Responsibility                                                                                 |
+| ------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `@sebkuw/shared-ui-core`       | Shared foundation for cross-package contracts and helpers.                                     |
+| `@sebkuw/shared-ui-theme`      | Semantic CSS tokens, light/dark modes, focus, high-contrast and reduced-motion defaults.       |
+| `@sebkuw/shared-ui-forms`      | Dynamic details view, create/edit form view, form field controls and form models.              |
+| `@sebkuw/shared-ui-list`       | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
+| `@sebkuw/shared-ui-layout`     | Application layout components: page header and side menu.                                      |
+| `@sebkuw/shared-ui-feedback`   | User feedback components: info dialog and notification.                                        |
+| `@sebkuw/shared-ui-primitives` | Accessible buttons, field labels, loading indicators and inline alerts.                        |
 
 ## Requirements
 
@@ -73,6 +75,7 @@ npm install @sebkuw/shared-ui-forms
 npm install @sebkuw/shared-ui-list
 npm install @sebkuw/shared-ui-layout
 npm install @sebkuw/shared-ui-feedback
+npm install @sebkuw/shared-ui-primitives
 ```
 
 For applications using the full component set:
@@ -84,7 +87,8 @@ npm install \
   @sebkuw/shared-ui-forms \
   @sebkuw/shared-ui-list \
   @sebkuw/shared-ui-layout \
-  @sebkuw/shared-ui-feedback
+  @sebkuw/shared-ui-feedback \
+  @sebkuw/shared-ui-primitives
 ```
 
 Angular Material and CDK are peer dependencies for UI packages that render Material components:
@@ -589,6 +593,36 @@ export class NotificationExampleComponent {
 
 The consuming application must configure Angular Material dialog and snack-bar providers according to its app setup.
 
+### 7. Primitives - `@sebkuw/shared-ui-primitives`
+
+Primitives owns small, domain-independent building blocks used across application screens.
+
+Current exports:
+
+| Export                 | Description                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| `ButtonComponent`      | Configurable text or text + image button with primary, positive, negative and neutral tones. |
+| `IconButtonComponent`  | Image-only button with an explicit accessible label.                                         |
+| `FieldLabelComponent`  | Visible native field label with a configurable required marker.                              |
+| `LoadingComponent`     | Accessible inline, block or overlay loading status.                                          |
+| `InlineAlertComponent` | Inline info, success, warning and error messages with optional actions.                      |
+
+Install:
+
+```bash
+npm install @sebkuw/shared-ui-primitives @sebkuw/shared-ui-core
+```
+
+Use:
+
+```html
+<shared-button tone="positive" (activated)="save()">Save</shared-button>
+<shared-button tone="negative" appearance="outlined" (activated)="remove()"> Remove </shared-button>
+<shared-icon-button iconSrc="/icons/refresh.svg" ariaLabel="Refresh results" />
+```
+
+`ButtonComponent` also accepts `iconSrc`, so text + icon does not need a third component. See the [package README](projects/shared-ui-primitives/README.md) for loading, labels, alerts, permissions/claims, accessibility, responsive behavior, theming, i18n/RTL, SSR and testing details.
+
 ## Development
 
 Install dependencies:
@@ -632,6 +666,7 @@ Build a single package:
 ```bash
 npm run build:shared-ui-core
 npm run build:shared-ui-theme
+npm run build:shared-ui-primitives
 npm run build:shared-ui-forms
 npm run build:shared-ui-list
 npm run build:shared-ui-layout
@@ -643,6 +678,7 @@ Run tests for a single package:
 ```bash
 npm run test:shared-ui-core
 npm run test:shared-ui-theme
+npm run test:shared-ui-primitives
 npm run test:shared-ui-forms
 npm run test:shared-ui-list
 npm run test:shared-ui-layout
@@ -680,12 +716,12 @@ npm pack ./dist/shared-ui-forms
 
 ## Publishing
 
-The root workspace package is private and must not be published. The [GitHub Packages workflow](.github/workflows/publish.yml) runs when a GitHub Release is published. It uses the repository-scoped `GITHUB_TOKEN`, runs the complete test and build suites, and publishes all six generated packages in dependency order.
+The root workspace package is private and must not be published. The [GitHub Packages workflow](.github/workflows/publish.yml) runs when a GitHub Release is published. It uses the repository-scoped `GITHUB_TOKEN`, runs the complete test and build suites, and publishes all seven generated packages in dependency order.
 
 Before creating a release:
 
 1. Update each package version under `projects/<package-name>/package.json`.
-2. When the core version changes, update its version in the peer dependencies of forms, list, layout and feedback.
+2. When the core version changes, update its version in the peer dependencies of primitives, forms, list, layout and feedback.
 3. Update the package and repository changelogs.
 4. Run `npm run build` and then `npm test` locally so public-package import tests use fresh `dist` artifacts.
 5. Push the commit, create a matching GitHub tag/release, and publish the release.

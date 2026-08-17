@@ -10,8 +10,12 @@
   padding: var(--shared-ui-spacing-sm, 0.5rem) var(--shared-ui-spacing-md, 1rem);
   border: 1px solid currentColor;
   border-radius: var(--shared-ui-radius-sm, 0.25rem);
-  color: var(--shared-ui-color-primary-contrast, #fff);
   overflow-wrap: anywhere;
+}
+
+shared-button,
+shared-icon-button {
+  --shared-ui-color-text: currentColor;
 }
 
 .notification-icon {
@@ -28,14 +32,17 @@
 
 .notification--success {
   background-color: var(--shared-ui-color-success, #067647);
+  color: var(--shared-ui-color-success-contrast, #fff);
 }
 
 .notification--error {
   background-color: var(--shared-ui-color-danger, #b42318);
+  color: var(--shared-ui-color-danger-contrast, #fff);
 }
 
 .notification--info {
   background-color: var(--shared-ui-color-info, #175cd3);
+  color: var(--shared-ui-color-info-contrast, #fff);
 }
 
 @media (max-width: 30rem) {
