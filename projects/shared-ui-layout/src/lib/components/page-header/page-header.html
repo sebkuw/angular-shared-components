@@ -1,8 +1,13 @@
 <header class="header-container">
   <h1>{{ headerText }}</h1>
   @if (canShowInfo()) {
-    <button mat-icon-button type="button" (click)="onInfoClick()" [attr.aria-label]="infoAriaLabel">
+    <shared-icon-button
+      tone="primary"
+      appearance="text"
+      [ariaLabel]="infoAriaLabel"
+      (activated)="onInfoClick()"
+    >
       <mat-icon aria-hidden="true">{{ iconName }}</mat-icon>
-    </button>
+    </shared-icon-button>
   }
 </header>

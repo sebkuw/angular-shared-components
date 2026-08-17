@@ -4,10 +4,10 @@ Configurable data lists and tables for NetDevs Angular applications.
 
 ## Installation
 
-Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package:
+Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package and its shared peers:
 
 ```bash
-npm install @sebkuw/shared-ui-list
+npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives @sebkuw/shared-ui-feedback
 ```
 
 ## Current public API
@@ -20,6 +20,20 @@ Sorting uses native buttons and `aria-sort`. Actionable cells support Enter and 
 
 The filter panel lays out configured text, select, boolean and range controls in a responsive auto-fit grid. Numeric and date ranges stack at very small widths instead of forcing the whole filter panel to scroll horizontally.
 
+Pass an `errorMessage` signal to replace table content with `ErrorStateComponent`; configure `errorState` and handle `(retry)` to load data again. When a successful request returns no rows, `emptyState` and `(emptyStateAction)` provide an actionable empty result without inventing application-specific copy inside the library.
+
+```html
+<shared-dynamic-table
+  [data]="rows"
+  [errorMessage]="loadError"
+  [emptyState]="{ title: 'No matching invoices' }"
+  [errorState]="{ title: 'Invoices unavailable', action: { label: 'Try again' } }"
+  (retry)="loadInvoices()"
+/>
+```
+
+Standard toolbar, filter and selection actions use the public button primitives, and the table loading state uses the public loading component. Native/Material buttons remain only where their directives provide menu-trigger, menu-item or sortable-header focus and keyboard semantics.
+
 ## Architectural role
 
 - Keep data transport separate from table state and rendering.
@@ -30,7 +44,7 @@ The filter panel lays out configured text, select, boolean and range controls in
 
 ## Accessibility and interaction
 
-Tabular data must use table semantics, an accessible name and correctly associated headers. Sorting must expose aria-sort. Filters, selection, pagination and row actions need accessible names, keyboard operation and predictable focus. Loading, empty and error states must be perceivable without relying only on color or animation.
+Tabular data must use table semantics, an accessible name and correctly associated headers. Sorting must expose aria-sort. Filters, selection, pagination and row actions need accessible names, keyboard operation and predictable focus. Loading, empty and error states are exposed as accessible status regions without relying only on color or animation.
 
 ## Required tests
 

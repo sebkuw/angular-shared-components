@@ -8,6 +8,7 @@
     [readonly]="field.readonlyOnEdit && isEditMode"
     [placeholder]="field.placeholder || field.label"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
   ></textarea>
 
   @if (field.maxLength) {

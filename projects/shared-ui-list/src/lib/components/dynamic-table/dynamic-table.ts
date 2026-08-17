@@ -17,6 +17,17 @@ import {
 } from '@angular/core';
 import { AccessRule, PermissionService, PUBLIC_ACCESS_RULE } from '@sebkuw/shared-ui-core';
 import {
+  EmptyStateComponent,
+  EmptyStateConfig,
+  ErrorStateComponent,
+  ErrorStateConfig,
+} from '@sebkuw/shared-ui-feedback';
+import {
+  ButtonComponent,
+  IconButtonComponent,
+  LoadingComponent,
+} from '@sebkuw/shared-ui-primitives';
+import {
   AbstractControl,
   FormBuilder,
   FormControl,
@@ -33,12 +44,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Subject, Subscription, takeUntil, tap } from 'rxjs';
 import { ValueFormatterPipe } from '../../pipes/value-formatter.pipe';
 import {
   FilterOperation,
@@ -78,11 +88,15 @@ import { TableExportService } from './services/table-export.service';
     MatInputModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule,
     MatSelectModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
+    ButtonComponent,
+    IconButtonComponent,
+    LoadingComponent,
+    EmptyStateComponent,
+    ErrorStateComponent,
     ValueFormatterPipe,
   ],
   templateUrl: './dynamic-table.html',
@@ -96,6 +110,9 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   @Input({ required: true }) pageSize!: Signal<number>;
   @Input({ required: true }) pageIndex!: Signal<number>;
   @Input({ required: true }) loading!: Signal<boolean>;
+  @Input() errorMessage: Signal<string | null> = signal(null);
+  @Input() emptyState: EmptyStateConfig = {};
+  @Input() errorState: ErrorStateConfig = {};
   @Input() showFilterButton = true;
   @Input() showCustomMenu = false;
   @Input() customButtons: CustomButton[] = [];
@@ -121,6 +138,8 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   @Output() rowClick = new EventEmitter<{ column: Column; row: T }>();
   @Output() selectionChange = new EventEmitter<string[]>();
   @Output() exportToCSV = new EventEmitter<void>();
+  @Output() emptyStateAction = new EventEmitter<void>();
+  @Output() retry = new EventEmitter<void>();
 
   filterForm: FormGroup = new FormGroup({});
   showFilters = signal(false);
@@ -132,6 +151,8 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   isExporting = signal(false);
 
   private readonly destroy$ = new Subject<void>();
+  private readonly filterValues = signal<Record<string, unknown>>({});
+  private filterValueChangesSubscription?: Subscription;
   private readonly exportService = inject(TableExportService);
   private readonly permissionService = inject(PermissionService);
   private readonly platformId = inject(PLATFORM_ID);
@@ -193,9 +214,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   );
 
   hasActiveFilters = computed(() => {
-    const formValue = this.filterForm.value as Record<string, unknown>;
-
-    return Object.values(formValue).some((value) => this.hasFilterValue(value));
+    return Object.values(this.filterValues()).some((value) => this.hasFilterValue(value));
   });
 
   hasCustomButtons = computed(() => this.accessibleButtons().length > 0);
@@ -242,6 +261,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
     if (changes['columns'] && !changes['columns'].firstChange) {
       this.initializeColumnVisibility();
       this.initializeFilterForm();
+      this.setupFilterListeners();
     }
   }
 
@@ -276,6 +296,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
    */
   clearFilters(): void {
     this.filterForm.reset({}, { emitEvent: false });
+    this.filterValues.set(this.filterForm.getRawValue() as Record<string, unknown>);
     this.emitDataRequest({ resetPage: true });
   }
 
@@ -754,6 +775,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
     }
 
     this.filterForm = this.fb.group(controls);
+    this.filterValues.set(this.filterForm.getRawValue() as Record<string, unknown>);
   }
 
   /**
@@ -761,8 +783,13 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
    * @returns Void.
    */
   private setupFilterListeners(): void {
-    this.filterForm.valueChanges
-      .pipe(debounceTime(300), takeUntil(this.destroy$))
+    this.filterValueChangesSubscription?.unsubscribe();
+    this.filterValueChangesSubscription = this.filterForm.valueChanges
+      .pipe(
+        tap((value) => this.filterValues.set(value as Record<string, unknown>)),
+        debounceTime(300),
+        takeUntil(this.destroy$),
+      )
       .subscribe(() => this.emitDataRequest({ resetPage: true }));
   }
 

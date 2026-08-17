@@ -1,17 +1,25 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PermissionContext } from '@sebkuw/shared-ui-core';
-import { InfoDialogComponent, NotificationComponent } from '@sebkuw/shared-ui-feedback';
+import {
+  ConfirmationDialogService,
+  EmptyStateComponent,
+  InfoDialogComponent,
+  NotificationService,
+} from '@sebkuw/shared-ui-feedback';
 import {
   DetailsConfig,
   DynamicDetailsComponent,
   DynamicFormComponent,
   DynamicFormConfig,
 } from '@sebkuw/shared-ui-forms';
-import { MenuItem, PageHeaderComponent, SideMenu } from '@sebkuw/shared-ui-layout';
+import {
+  MenuItem,
+  PageHeaderComponent,
+  SideMenu,
+  SkipLinkComponent,
+} from '@sebkuw/shared-ui-layout';
 import {
   BaseRow,
   Column,
@@ -20,6 +28,22 @@ import {
   TableDataRequestEvent,
   TableFilter,
 } from '@sebkuw/shared-ui-list';
+import {
+  ActionBarComponent,
+  ActionLinkComponent,
+  BadgeComponent,
+  ButtonComponent,
+  FieldLabelComponent,
+  IconComponent,
+  IconButtonComponent,
+  IconLinkComponent,
+  InlineAlertComponent,
+  LoadingComponent,
+  ProgressComponent,
+  SkeletonComponent,
+  VisuallyHiddenDirective,
+} from '@sebkuw/shared-ui-primitives';
+import { take } from 'rxjs';
 
 interface DemoRow extends BaseRow {
   name: string;
@@ -38,7 +62,15 @@ export const permissionContext = signal<PermissionContext>({
 });
 
 export const demoMenu: MenuItem[] = [
-  { id: 'overview', title: 'Overview', icon: 'home', level: 0, route: '/' },
+  {
+    id: 'overview',
+    title: 'Overview',
+    icon: 'home',
+    level: 0,
+    route: '/',
+    ariaLabel: 'Overview, 3 unread updates',
+    badge: { value: 3, tone: 'negative', ariaLabel: '3 unread updates' },
+  },
   {
     id: 'admin',
     title: 'Administration',
@@ -110,29 +142,47 @@ const DEMO_ROWS: DemoRow[] = [
   selector: 'demo-root',
   standalone: true,
   imports: [
-    MatButtonModule,
     PageHeaderComponent,
     SideMenu,
+    SkipLinkComponent,
     DynamicFormComponent,
     DynamicDetailsComponent,
     DynamicTableComponent,
+    ButtonComponent,
+    ActionLinkComponent,
+    IconLinkComponent,
+    ActionBarComponent,
+    BadgeComponent,
+    IconComponent,
+    IconButtonComponent,
+    FieldLabelComponent,
+    LoadingComponent,
+    ProgressComponent,
+    SkeletonComponent,
+    InlineAlertComponent,
+    EmptyStateComponent,
+    VisuallyHiddenDirective,
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DemoComponent {
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly confirmationDialog = inject(ConfirmationDialogService);
+  private readonly notifications = inject(NotificationService);
 
   readonly rows = signal<DemoRow[]>([...DEMO_ROWS]);
   readonly total = signal(DEMO_ROWS.length);
   readonly pageSize = signal(10);
   readonly pageIndex = signal(0);
   readonly loading = signal(false);
+  readonly tableError = signal<string | null>(null);
   readonly isAdmin = signal(false);
   readonly formStatus = signal('The example form has not been submitted yet.');
   readonly detailsEditing = signal(false);
   readonly detailsVisible = signal(true);
+  readonly showInlineWarning = signal(true);
+  readonly primitiveStatus = signal('No primitive action has been activated yet.');
 
   readonly columns: Column[] = [
     {
@@ -227,12 +277,20 @@ export class DemoComponent {
   readonly formConfig: DynamicFormConfig = {
     ariaLabel: 'All field types example form',
     columns: 3,
+    guidance: {
+      showCompletion: true,
+      showErrorSummary: true,
+      completionLabel: 'Required example fields completed',
+      errorSummaryTitle: 'Complete the example form',
+      errorSummaryDescription: 'Use these links to review fields that still need attention.',
+    },
     fields: [
       {
         key: 'name',
         label: 'Name',
         type: 'text',
         placeholder: 'Enter full name',
+        hint: 'Use the name shown on the customer record.',
         autocomplete: 'name',
         validators: [Validators.required],
         errorMessages: { required: 'Name is required.' },
@@ -456,6 +514,31 @@ export class DemoComponent {
     }));
   }
 
+  savePrimitiveExample(): void {
+    this.primitiveStatus.set('Positive Save action activated.');
+  }
+
+  removePrimitiveExample(): void {
+    this.primitiveStatus.set('Negative Remove action activated.');
+  }
+
+  refreshPrimitiveExample(): void {
+    this.primitiveStatus.set('Icon-only Refresh action activated.');
+  }
+
+  reviewPrimitiveAlert(): void {
+    this.primitiveStatus.set('Inline alert Review action activated.');
+  }
+
+  dismissPrimitiveAlert(): void {
+    this.showInlineWarning.set(false);
+    this.primitiveStatus.set('Inline warning dismissed.');
+  }
+
+  restorePrimitiveAlert(): void {
+    this.showInlineWarning.set(true);
+  }
+
   submitExampleForm(value: Record<string, unknown>): void {
     const controlCount = Object.keys(value).length;
     this.formStatus.set(`Form submitted successfully with ${controlCount} controls.`);
@@ -477,16 +560,49 @@ export class DemoComponent {
   }
 
   removeDetails(): void {
-    this.detailsVisible.set(false);
-    this.detailsEditing.set(false);
-    this.showSnackBar('Order details were removed from the demo.');
+    this.confirmationDialog
+      .confirm({
+        title: 'Remove order details?',
+        message: 'This removes the details from the demo. You can restore them afterwards.',
+        confirmLabel: 'Remove details',
+        cancelLabel: 'Keep details',
+        confirmTone: 'negative',
+        actionsAriaLabel: 'Remove order details confirmation actions',
+      })
+      .pipe(take(1))
+      .subscribe((confirmed) => {
+        if (!confirmed) {
+          return;
+        }
+
+        this.detailsVisible.set(false);
+        this.detailsEditing.set(false);
+        this.showSnackBar('Order details were removed from the demo.');
+      });
   }
 
   restoreDetails(): void {
     this.detailsVisible.set(true);
   }
 
+  showTableError(): void {
+    this.tableError.set('The demo data source returned an error.');
+  }
+
+  retryTable(): void {
+    this.tableError.set(null);
+    this.restoreDemoRows();
+    this.notifications.success('The table data was loaded again.');
+  }
+
+  restoreDemoRows(): void {
+    this.rows.set([...DEMO_ROWS]);
+    this.total.set(DEMO_ROWS.length);
+    this.pageIndex.set(0);
+  }
+
   onDataRequest(request: TableDataRequestEvent): void {
+    this.tableError.set(null);
     let result = DEMO_ROWS.filter((row) =>
       (request.filters ?? []).every((filter) => this.matchesFilter(row, filter)),
     );
@@ -520,18 +636,11 @@ export class DemoComponent {
   }
 
   showNotification(): void {
-    this.showSnackBar('The notification is announced by a live region.');
+    this.notifications.info('The notification is announced by a live region.');
   }
 
   private showSnackBar(message: string): void {
-    this.snackBar.openFromComponent(NotificationComponent, {
-      duration: 5000,
-      data: {
-        message,
-        type: 'success',
-        dismissLabel: 'Dismiss example notification',
-      },
-    });
+    this.notifications.success(message);
   }
 
   private matchesFilter(row: DemoRow, filter: TableFilter): boolean {

@@ -1,6 +1,6 @@
 ---
 name: develop-shared-ui-layout
-description: "Rozwijaj bibliotekę @netdevs/shared-ui-layout w Angular 20. Używaj przy zmianach w projects/shared-ui-layout, page headers, side menu, modelach nawigacji, Router integration, responsywnym layoucie, focus management, klawiaturze oraz filtrowaniu menu według permissions/claims."
+description: 'Rozwijaj bibliotekę @netdevs/shared-ui-layout w Angular 20. Używaj przy zmianach w projects/shared-ui-layout, page headers, side menu, modelach nawigacji, Router integration, responsywnym layoucie, focus management, klawiaturze oraz filtrowaniu menu według permissions/claims.'
 ---
 
 # Rozwijanie Shared UI Layout

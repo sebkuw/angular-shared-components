@@ -8,8 +8,13 @@
   --shared-ui-color-primary: #155eef;
   --shared-ui-color-primary-contrast: #ffffff;
   --shared-ui-color-danger: #b42318;
+  --shared-ui-color-danger-contrast: #ffffff;
   --shared-ui-color-success: #067647;
+  --shared-ui-color-success-contrast: #ffffff;
   --shared-ui-color-info: #175cd3;
+  --shared-ui-color-info-contrast: #ffffff;
+  --shared-ui-color-warning: #8a4b00;
+  --shared-ui-color-warning-contrast: #ffffff;
   --shared-ui-color-focus: #004eeb;
   --shared-ui-spacing-xs: 0.25rem;
   --shared-ui-spacing-sm: 0.5rem;
@@ -34,8 +39,13 @@
   --shared-ui-color-primary: #84adff;
   --shared-ui-color-primary-contrast: #071a3d;
   --shared-ui-color-danger: #fda29b;
+  --shared-ui-color-danger-contrast: #2c0b08;
   --shared-ui-color-success: #75e0a7;
+  --shared-ui-color-success-contrast: #052e1c;
   --shared-ui-color-info: #84caff;
+  --shared-ui-color-info-contrast: #082b4c;
+  --shared-ui-color-warning: #fdb022;
+  --shared-ui-color-warning-contrast: #321f00;
   --shared-ui-color-focus: #b2ccff;
 }
 
@@ -69,8 +79,13 @@
     --shared-ui-color-primary: LinkText;
     --shared-ui-color-primary-contrast: Canvas;
     --shared-ui-color-danger: Mark;
+    --shared-ui-color-danger-contrast: MarkText;
     --shared-ui-color-success: LinkText;
+    --shared-ui-color-success-contrast: Canvas;
     --shared-ui-color-info: LinkText;
+    --shared-ui-color-info-contrast: Canvas;
+    --shared-ui-color-warning: Mark;
+    --shared-ui-color-warning-contrast: MarkText;
     --shared-ui-color-focus: Highlight;
   }
 }

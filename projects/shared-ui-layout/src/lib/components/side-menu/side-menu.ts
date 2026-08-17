@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, inject, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { BadgeComponent } from '@sebkuw/shared-ui-primitives';
 import { MenuItem } from './models/menu-item.interface';
 import { SideMenuService } from './services/side-menu.service';
 
@@ -14,7 +15,7 @@ import { SideMenuService } from './services/side-menu.service';
 @Component({
   selector: 'shared-side-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, BadgeComponent],
   templateUrl: './side-menu.html',
   styleUrl: './side-menu.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

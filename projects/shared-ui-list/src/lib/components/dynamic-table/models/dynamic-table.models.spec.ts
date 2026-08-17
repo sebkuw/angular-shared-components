@@ -1,4 +1,8 @@
-import { FilterOperation, TableDataRequestEvent, toPaginationRequestDto } from './dynamic-table.models';
+import {
+  FilterOperation,
+  TableDataRequestEvent,
+  toPaginationRequestDto,
+} from './dynamic-table.models';
 
 describe('toPaginationRequestDto', () => {
   it('maps table event to backend pagination request', () => {

@@ -5,21 +5,44 @@
     (ngSubmit)="onSubmit()"
     [attr.aria-label]="config.ariaLabel || 'Dynamic form'"
   >
+    @if (shouldShowErrorSummary()) {
+      <shared-form-error-summary
+        [form]="form"
+        [fields]="getGuidanceFields()"
+        [title]="config.guidance?.errorSummaryTitle || 'Check the form'"
+        [description]="
+          config.guidance?.errorSummaryDescription ||
+          'Correct the following fields before continuing.'
+        "
+      />
+    }
+
+    @if (shouldShowCompletion()) {
+      <shared-form-completion-indicator
+        [form]="form"
+        [fields]="getGuidanceFields()"
+        [label]="config.guidance?.completionLabel || 'Required fields completed'"
+      />
+    }
+
     <div
       class="form-grid"
       [style.grid-template-columns]="'repeat(' + (config.columns || 1) + ', minmax(0, 1fr))'"
     >
       @for (field of config.fields; track field.key) {
         @if (isFieldVisible(field)) {
-          <div
+          <shared-form-field-shell
             class="form-field-wrapper"
             [ngStyle]="getFieldStyles(field)"
             [ngClass]="field.customClass || ''"
             [attr.data-type]="field.type"
+            [controlId]="field.key"
+            [label]="field.label"
+            [showLabel]="field.type !== 'checkbox' && field.type !== 'spacer'"
+            [required]="isFieldRequired(field)"
+            [requiredText]="field.requiredText || 'Required'"
+            [hint]="field.hint"
           >
-            @if (field.type !== 'checkbox' && field.type !== 'spacer') {
-              <label class="form-label" [attr.for]="field.key">{{ field.label }}</label>
-            }
             @switch (field.type) {
               @case ('text') {
                 <shared-form-input-text
@@ -102,23 +125,19 @@
                 <shared-form-spacer [field]="field | cast" />
               }
             }
-          </div>
+          </shared-form-field-shell>
         }
       }
     </div>
 
     <div class="save-button-container" [style.justify-content]="getButtonPosition()">
-      <button
-        mat-flat-button
-        color="primary"
+      <shared-button
         type="submit"
-        [disabled]="
-          isSubmitting || form.invalid || createButtonDisabled || config.submitButton?.disabled
-        "
-        [attr.aria-label]="config.submitButton?.ariaLabel || getSubmitButtonLabel()"
+        [disabled]="isSubmitting || createButtonDisabled || config.submitButton?.disabled === true"
+        [ariaLabel]="config.submitButton?.ariaLabel || getSubmitButtonLabel()"
       >
         {{ getSubmitButtonLabel() }}
-      </button>
+      </shared-button>
     </div>
   </form>
 }

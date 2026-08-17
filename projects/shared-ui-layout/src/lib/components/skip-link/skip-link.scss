@@ -1,0 +1,40 @@
+:host {
+  position: fixed;
+  inset-block-start: var(--shared-ui-spacing-sm, 0.5rem);
+  inset-inline-start: var(--shared-ui-spacing-sm, 0.5rem);
+  z-index: var(--shared-ui-z-skip-link, 1000);
+}
+
+.shared-skip-link {
+  position: absolute;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--shared-ui-color-focus, #004eeb);
+  border-radius: var(--shared-ui-radius-md, 0.5rem);
+  background: var(--shared-ui-color-surface, #fff);
+  color: var(--shared-ui-color-text, #1a1d24);
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translateY(calc(-100% - 1rem));
+}
+
+.shared-skip-link:focus {
+  position: static;
+  transform: none;
+  outline: 3px solid var(--shared-ui-color-focus, #004eeb);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shared-skip-link {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .shared-skip-link {
+    border-color: LinkText;
+    background: Canvas;
+    color: LinkText;
+  }
+}

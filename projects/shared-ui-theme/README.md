@@ -16,6 +16,8 @@ The package exports `NETDEVS_SHARED_UI_THEME_CLASS`, `NETDEVS_SHARED_UI_THEME_TO
 
 Include the stylesheet and apply `netdevs-shared-ui-theme` to the application shell. Set `data-theme="dark"` for the built-in dark palette. Consumer overrides can replace any documented CSS custom property at the shell boundary.
 
+Status colors expose paired contrast tokens: `--shared-ui-color-danger(-contrast)`, `--shared-ui-color-success(-contrast)`, `--shared-ui-color-info(-contrast)` and `--shared-ui-color-warning(-contrast)`. Use each pair together for filled controls and keep visible text or another non-color cue for meaning.
+
 ## Architectural role
 
 - Provide semantic, fully configurable design tokens rather than component-specific hard-coded values.

@@ -9,12 +9,7 @@ import { FormFieldBaseComponent } from '../form-field-base.component';
 @Component({
   selector: 'shared-form-input-text',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
   templateUrl: './form-input-text.html',
   styleUrl: './form-input-text.scss',
 })

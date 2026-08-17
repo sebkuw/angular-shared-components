@@ -1,0 +1,12 @@
+<span
+  class="shared-icon shared-icon--{{ size }}"
+  [attr.role]="decorative ? null : 'img'"
+  [attr.aria-label]="accessibleLabel"
+  [attr.aria-hidden]="decorative ? 'true' : null"
+>
+  @if (resolvedSrc) {
+    <img class="shared-icon__image" [src]="resolvedSrc" alt="" />
+  } @else {
+    <ng-content />
+  }
+</span>

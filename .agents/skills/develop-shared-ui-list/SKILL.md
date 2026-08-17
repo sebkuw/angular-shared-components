@@ -1,6 +1,6 @@
 ---
 name: develop-shared-ui-list
-description: "Rozwijaj bibliotekę @netdevs/shared-ui-list w Angular 20. Używaj przy zmianach w projects/shared-ui-list, dynamic table, modelach tabeli, filtrowaniu, sortowaniu, paginacji, selekcji, akcjach wiersza, eksporcie, responsywnych listach i permissions/claims."
+description: 'Rozwijaj bibliotekę @netdevs/shared-ui-list w Angular 20. Używaj przy zmianach w projects/shared-ui-list, dynamic table, modelach tabeli, filtrowaniu, sortowaniu, paginacji, selekcji, akcjach wiersza, eksporcie, responsywnych listach i permissions/claims.'
 ---
 
 # Rozwijanie Shared UI List

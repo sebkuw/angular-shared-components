@@ -1,0 +1,57 @@
+:host {
+  display: inline-flex;
+  flex: 0 0 auto;
+  max-inline-size: 100%;
+  vertical-align: middle;
+}
+
+.shared-badge {
+  --shared-badge-background: var(--shared-ui-color-text-muted, #667085);
+  --shared-badge-foreground: var(--shared-ui-color-surface, #fff);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.35rem;
+  min-block-size: 1.35rem;
+  padding-inline: 0.4rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--shared-badge-background);
+  color: var(--shared-badge-foreground);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.shared-badge--primary {
+  --shared-badge-background: var(--shared-ui-color-primary, #155eef);
+}
+
+.shared-badge--positive {
+  --shared-badge-background: var(--shared-ui-color-success, #067647);
+}
+
+.shared-badge--warning {
+  --shared-badge-background: var(--shared-ui-color-warning, #b54708);
+}
+
+.shared-badge--negative {
+  --shared-badge-background: var(--shared-ui-color-error, #b42318);
+}
+
+.shared-badge--dot {
+  inline-size: 0.625rem;
+  min-inline-size: 0.625rem;
+  block-size: 0.625rem;
+  min-block-size: 0.625rem;
+  padding: 0;
+}
+
+@media (forced-colors: active) {
+  .shared-badge {
+    border-color: ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+}

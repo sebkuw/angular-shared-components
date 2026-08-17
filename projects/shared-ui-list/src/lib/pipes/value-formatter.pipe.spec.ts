@@ -11,12 +11,18 @@ describe('ValueFormatterPipe', () => {
 
   it('returns empty string for nullish values', () => {
     expect(pipe.transform(null, { name: 'name', displayName: 'Name', type: 'string' })).toBe('');
-    expect(pipe.transform(undefined, { name: 'name', displayName: 'Name', type: 'string' })).toBe('');
+    expect(pipe.transform(undefined, { name: 'name', displayName: 'Name', type: 'string' })).toBe(
+      '',
+    );
   });
 
   it('formats boolean values in Polish', () => {
-    expect(pipe.transform(true, { name: 'active', displayName: 'Active', type: 'boolean' })).toBe('Tak');
-    expect(pipe.transform(false, { name: 'active', displayName: 'Active', type: 'boolean' })).toBe('Nie');
+    expect(pipe.transform(true, { name: 'active', displayName: 'Active', type: 'boolean' })).toBe(
+      'Tak',
+    );
+    expect(pipe.transform(false, { name: 'active', displayName: 'Active', type: 'boolean' })).toBe(
+      'Nie',
+    );
   });
 
   it('formats enum values using configured labels', () => {

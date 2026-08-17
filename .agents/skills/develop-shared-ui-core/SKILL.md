@@ -1,6 +1,6 @@
 ---
 name: develop-shared-ui-core
-description: "Rozwijaj bibliotekę @netdevs/shared-ui-core w Angular 20. Używaj przy zmianach w projects/shared-ui-core, wspólnych kontraktach, injection tokens, provider functions, metadanych paczek oraz mechanizmie widoczności opartym na permissions i claims."
+description: 'Rozwijaj bibliotekę @netdevs/shared-ui-core w Angular 20. Używaj przy zmianach w projects/shared-ui-core, wspólnych kontraktach, injection tokens, provider functions, metadanych paczek oraz mechanizmie widoczności opartym na permissions i claims.'
 ---
 
 # Rozwijanie Shared UI Core

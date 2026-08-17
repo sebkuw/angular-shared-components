@@ -10,6 +10,7 @@
       "@sebkuw/shared-ui-forms": ["../shared-ui-forms/src/public-api.ts"],
       "@sebkuw/shared-ui-layout": ["../shared-ui-layout/src/public-api.ts"],
       "@sebkuw/shared-ui-list": ["../shared-ui-list/src/public-api.ts"],
+      "@sebkuw/shared-ui-primitives": ["../shared-ui-primitives/src/public-api.ts"],
       "@sebkuw/shared-ui-theme": ["../shared-ui-theme/src/public-api.ts"]
     }
   },

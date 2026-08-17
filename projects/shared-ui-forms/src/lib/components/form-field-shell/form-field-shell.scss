@@ -1,0 +1,58 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.shared-form-field-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-inline-size: 0;
+}
+
+.shared-form-field-shell__control {
+  min-inline-size: 0;
+}
+
+.shared-form-field-shell__supporting-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  min-inline-size: 0;
+  color: var(--shared-ui-color-text-muted, #475467);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.shared-form-field-shell__hint,
+.shared-form-field-shell__error,
+.shared-form-field-shell__count {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.shared-form-field-shell__error {
+  color: var(--shared-ui-color-danger, #b42318);
+  font-weight: 600;
+}
+
+.shared-form-field-shell__count {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+@media (max-width: 24rem) {
+  .shared-form-field-shell__supporting-text {
+    flex-wrap: wrap;
+  }
+}
+
+@media (forced-colors: active) {
+  .shared-form-field-shell__error {
+    color: CanvasText;
+    text-decoration: underline;
+  }
+}

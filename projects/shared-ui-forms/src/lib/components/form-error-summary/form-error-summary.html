@@ -1,0 +1,23 @@
+@if (visible && errors.length) {
+  <section
+    #summary
+    class="shared-form-error-summary"
+    role="alert"
+    aria-live="assertive"
+    tabindex="-1"
+  >
+    <h2>{{ title }}</h2>
+    @if (description) {
+      <p>{{ description }}</p>
+    }
+    <ul>
+      @for (error of errors; track error.key) {
+        <li>
+          <a [attr.href]="'#' + error.controlId" (click)="focusControl($event, error.controlId)">
+            <strong>{{ error.label }}:</strong> {{ error.message }}
+          </a>
+        </li>
+      }
+    </ul>
+  </section>
+}

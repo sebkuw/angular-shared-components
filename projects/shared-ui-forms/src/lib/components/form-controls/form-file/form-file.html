@@ -1,38 +1,40 @@
 <div [formGroup]="formGroup" class="file-input-container">
   <input
     type="file"
+    [id]="field.key"
     class="hidden-file-input"
     #fileInput
     (change)="onFileSelected($event)"
     [accept]="field.acceptedFileTypes || '*/*'"
     [disabled]="disabled"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
   />
 
   <div class="file-input-controls">
-    <button
-      mat-stroked-button
+    <shared-button
+      appearance="outlined"
       type="button"
-      (click)="fileInput.click()"
+      (activated)="fileInput.click()"
       [disabled]="disabled"
-      [attr.aria-label]="field.ariaLabel || field.label"
+      [ariaLabel]="field.ariaLabel || field.label"
+      [ariaDescribedBy]="ariaDescribedBy || undefined"
     >
-      <mat-icon>attach_file</mat-icon>
+      <mat-icon sharedButtonIcon aria-hidden="true">attach_file</mat-icon>
       {{ field.placeholder || 'Wybierz plik' }}
-    </button>
+    </shared-button>
 
     @if (fileName) {
       <div class="file-name-display">
         <span>{{ fileName }}</span>
-        <button
-          mat-icon-button
+        <shared-icon-button
           type="button"
-          (click)="clearFile()"
-          [attr.aria-label]="field.clearLabel || 'Clear file'"
+          (activated)="clearFile()"
+          [ariaLabel]="field.clearLabel || 'Clear file'"
           [disabled]="disabled"
         >
-          <mat-icon>close</mat-icon>
-        </button>
+          <mat-icon aria-hidden="true">close</mat-icon>
+        </shared-icon-button>
       </div>
     }
   </div>

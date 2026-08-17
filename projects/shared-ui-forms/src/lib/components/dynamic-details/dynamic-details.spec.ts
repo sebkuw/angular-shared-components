@@ -18,7 +18,7 @@ describe('DynamicDetailsComponent', () => {
       component.getFieldValue({
         key: 'active',
         label: 'Status',
-        render: (value) => value ? 'Active' : 'Inactive',
+        render: (value) => (value ? 'Active' : 'Inactive'),
       }),
     ).toBe('Active');
   });

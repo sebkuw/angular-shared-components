@@ -4,6 +4,7 @@
     [formControlName]="field.key"
     [placeholder]="field.placeholder || 'Wybierz opcję...'"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
   >
     @if (field.isNullable) {
       <mat-option [value]="null">---</mat-option>

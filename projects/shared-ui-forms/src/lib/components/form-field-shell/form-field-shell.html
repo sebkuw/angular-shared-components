@@ -1,0 +1,29 @@
+<div class="shared-form-field-shell" [class.shared-form-field-shell--invalid]="!!error">
+  @if (showLabel) {
+    <shared-field-label
+      [forId]="controlId"
+      [text]="label"
+      [required]="required"
+      [requiredText]="requiredText"
+    />
+  }
+
+  <div class="shared-form-field-shell__control">
+    <ng-content />
+  </div>
+
+  <div class="shared-form-field-shell__supporting-text">
+    @if (error) {
+      <p class="shared-form-field-shell__error" [id]="errorId" role="alert">{{ error }}</p>
+    }
+    @if (hint) {
+      <p class="shared-form-field-shell__hint" [id]="hintId">{{ hint }}</p>
+    }
+
+    @if (hasCharacterCount) {
+      <p class="shared-form-field-shell__count" [id]="characterCountId">
+        {{ characterCountText }}
+      </p>
+    }
+  </div>
+</div>

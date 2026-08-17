@@ -1,0 +1,12 @@
+@if (visible) {
+  <span
+    class="shared-badge"
+    [class]="'shared-badge shared-badge--' + tone + (dot ? ' shared-badge--dot' : '')"
+    [attr.role]="role"
+    [attr.aria-live]="announcement === 'off' ? null : announcement"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-hidden]="ariaHidden"
+  >
+    {{ displayValue }}
+  </span>
+}

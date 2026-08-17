@@ -12,8 +12,13 @@ export const NETDEVS_SHARED_UI_THEME_TOKENS = {
     primary: '--shared-ui-color-primary',
     primaryContrast: '--shared-ui-color-primary-contrast',
     danger: '--shared-ui-color-danger',
+    dangerContrast: '--shared-ui-color-danger-contrast',
     success: '--shared-ui-color-success',
+    successContrast: '--shared-ui-color-success-contrast',
     info: '--shared-ui-color-info',
+    infoContrast: '--shared-ui-color-info-contrast',
+    warning: '--shared-ui-color-warning',
+    warningContrast: '--shared-ui-color-warning-contrast',
     focus: '--shared-ui-color-focus',
   },
   spacing: {

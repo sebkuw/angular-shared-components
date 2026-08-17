@@ -11,6 +11,7 @@
     [attr.pattern]="field.isInteger ? '^-?[0-9]*$' : null"
     [placeholder]="field.placeholder || field.label"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
   />
 
   @if (control?.touched && control?.invalid) {

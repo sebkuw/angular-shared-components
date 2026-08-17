@@ -1,0 +1,12 @@
+<div
+  [class]="containerClasses"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+  [attr.aria-label]="label"
+>
+  <span class="shared-loading__spinner" aria-hidden="true"></span>
+  @if (showLabel) {
+    <span class="shared-loading__label">{{ label }}</span>
+  }
+</div>

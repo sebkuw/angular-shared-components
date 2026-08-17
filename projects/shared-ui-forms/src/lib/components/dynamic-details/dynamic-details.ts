@@ -7,7 +7,6 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -17,12 +16,13 @@ import {
   PermissionService,
   PUBLIC_ACCESS_RULE,
 } from '@sebkuw/shared-ui-core';
+import { IconButtonComponent } from '@sebkuw/shared-ui-primitives';
 import { DetailField, DetailsConfig } from './models/dynamic-details.config';
 
 @Component({
   selector: 'shared-dynamic-details',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, IconButtonComponent],
   templateUrl: './dynamic-details.html',
   styleUrls: ['./dynamic-details.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

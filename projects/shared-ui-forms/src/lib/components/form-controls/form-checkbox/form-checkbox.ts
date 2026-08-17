@@ -9,12 +9,7 @@ import { FormFieldBaseComponent } from '../form-field-base.component';
 @Component({
   selector: 'shared-form-checkbox',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatFormFieldModule],
   templateUrl: './form-checkbox.html',
   styleUrl: './form-checkbox.scss',
 })

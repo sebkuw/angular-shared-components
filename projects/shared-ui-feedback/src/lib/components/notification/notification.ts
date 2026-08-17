@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Optional } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 import {
@@ -10,6 +9,7 @@ import {
   PermissionService,
   PUBLIC_ACCESS_RULE,
 } from '@sebkuw/shared-ui-core';
+import { ButtonComponent, IconButtonComponent } from '@sebkuw/shared-ui-primitives';
 
 // The "contract" for the data our notification component will receive
 export interface NotificationData {
@@ -25,7 +25,7 @@ export interface NotificationData {
 @Component({
   selector: 'shared-notification',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, ButtonComponent, IconButtonComponent],
   templateUrl: './notification.html',
   styleUrl: './notification.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -34,6 +34,9 @@ export interface DynamicFormConfig {
   /** Accessible name announced for the form landmark. */
   ariaLabel?: string;
 
+  /** Optional reusable guidance shown above the form fields. */
+  guidance?: DynamicFormGuidanceConfig;
+
   /**
    * @description Optional submit button configuration.
    */
@@ -44,6 +47,16 @@ export interface DynamicFormConfig {
     disabled?: boolean;
     ariaLabel?: string;
   };
+}
+
+export interface DynamicFormGuidanceConfig {
+  /** Shows completion of visible, enabled required fields. Defaults to false. */
+  showCompletion?: boolean;
+  /** Shows a linked error summary after an invalid submit attempt. Defaults to true. */
+  showErrorSummary?: boolean;
+  completionLabel?: string;
+  errorSummaryTitle?: string;
+  errorSummaryDescription?: string;
 }
 
 /**
@@ -155,6 +168,12 @@ export interface FormField {
    * @description Placeholder displayed inside the control.
    */
   placeholder?: string;
+
+  /** Visible supporting text associated with the rendered control. */
+  hint?: string;
+
+  /** Localized text appended to the visible label when the control is required. */
+  requiredText?: string;
 
   /** Accessible name when the visible label is not sufficient. */
   ariaLabel?: string;

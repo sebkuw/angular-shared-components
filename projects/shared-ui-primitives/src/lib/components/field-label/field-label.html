@@ -1,0 +1,7 @@
+<label class="shared-field-label" [class.shared-field-label--disabled]="disabled" [for]="forId">
+  <span class="shared-field-label__text">{{ text }}</span>
+  @if (required) {
+    <span class="shared-field-label__required-marker" aria-hidden="true">*</span>
+    <span class="shared-field-label__visually-hidden">{{ requiredText }}</span>
+  }
+</label>

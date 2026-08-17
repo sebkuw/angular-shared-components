@@ -52,11 +52,6 @@
     width: auto;
   }
 
-  // styl przycisku "usuń"
-  button[mat-icon-button] {
-    color: var(--shared-ui-color-danger, #b42318);
-  }
-
   // wrapper do wyrównania przycisku "Dodaj"
   .table-actions {
     display: flex;

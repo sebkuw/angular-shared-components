@@ -1,16 +1,9 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent, IconButtonComponent } from '@sebkuw/shared-ui-primitives';
 import { FormFieldFile } from '../../../models/form-field.interface';
 import { FormFieldBaseComponent } from '../form-field-base.component';
 
@@ -21,8 +14,9 @@ import { FormFieldBaseComponent } from '../form-field-base.component';
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatButtonModule,
     MatIconModule,
+    ButtonComponent,
+    IconButtonComponent,
   ],
   templateUrl: './form-file.html',
   styleUrl: './form-file.scss',

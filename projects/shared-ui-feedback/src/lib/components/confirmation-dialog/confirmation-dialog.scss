@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  max-inline-size: 100%;
+}
+
+[mat-dialog-content] p {
+  max-inline-size: 60ch;
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+[mat-dialog-actions] {
+  display: block;
+}
+
+shared-action-bar {
+  inline-size: 100%;
+}

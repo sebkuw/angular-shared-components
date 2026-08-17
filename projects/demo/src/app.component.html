@@ -1,3 +1,4 @@
+<shared-skip-link targetId="main-content" label="Skip to component gallery" />
 <div class="netdevs-shared-ui-theme demo-shell">
   <aside><shared-side-menu [collapsed]="false" ariaLabel="Demo navigation" /></aside>
   <main id="main-content">
@@ -14,12 +15,131 @@
         Admin controls are {{ isAdmin() ? 'visible' : 'hidden' }}.
       </p>
       <div class="action-row">
-        <button mat-flat-button type="button" (click)="toggleAdmin()">
+        <shared-button (activated)="toggleAdmin()">
           {{ isAdmin() ? 'Disable' : 'Enable' }} admin permission
-        </button>
-        <button mat-stroked-button type="button" (click)="showNotification()">
+        </shared-button>
+        <shared-button appearance="outlined" (activated)="showNotification()">
           Show notification
-        </button>
+        </shared-button>
+      </div>
+    </section>
+
+    <section class="demo-section" aria-labelledby="primitives-heading">
+      <h2 id="primitives-heading">Public UI primitives</h2>
+      <p class="section-description">
+        Text, text with image and image-only buttons, a visible field label, loading states and
+        inline alert variants.
+      </p>
+
+      <h3>Buttons</h3>
+      <div class="action-row" aria-label="Button examples">
+        <shared-button tone="positive" (activated)="savePrimitiveExample()">
+          Save changes
+        </shared-button>
+        <shared-button tone="negative" appearance="outlined" (activated)="removePrimitiveExample()">
+          Remove item
+        </shared-button>
+        <shared-button
+          appearance="outlined"
+          iconSrc="/icons/save.svg"
+          (activated)="savePrimitiveExample()"
+        >
+          Save with image
+        </shared-button>
+        <shared-icon-button
+          iconSrc="/icons/refresh.svg"
+          ariaLabel="Refresh primitive examples"
+          appearance="outlined"
+          (activated)="refreshPrimitiveExample()"
+        />
+      </div>
+      <p id="primitive-action-status" role="status" aria-live="polite">
+        {{ primitiveStatus() }}
+      </p>
+
+      <h3>Icons, links and action bar</h3>
+      <div class="foundation-example">
+        <p>
+          <shared-icon name="save" [decorative]="false" ariaLabel="Save icon" />
+          A meaningful icon from the application registry.
+        </p>
+        <shared-action-bar ariaLabel="Primitive navigation examples" alignment="space-between">
+          <span sharedActionBarStart>
+            <span sharedVisuallyHidden>Action group: </span>Gallery shortcuts
+          </span>
+          <a sharedActionLink appearance="outlined" href="#form-heading">Go to form examples</a>
+          <a
+            sharedIconLink
+            href="#table-heading"
+            ariaLabel="Go to table examples"
+            iconName="refresh"
+            appearance="outlined"
+          ></a>
+        </shared-action-bar>
+      </div>
+
+      <div class="primitive-grid">
+        <div class="primitive-field-example">
+          <shared-field-label
+            forId="primitive-reference"
+            text="Visible order reference label"
+            [required]="true"
+          />
+          <input
+            id="primitive-reference"
+            class="demo-text-input"
+            type="text"
+            required
+            aria-required="true"
+          />
+        </div>
+        <shared-loading label="Loading primitive example" mode="block" [showLabel]="true" />
+      </div>
+
+      <h3>Progress, badges and skeletons</h3>
+      <div class="status-primitives-grid">
+        <div class="badge-example" aria-label="Badge examples">
+          <span>Unread updates <shared-badge [value]="3" tone="negative" /></span>
+          <span>Ready <shared-badge value="New" tone="positive" /></span>
+          <span>
+            Background activity
+            <shared-badge [dot]="true" tone="warning" ariaLabel="Background activity pending" />
+          </span>
+        </div>
+        <shared-progress label="Profile setup" [value]="68" tone="positive" />
+        <div class="skeleton-example">
+          <shared-skeleton label="Loading order preview" variant="rectangle" height="3.5rem" />
+          <shared-skeleton label="Loading order description" [lines]="3" />
+        </div>
+      </div>
+
+      <div class="alert-stack" aria-label="Inline alert examples">
+        <shared-inline-alert tone="info" title="Information">
+          This is an informational inline message placed in the normal page flow.
+        </shared-inline-alert>
+        <shared-inline-alert tone="success" title="Saved">
+          The changes were stored successfully.
+        </shared-inline-alert>
+        @if (showInlineWarning()) {
+          <shared-inline-alert
+            tone="warning"
+            title="Check the values"
+            actionLabel="Review"
+            [dismissible]="true"
+            dismissLabel="Dismiss primitive warning"
+            (actionTriggered)="reviewPrimitiveAlert()"
+            (dismissed)="dismissPrimitiveAlert()"
+          >
+            A deliberately long translated message can wrap without hiding either alert action.
+          </shared-inline-alert>
+        } @else {
+          <shared-button appearance="text" (activated)="restorePrimitiveAlert()">
+            Restore inline warning
+          </shared-button>
+        }
+        <shared-inline-alert tone="error" title="Could not save" announcement="assertive">
+          Correct the highlighted data and try again.
+        </shared-inline-alert>
       </div>
     </section>
 
@@ -45,12 +165,12 @@
       </p>
 
       @if (!detailsVisible()) {
-        <div class="empty-demo-state" role="status">
-          <p>Order details are removed from the demo.</p>
-          <button mat-stroked-button type="button" (click)="restoreDetails()">
-            Restore details
-          </button>
-        </div>
+        <shared-empty-state
+          title="No order details"
+          description="Order details are removed from the demo."
+          actionLabel="Restore details"
+          (actionTriggered)="restoreDetails()"
+        />
       } @else if (detailsEditing()) {
         <div class="details-editor">
           <shared-dynamic-form
@@ -59,9 +179,9 @@
             [isEditMode]="true"
             (formSubmit)="saveDetails($event)"
           />
-          <button mat-stroked-button type="button" (click)="cancelDetailsEdit()">
+          <shared-button appearance="outlined" (activated)="cancelDetailsEdit()">
             Cancel editing
-          </button>
+          </shared-button>
         </div>
       } @else {
         <shared-dynamic-details
@@ -79,6 +199,11 @@
         Open the filter panel to test text, select, boolean, amount range and date range filters.
         Filtering, sorting and pagination run locally in this demo.
       </p>
+      <div class="action-row table-demo-actions">
+        <shared-button tone="negative" appearance="outlined" (activated)="showTableError()">
+          Simulate table error
+        </shared-button>
+      </div>
       <shared-dynamic-table
         [columns]="columns"
         [data]="rows"
@@ -86,8 +211,21 @@
         [pageSize]="pageSize"
         [pageIndex]="pageIndex"
         [loading]="loading"
+        [errorMessage]="tableError"
+        [emptyState]="{
+          title: 'No matching orders',
+          description: 'Change the filters or restore the complete demo data.',
+          action: { label: 'Restore demo orders' },
+        }"
+        [errorState]="{
+          title: 'Orders unavailable',
+          description: 'The data source could not be reached.',
+          action: { label: 'Try again' },
+        }"
         [labels]="{ caption: 'Demo orders' }"
         (dataRequest)="onDataRequest($event)"
+        (emptyStateAction)="restoreDemoRows()"
+        (retry)="retryTable()"
       />
     </section>
   </main>

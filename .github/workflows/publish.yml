@@ -41,9 +41,10 @@ jobs:
         run: |
           npm publish ./dist/shared-ui-core
           npm publish ./dist/shared-ui-theme
+          npm publish ./dist/shared-ui-primitives
           npm publish ./dist/shared-ui-forms
+          npm publish ./dist/shared-ui-feedback
           npm publish ./dist/shared-ui-list
           npm publish ./dist/shared-ui-layout
-          npm publish ./dist/shared-ui-feedback
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

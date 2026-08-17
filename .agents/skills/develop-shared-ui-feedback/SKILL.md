@@ -1,6 +1,6 @@
 ---
 name: develop-shared-ui-feedback
-description: "Rozwijaj bibliotekę @netdevs/shared-ui-feedback w Angular 20. Używaj przy zmianach w projects/shared-ui-feedback, dialogs, notifications, live regions, focus traps, timeoutach, akcjach komunikatów, responsywnych overlays oraz permissions/claims dla akcji."
+description: 'Rozwijaj bibliotekę @netdevs/shared-ui-feedback w Angular 20. Używaj przy zmianach w projects/shared-ui-feedback, dialogs, notifications, live regions, focus traps, timeoutach, akcjach komunikatów, responsywnych overlays oraz permissions/claims dla akcji.'
 ---
 
 # Rozwijanie Shared UI Feedback

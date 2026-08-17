@@ -81,6 +81,14 @@
   margin-inline-start: auto;
 }
 
+.item-badge {
+  margin-inline-start: auto;
+}
+
+.item-badge + .expand-icon {
+  margin-inline-start: var(--shared-ui-spacing-sm, 0.5rem);
+}
+
 .collapsed .menu-row {
   justify-content: center;
   padding: 0;
@@ -89,6 +97,19 @@
 .collapsed .item-icon,
 .collapsed .expand-icon {
   margin: 0;
+}
+
+.collapsed .menu-row {
+  position: relative;
+}
+
+.collapsed .item-badge {
+  position: absolute;
+  inset-block-start: 0.25rem;
+  inset-inline-end: 0.25rem;
+  margin: 0;
+  transform: scale(0.8);
+  transform-origin: top right;
 }
 
 .visually-hidden {

@@ -1,5 +1,9 @@
 <div class="dynamic-table">
-  <table>
+  <table
+    [id]="field.key"
+    [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
+  >
     <thead>
       <tr>
         <th class="iterator-column">{{ field.rowIndexLabel || '#' }}</th>
@@ -47,16 +51,16 @@
 
           <td class="action-column">
             @if (rows.length > (field.minRows || 1)) {
-              <button
-                mat-icon-button
+              <shared-icon-button
+                tone="negative"
                 type="button"
-                (click)="removeRow(i)"
-                [attr.aria-label]="
+                (activated)="removeRow(i)"
+                [ariaLabel]="
                   field.removeRowLabel ? field.removeRowLabel(i) : 'Remove row ' + (i + 1)
                 "
               >
-                <mat-icon>delete</mat-icon>
-              </button>
+                <mat-icon aria-hidden="true">delete</mat-icon>
+              </shared-icon-button>
             }
           </td>
         </tr>
@@ -65,14 +69,15 @@
   </table>
 
   <div class="table-actions">
-    <button
-      mat-raised-button
+    <shared-icon-button
+      tone="primary"
+      appearance="filled"
       type="button"
-      (click)="addRow()"
-      [attr.aria-label]="field.addRowLabel || 'Add row'"
+      (activated)="addRow()"
+      [ariaLabel]="field.addRowLabel || 'Add row'"
       [disabled]="addDisabled"
     >
-      <mat-icon>add</mat-icon>
-    </button>
+      <mat-icon aria-hidden="true">add</mat-icon>
+    </shared-icon-button>
   </div>
 </div>

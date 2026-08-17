@@ -4,6 +4,7 @@
     [formControlName]="field.key"
     [placeholder]="field.placeholder || 'Wybierz opcje...'"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
     multiple
   >
     @for (option of field.options || []; track option.key) {
