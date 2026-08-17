@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.shared-form-completion {
+  display: grid;
+  gap: var(--shared-ui-spacing-xs, 0.25rem);
+  margin-block-end: var(--shared-ui-spacing-md, 1rem);
+  color: var(--shared-ui-color-text, #1a1d24);
+}
+
+.shared-form-completion__heading {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  font-weight: 600;
+}
+
+.shared-form-completion progress {
+  inline-size: 100%;
+  block-size: 0.75rem;
+  accent-color: var(--shared-ui-color-success, #067647);
+}
+
+.shared-form-completion__summary {
+  color: var(--shared-ui-color-text-muted, #475467);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+@media (forced-colors: active) {
+  .shared-form-completion progress {
+    forced-color-adjust: auto;
+  }
+}

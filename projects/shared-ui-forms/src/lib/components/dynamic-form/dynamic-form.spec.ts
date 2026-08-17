@@ -144,4 +144,24 @@ describe('DynamicFormComponent', () => {
     expect(component.form.get('table') instanceof FormArray).toBeTrue();
     expect(Object.keys(component.form.controls).length).toBe(11);
   });
+
+  it('excludes permission-denied required fields from form guidance', () => {
+    const component = createComponent();
+    component.config = {
+      fields: [
+        { key: 'name', label: 'Name', type: 'text', validators: [Validators.required] },
+        {
+          key: 'secret',
+          label: 'Secret',
+          type: 'text',
+          validators: [Validators.required],
+          access: { all: ['admin.read'] },
+        },
+      ],
+    };
+
+    component.ngOnInit();
+
+    expect(component.getGuidanceFields().map((field) => field.key)).toEqual(['name']);
+  });
 });

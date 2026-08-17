@@ -1,12 +1,14 @@
 <div [formGroup]="formGroup" class="file-input-container">
   <input
     type="file"
+    [id]="field.key"
     class="hidden-file-input"
     #fileInput
     (change)="onFileSelected($event)"
     [accept]="field.acceptedFileTypes || '*/*'"
     [disabled]="disabled"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
   />
 
   <div class="file-input-controls">
@@ -16,6 +18,7 @@
       (activated)="fileInput.click()"
       [disabled]="disabled"
       [ariaLabel]="field.ariaLabel || field.label"
+      [ariaDescribedBy]="ariaDescribedBy || undefined"
     >
       <mat-icon sharedButtonIcon aria-hidden="true">attach_file</mat-icon>
       {{ field.placeholder || 'Wybierz plik' }}

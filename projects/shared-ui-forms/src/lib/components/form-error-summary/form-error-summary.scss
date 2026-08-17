@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+.shared-form-error-summary {
+  margin-block-end: var(--shared-ui-spacing-md, 1rem);
+  padding: var(--shared-ui-spacing-md, 1rem);
+  border: 2px solid var(--shared-ui-color-danger, #b42318);
+  border-radius: var(--shared-ui-radius-md, 0.5rem);
+  background: color-mix(in srgb, var(--shared-ui-color-danger, #b42318) 8%, transparent);
+  color: var(--shared-ui-color-text, #1a1d24);
+}
+
+.shared-form-error-summary:focus {
+  outline: 3px solid var(--shared-ui-color-focus, #004eeb);
+  outline-offset: 2px;
+}
+
+.shared-form-error-summary h2 {
+  margin-block: 0 var(--shared-ui-spacing-xs, 0.25rem);
+  font-size: 1.125rem;
+}
+
+.shared-form-error-summary p {
+  margin-block: 0 var(--shared-ui-spacing-sm, 0.5rem);
+}
+
+.shared-form-error-summary ul {
+  margin-block: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.shared-form-error-summary li + li {
+  margin-block-start: var(--shared-ui-spacing-xs, 0.25rem);
+}
+
+.shared-form-error-summary a {
+  color: var(--shared-ui-color-danger, #b42318);
+  overflow-wrap: anywhere;
+}
+
+.shared-form-error-summary a:focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus, #004eeb);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .shared-form-error-summary {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .shared-form-error-summary a {
+    color: LinkText;
+  }
+}

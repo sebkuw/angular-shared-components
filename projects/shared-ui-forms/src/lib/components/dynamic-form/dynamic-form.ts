@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -10,6 +11,7 @@ import {
   Output,
   SimpleChanges,
   Optional,
+  ViewChild,
 } from '@angular/core';
 import {
   AccessRule,
@@ -26,6 +28,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
   ValidatorFn,
 } from '@angular/forms';
 import { ButtonComponent } from '@sebkuw/shared-ui-primitives';
@@ -38,6 +41,11 @@ import {
   FormFieldVisibilityLogic,
 } from '../../models/form-field.interface';
 import { CastPipe } from '../../pipes/cast.pipe';
+import { FormCompletionIndicatorComponent } from '../form-completion-indicator/form-completion-indicator';
+import { FormCompletionField } from '../form-completion-indicator/form-completion-indicator.models';
+import { FormErrorSummaryComponent } from '../form-error-summary/form-error-summary';
+import { FormErrorSummaryField } from '../form-error-summary/form-error-summary.models';
+import { FormFieldShellComponent } from '../form-field-shell/form-field-shell';
 import { FormCheckboxComponent } from '../form-controls/form-checkbox/form-checkbox';
 import { FormDateComponent } from '../form-controls/form-date/form-date';
 import { FormFileComponent } from '../form-controls/form-file/form-file';
@@ -56,6 +64,9 @@ import { FormTextareaComponent } from '../form-controls/form-textarea/form-texta
     CommonModule,
     ReactiveFormsModule,
     ButtonComponent,
+    FormFieldShellComponent,
+    FormErrorSummaryComponent,
+    FormCompletionIndicatorComponent,
     FormCheckboxComponent,
     FormDateComponent,
     FormFileComponent,
@@ -86,7 +97,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() inaccessibleBehavior: InaccessibleBehavior = 'hide';
   @Output() formSubmit = new EventEmitter<Record<string, unknown>>();
 
+  @ViewChild(FormErrorSummaryComponent) private errorSummary?: FormErrorSummaryComponent;
+
   form: FormGroup = new FormGroup({});
+  submittedWithErrors = false;
   private formSnapshot: Record<string, unknown> = {};
   private conditionalSubscriptions = new Subscription();
   private readonly permissionService: Pick<PermissionService, 'canAccess'>;
@@ -94,6 +108,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private readonly fb: FormBuilder,
     @Optional() permissionService?: PermissionService,
+    @Optional() private readonly changeDetectorRef?: ChangeDetectorRef,
   ) {
     this.permissionService = permissionService ?? {
       canAccess: (rule) => evaluateAccess(rule, EMPTY_PERMISSION_CONTEXT),
@@ -227,10 +242,42 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
     this.form.markAllAsTouched();
 
     if (this.form.invalid) {
+      this.submittedWithErrors = true;
+      this.changeDetectorRef?.detectChanges();
+      this.errorSummary?.focus();
       return;
     }
 
+    this.submittedWithErrors = false;
     this.formSubmit.emit(this.form.getRawValue());
+  }
+
+  shouldShowErrorSummary(): boolean {
+    return this.config.guidance?.showErrorSummary !== false && this.submittedWithErrors;
+  }
+
+  shouldShowCompletion(): boolean {
+    return this.config.guidance?.showCompletion === true;
+  }
+
+  getGuidanceFields(): readonly (FormErrorSummaryField & FormCompletionField)[] {
+    return this.config.fields
+      .filter((field) => field.type !== 'spacer' && this.isFieldVisible(field))
+      .map((field) => ({
+        key: field.key,
+        label: field.label,
+        controlId: field.key,
+        errorMessages: field.errorMessages,
+        required: this.isFieldRequired(field),
+      }));
+  }
+
+  isFieldRequired(field: FormField): boolean {
+    const control = this.form.get(field.key);
+    return (
+      !!control &&
+      (control.hasValidator(Validators.required) || control.hasValidator(Validators.requiredTrue))
+    );
   }
 
   /**
@@ -263,6 +310,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, OnDestroy {
     this.conditionalSubscriptions = new Subscription();
 
     this.form = this.buildForm();
+    this.submittedWithErrors = false;
     this.formGroup = this.form;
     this.patchForm(this.initialData);
     this.setupConditionalFieldLogic();

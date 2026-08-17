@@ -255,12 +255,20 @@ export class DemoComponent {
   readonly formConfig: DynamicFormConfig = {
     ariaLabel: 'All field types example form',
     columns: 3,
+    guidance: {
+      showCompletion: true,
+      showErrorSummary: true,
+      completionLabel: 'Required example fields completed',
+      errorSummaryTitle: 'Complete the example form',
+      errorSummaryDescription: 'Use these links to review fields that still need attention.',
+    },
     fields: [
       {
         key: 'name',
         label: 'Name',
         type: 'text',
         placeholder: 'Enter full name',
+        hint: 'Use the name shown on the customer record.',
         autocomplete: 'name',
         validators: [Validators.required],
         errorMessages: { required: 'Name is required.' },

@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added dynamic-form completion progress, shared field shells, associated hints and linked/focus-managed error-summary interactions.
 - Added integrated icon-registry, action-link, icon-link, action-bar, visually-hidden and keyboard skip-link examples with Playwright coverage.
 - Added integration examples for public text, text + image and image-only buttons, a visible required field label, block loading state and all inline alert tones with working action and dismiss interactions.
 - Added a stable local preview at `http://127.0.0.1:4200/` through the standard `npm start`, `npm run dev` and `npm run start:demo` commands.

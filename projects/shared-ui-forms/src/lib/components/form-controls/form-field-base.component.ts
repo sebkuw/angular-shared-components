@@ -1,6 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { FormField } from '../../models/form-field.interface';
+import { resolveFormErrorMessage } from '../../utils/form-error-message';
 
 @Directive()
 export abstract class FormFieldBaseComponent<TField extends FormField = FormField> {
@@ -56,29 +57,11 @@ export abstract class FormFieldBaseComponent<TField extends FormField = FormFiel
       return '';
     }
 
-    const firstErrorKey = Object.keys(control.errors)[0];
+    return resolveFormErrorMessage(control, this.field.errorMessages);
+  }
 
-    if (this.field.errorMessages?.[firstErrorKey]) {
-      return this.field.errorMessages[firstErrorKey];
-    }
-
-    switch (firstErrorKey) {
-      case 'required':
-        return 'This field is required.';
-      case 'email':
-        return 'Please enter a valid email address.';
-      case 'minlength':
-        return `Minimum length is ${control.errors['minlength'].requiredLength}.`;
-      case 'maxlength':
-        return `Maximum length is ${control.errors['maxlength'].requiredLength}.`;
-      case 'matDatepickerParse':
-        return 'Invalid date format.';
-      case 'matDatepickerMin':
-        return 'Date is earlier than allowed.';
-      case 'matDatepickerMax':
-        return 'Date is later than allowed.';
-      default:
-        return 'Validation error.';
-    }
+  /** Ids of supporting text rendered by FormFieldShellComponent. */
+  get ariaDescribedBy(): string | null {
+    return this.field.hint ? `${this.field.key}-hint` : null;
   }
 }

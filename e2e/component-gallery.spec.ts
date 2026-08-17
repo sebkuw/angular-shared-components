@@ -156,7 +156,7 @@ test('renders themed controls without label overlap and exposes every form field
   const form = page.getByRole('form', { name: 'All field types example form' });
   const firstWrapper = form.locator('.form-field-wrapper').first();
   const geometry = await firstWrapper.evaluate((wrapper) => {
-    const label = wrapper.querySelector('.form-label')?.getBoundingClientRect();
+    const label = wrapper.querySelector('shared-field-label label')?.getBoundingClientRect();
     const field = wrapper.querySelector('mat-form-field')?.getBoundingClientRect();
     return { labelBottom: label?.bottom ?? 0, fieldTop: field?.top ?? 0 };
   });
@@ -180,6 +180,26 @@ test('renders themed controls without label overlap and exposes every form field
   });
   expect(submitStyle.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
   expect(submitStyle.borderRadius).toBeGreaterThanOrEqual(8);
+});
+
+test('summarizes form errors and reports required-field completion', async ({ page }) => {
+  const form = page.getByRole('form', { name: 'All field types example form' });
+  const progress = form.getByRole('progressbar', { name: 'Required example fields completed' });
+
+  await expect(progress).toHaveAttribute('value', '0');
+  await expect(form.locator('#name')).toHaveAttribute('aria-describedby', /name-hint/);
+  await form.getByRole('button', { name: 'Save all field type examples' }).click();
+
+  const summary = form.getByRole('alert').filter({ hasText: 'Complete the example form' });
+  await expect(summary).toBeVisible();
+  await expect(summary).toBeFocused();
+  await summary.getByRole('link', { name: /Name:/ }).click();
+  await expect(form.getByLabel('Name', { exact: true })).toBeFocused();
+
+  await form.getByLabel('Name', { exact: true }).fill('Alex Morgan');
+  await expect(progress).toHaveAttribute('value', '50');
+  await form.getByLabel('Email', { exact: true }).fill('alex@example.com');
+  await expect(progress).toHaveAttribute('value', '100');
 });
 
 test('edits details and applies the configured table filters', async ({ page }) => {

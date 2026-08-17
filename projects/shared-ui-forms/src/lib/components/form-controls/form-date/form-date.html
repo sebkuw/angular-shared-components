@@ -9,6 +9,7 @@
     [readonly]="field.readonlyOnEdit && isEditMode"
     [placeholder]="field.placeholder || 'DD.MM.RRRR'"
     [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
   />
 
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

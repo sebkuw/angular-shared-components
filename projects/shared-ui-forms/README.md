@@ -12,11 +12,49 @@ npm install @sebkuw/shared-ui-forms @sebkuw/shared-ui-core @sebkuw/shared-ui-pri
 
 ## Current public API
 
-The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components, typed field/detail configuration models, FormFieldBaseComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
+The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components, typed field/detail configuration models, FormFieldBaseComponent, FormFieldShellComponent, FormErrorSummaryComponent, FormCompletionIndicatorComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
 
 `DynamicFormComponent`, individual fields, details fields and edit/remove actions accept shared `AccessRule` values. Form fields default to removal when denied and can set `inaccessibleBehavior: 'disable'`. Legacy `requiredPermissions` remains supported, but new code should use `access` with the reactive context from `@sebkuw/shared-ui-core`.
 
 Labels, autocomplete tokens, accessible names, file actions and table row actions are typed configuration. Forms expose an accessible form name and collapse to one column on narrow viewports.
+
+`DynamicFormConfig.guidance` can show completion of visible, enabled required fields and a linked error summary after an invalid submit attempt:
+
+```ts
+import { Validators } from '@angular/forms';
+import { type DynamicFormConfig } from '@sebkuw/shared-ui-forms';
+
+const config: DynamicFormConfig = {
+  ariaLabel: 'Customer form',
+  guidance: {
+    showCompletion: true,
+    showErrorSummary: true,
+    completionLabel: 'Required fields completed',
+    errorSummaryTitle: 'Complete the form',
+  },
+  fields: [
+    {
+      key: 'name',
+      label: 'Name',
+      type: 'text',
+      hint: 'Use the legal name.',
+      requiredText: 'Required',
+      validators: [Validators.required],
+      errorMessages: { required: 'Name is required.' },
+    },
+  ],
+};
+```
+
+The submit action stays operable while the form is invalid. Activation marks controls touched, renders the summary and focuses it; its native links then move focus to the selected invalid field. Localize all guidance strings through the configuration.
+
+For custom controls outside `DynamicFormComponent`, `FormFieldShellComponent` exposes stable `hintId`, `errorId`, `characterCountId` and `describedBy` values:
+
+```html
+<shared-form-field-shell #shell controlId="reference" label="Reference" hint="12 characters">
+  <input id="reference" [attr.aria-describedby]="shell.describedBy" />
+</shared-form-field-shell>
+```
 
 Submit, details, file and editable-table row actions use the public button primitives from `@sebkuw/shared-ui-primitives`. Material remains responsible for the form controls themselves. Applications must include an Angular Material theme; the repository demo loads the free `azure-blue` prebuilt theme before the shared semantic tokens.
 

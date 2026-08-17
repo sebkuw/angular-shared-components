@@ -67,6 +67,10 @@ export class FormTableComponent implements OnInit, OnChanges {
     return !!this.field.maxRows && this.rows.length >= this.field.maxRows;
   }
 
+  get ariaDescribedBy(): string | null {
+    return this.field.hint ? `${this.field.key}-hint` : null;
+  }
+
   /**
    * @description Returns a table cell control when it exists and is a FormControl.
    * @param rowGroup Row group.

@@ -1,0 +1,8 @@
+<div class="shared-form-completion" role="status" aria-live="polite" aria-atomic="true">
+  <div class="shared-form-completion__heading">
+    <span>{{ label }}</span>
+    <strong>{{ percentage }}%</strong>
+  </div>
+  <progress [attr.aria-label]="label" [value]="percentage" max="100">{{ percentage }}%</progress>
+  <span class="shared-form-completion__summary">{{ summary }}</span>
+</div>

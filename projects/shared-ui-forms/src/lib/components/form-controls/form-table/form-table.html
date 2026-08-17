@@ -1,5 +1,9 @@
 <div class="dynamic-table">
-  <table>
+  <table
+    [id]="field.key"
+    [attr.aria-label]="field.ariaLabel || field.label"
+    [attr.aria-describedby]="ariaDescribedBy"
+  >
     <thead>
       <tr>
         <th class="iterator-column">{{ field.rowIndexLabel || '#' }}</th>
