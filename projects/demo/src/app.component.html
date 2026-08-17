@@ -96,6 +96,23 @@
         <shared-loading label="Loading primitive example" mode="block" [showLabel]="true" />
       </div>
 
+      <h3>Progress, badges and skeletons</h3>
+      <div class="status-primitives-grid">
+        <div class="badge-example" aria-label="Badge examples">
+          <span>Unread updates <shared-badge [value]="3" tone="negative" /></span>
+          <span>Ready <shared-badge value="New" tone="positive" /></span>
+          <span>
+            Background activity
+            <shared-badge [dot]="true" tone="warning" ariaLabel="Background activity pending" />
+          </span>
+        </div>
+        <shared-progress label="Profile setup" [value]="68" tone="positive" />
+        <div class="skeleton-example">
+          <shared-skeleton label="Loading order preview" variant="rectangle" height="3.5rem" />
+          <shared-skeleton label="Loading order description" [lines]="3" />
+        </div>
+      </div>
+
       <div class="alert-stack" aria-label="Inline alert examples">
         <shared-inline-alert tone="info" title="Information">
           This is an informational inline message placed in the normal page flow.

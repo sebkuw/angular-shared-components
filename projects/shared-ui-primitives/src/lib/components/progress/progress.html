@@ -1,0 +1,19 @@
+<div class="shared-progress" [class]="'shared-progress shared-progress--' + tone">
+  <div class="shared-progress__header">
+    <span class="shared-progress__label">{{ label }}</span>
+    @if (mode === 'determinate' && showValue) {
+      <span class="shared-progress__value" aria-hidden="true">{{ valueText }}</span>
+    }
+  </div>
+  <progress
+    class="shared-progress__control"
+    [attr.aria-label]="label"
+    [attr.aria-valuetext]="mode === 'determinate' ? valueText : null"
+    [attr.value]="mode === 'determinate' ? clampedValue : null"
+    [attr.max]="normalizedMax"
+  >
+    @if (mode === 'determinate') {
+      {{ valueText }}
+    }
+  </progress>
+</div>

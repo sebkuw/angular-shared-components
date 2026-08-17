@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added skeleton, badge and progress examples plus a navigation badge integration scenario.
 - Added cancel-first destructive confirmation, reusable empty/error states and retryable table-state scenarios.
 - Added centralized notification configuration and service usage in place of direct snack-bar setup.
 - Added dynamic-form completion progress, shared field shells, associated hints and linked/focus-managed error-summary interactions.

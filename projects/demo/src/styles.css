@@ -114,6 +114,27 @@ body {
   gap: var(--shared-ui-spacing-sm);
 }
 
+.status-primitives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  align-items: start;
+  gap: var(--shared-ui-spacing-lg);
+  margin-block: var(--shared-ui-spacing-md) var(--shared-ui-spacing-lg);
+}
+
+.badge-example,
+.skeleton-example {
+  display: grid;
+  gap: var(--shared-ui-spacing-sm);
+}
+
+.badge-example > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--shared-ui-spacing-sm);
+}
+
 .form-submit-status {
   margin-block: var(--shared-ui-spacing-md) 0;
   color: var(--shared-ui-color-text-muted);

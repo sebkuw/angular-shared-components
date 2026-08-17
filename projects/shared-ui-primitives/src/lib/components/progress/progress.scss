@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.shared-progress {
+  --shared-progress-color: var(--shared-ui-color-primary, #155eef);
+  display: grid;
+  gap: var(--shared-ui-spacing-xs, 0.25rem);
+  inline-size: 100%;
+  color: var(--shared-ui-color-text, #1a1d24);
+}
+
+.shared-progress--positive {
+  --shared-progress-color: var(--shared-ui-color-success, #067647);
+}
+
+.shared-progress--warning {
+  --shared-progress-color: var(--shared-ui-color-warning, #b54708);
+}
+
+.shared-progress--negative {
+  --shared-progress-color: var(--shared-ui-color-error, #b42318);
+}
+
+.shared-progress__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  min-inline-size: 0;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+}
+
+.shared-progress__label {
+  min-inline-size: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.shared-progress__value {
+  flex: none;
+  color: var(--shared-ui-color-text-muted, #667085);
+  font-variant-numeric: tabular-nums;
+}
+
+.shared-progress__control {
+  display: block;
+  inline-size: 100%;
+  block-size: 0.75rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  accent-color: var(--shared-progress-color);
+}
+
+.shared-progress__control::-webkit-progress-bar {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--shared-ui-color-text-muted, #667085) 18%, transparent);
+}
+
+.shared-progress__control::-webkit-progress-value {
+  border-radius: 999px;
+  background: var(--shared-progress-color);
+}
+
+.shared-progress__control::-moz-progress-bar {
+  border-radius: 999px;
+  background: var(--shared-progress-color);
+}
+
+@media (forced-colors: active) {
+  .shared-progress__control {
+    border: 1px solid ButtonText;
+  }
+}

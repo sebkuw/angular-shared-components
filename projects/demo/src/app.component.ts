@@ -31,6 +31,7 @@ import {
 import {
   ActionBarComponent,
   ActionLinkComponent,
+  BadgeComponent,
   ButtonComponent,
   FieldLabelComponent,
   IconComponent,
@@ -38,6 +39,8 @@ import {
   IconLinkComponent,
   InlineAlertComponent,
   LoadingComponent,
+  ProgressComponent,
+  SkeletonComponent,
   VisuallyHiddenDirective,
 } from '@sebkuw/shared-ui-primitives';
 import { take } from 'rxjs';
@@ -59,7 +62,15 @@ export const permissionContext = signal<PermissionContext>({
 });
 
 export const demoMenu: MenuItem[] = [
-  { id: 'overview', title: 'Overview', icon: 'home', level: 0, route: '/' },
+  {
+    id: 'overview',
+    title: 'Overview',
+    icon: 'home',
+    level: 0,
+    route: '/',
+    ariaLabel: 'Overview, 3 unread updates',
+    badge: { value: 3, tone: 'negative', ariaLabel: '3 unread updates' },
+  },
   {
     id: 'admin',
     title: 'Administration',
@@ -141,10 +152,13 @@ const DEMO_ROWS: DemoRow[] = [
     ActionLinkComponent,
     IconLinkComponent,
     ActionBarComponent,
+    BadgeComponent,
     IconComponent,
     IconButtonComponent,
     FieldLabelComponent,
     LoadingComponent,
+    ProgressComponent,
+    SkeletonComponent,
     InlineAlertComponent,
     EmptyStateComponent,
     VisuallyHiddenDirective,

@@ -1,0 +1,23 @@
+<div
+  class="shared-skeleton"
+  role="status"
+  aria-live="polite"
+  aria-busy="true"
+  [attr.aria-label]="label"
+>
+  @for (line of lineItems; track line) {
+    <span
+      class="shared-skeleton__shape"
+      aria-hidden="true"
+      [class.shared-skeleton__shape--text]="variant === 'text'"
+      [class.shared-skeleton__shape--rectangle]="variant === 'rectangle'"
+      [class.shared-skeleton__shape--circle]="variant === 'circle'"
+      [class.shared-skeleton__shape--animated]="animated"
+      [class.shared-skeleton__shape--last-line]="
+        variant === 'text' && lineItems.length > 1 && line === lineItems.length - 1
+      "
+      [style.inline-size]="width"
+      [style.block-size]="resolvedHeight"
+    ></span>
+  }
+</div>

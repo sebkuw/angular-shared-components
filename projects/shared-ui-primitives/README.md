@@ -24,6 +24,9 @@ Include `@sebkuw/shared-ui-theme/styles/tokens.css` and apply `netdevs-shared-ui
 | `FieldLabelComponent`                                                                                                                                       | Visible native field label with optional required marker.           |
 | `LoadingComponent`                                                                                                                                          | Inline, block or overlay loading status.                            |
 | `InlineAlertComponent`                                                                                                                                      | Inline info, success, warning or error message.                     |
+| `SkeletonComponent`                                                                                                                                         | Text, rectangular or circular loading placeholders.                 |
+| `BadgeComponent`                                                                                                                                            | Counts, short statuses and notification dots.                       |
+| `ProgressComponent`                                                                                                                                         | Determinate or indeterminate native progress indicator.             |
 | `ButtonTone`, `ButtonAppearance`, `ButtonSize`, `ButtonType`, `IconPosition`, `IconSize`, `LoadingMode`, `LoadingSize`, `InlineAlertTone`, `LivePoliteness` | Typed configuration contracts.                                      |
 
 ## Buttons
@@ -100,6 +103,19 @@ The component renders a visible native `label`. Keep the control's native `requi
 ```
 
 `mode` accepts `inline`, `block` or `overlay`. An overlay positions itself over its nearest positioned ancestor. The indicator uses `role="status"`, a polite live region and reduced-motion/forced-colors adaptations.
+
+## Skeleton, badge and progress
+
+```html
+<shared-skeleton label="Loading invoice" variant="rectangle" height="6rem" />
+<shared-skeleton label="Loading invoice lines" [lines]="3" />
+
+<shared-badge [value]="unreadCount" [max]="99" tone="negative" ariaLabel="Unread notifications" />
+
+<shared-progress label="Upload progress" [value]="uploaded" [max]="total" tone="positive" />
+```
+
+Skeletons are marked busy, stop shimmering for reduced-motion users and adapt to forced colors. Badges hide empty/zero values by default, can render a dot, cap numeric counts and optionally announce updates; an unnamed dot is decorative. Progress uses the native `progress` element, clamps invalid values and accepts a localized `formatValue` callback. Set `mode="indeterminate"` when the amount of completed work is unknown.
 
 ## Inline alert
 

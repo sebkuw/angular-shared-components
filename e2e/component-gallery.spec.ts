@@ -69,6 +69,12 @@ test('demonstrates every public primitive and its interactions', async ({ page }
   ).toBeVisible();
   await expect(primitives.getByLabel('Visible order reference label')).toBeVisible();
   await expect(primitives.getByRole('status', { name: 'Loading primitive example' })).toBeVisible();
+  await expect(primitives.getByRole('progressbar', { name: 'Profile setup' })).toHaveAttribute(
+    'value',
+    '68',
+  );
+  await expect(primitives.getByRole('status', { name: 'Loading order preview' })).toBeVisible();
+  await expect(primitives.getByText('Unread updates')).toContainText('3');
 
   await primitives.getByRole('button', { name: 'Save changes' }).click();
   await expect(page.locator('#primitive-action-status')).toContainText('Positive Save action');
@@ -148,6 +154,13 @@ test('uses semantic action links, icon registry and a grouped action bar', async
     'href',
     '#table-heading',
   );
+});
+
+test('renders a configured badge in the navigation menu', async ({ page }) => {
+  const overview = page.getByRole('link', { name: 'Overview, 3 unread updates' });
+
+  await expect(overview).toBeVisible();
+  await expect(overview.locator('shared-badge')).toContainText('3');
 });
 
 test('renders themed controls without label overlap and exposes every form field kind', async ({

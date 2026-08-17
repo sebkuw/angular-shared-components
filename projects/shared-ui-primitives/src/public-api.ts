@@ -13,4 +13,7 @@ export * from './lib/components/action-bar/action-bar';
 export * from './lib/components/field-label/field-label';
 export * from './lib/components/loading/loading';
 export * from './lib/components/inline-alert/inline-alert';
+export * from './lib/components/skeleton/skeleton';
+export * from './lib/components/badge/badge';
+export * from './lib/components/progress/progress';
 export * from './lib/directives/visually-hidden/visually-hidden';

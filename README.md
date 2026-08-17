@@ -45,7 +45,7 @@ All contributions must preserve Angular 20 compatibility, use only approved free
 | `@sebkuw/shared-ui-list`       | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
 | `@sebkuw/shared-ui-layout`     | Application layout components: page header and side menu.                                      |
 | `@sebkuw/shared-ui-feedback`   | Dialogs, notifications, confirmations and reusable empty/error states.                         |
-| `@sebkuw/shared-ui-primitives` | Accessible buttons, field labels, loading indicators and inline alerts.                        |
+| `@sebkuw/shared-ui-primitives` | Accessible actions, icons, labels, loading, badges, progress and inline alerts.                |
 
 ## Requirements
 
@@ -599,6 +599,9 @@ Current exports:
 | `FieldLabelComponent`  | Visible native field label with a configurable required marker.                              |
 | `LoadingComponent`     | Accessible inline, block or overlay loading status.                                          |
 | `InlineAlertComponent` | Inline info, success, warning and error messages with optional actions.                      |
+| `SkeletonComponent`    | Reduced-motion-aware text, rectangle and circle placeholders.                                |
+| `BadgeComponent`       | Configurable counts, statuses and notification dots.                                         |
+| `ProgressComponent`    | Determinate and indeterminate native progress indicator.                                     |
 
 Install:
 

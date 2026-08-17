@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Added public skeleton, badge and progress primitives, including typed menu-badge integration and demo coverage.
 - Added reusable empty/error states, a focus-managed destructive confirmation service and centralized notification defaults/service, with dynamic-table and demo integration.
 - Added shared form-field shell, linked error-summary and required-field completion components and integrated them with dynamic forms and the demo.
 - Added icon-registry, semantic link, responsive action-bar, visually-hidden and skip-link foundations with unit, public API, demo and keyboard E2E coverage.
@@ -24,6 +25,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Limited local Playwright concurrency to four workers to avoid exhausting development-server WebSocket buffers as the gallery suite grows.
 - Normalized repository source, configuration, documentation and agent files to the enforced Prettier style so the global formatting check succeeds on a clean checkout.
 - Migrated standard actions across forms, lists, page headers, feedback and the demo to `ButtonComponent`, `IconButtonComponent` and `LoadingComponent`; native/Material buttons remain only for menu, sortable-header and navigation-row semantics.
 - Changed every public npm package coordinate from `@netdevs/shared-ui-*` to `@sebkuw/shared-ui-*`. Consumers must replace the old package names in dependencies, imports and stylesheet paths. The new GitHub Packages coordinates begin their own version history at `0.0.1`.

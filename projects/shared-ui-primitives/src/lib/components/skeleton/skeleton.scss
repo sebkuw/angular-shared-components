@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  max-inline-size: 100%;
+}
+
+.shared-skeleton {
+  display: grid;
+  max-inline-size: 100%;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+}
+
+.shared-skeleton__shape {
+  display: block;
+  max-inline-size: 100%;
+  border-radius: var(--shared-ui-radius-md, 0.5rem);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--shared-ui-color-text-muted, #667085) 14%, transparent) 25%,
+    color-mix(in srgb, var(--shared-ui-color-text-muted, #667085) 25%, transparent) 50%,
+    color-mix(in srgb, var(--shared-ui-color-text-muted, #667085) 14%, transparent) 75%
+  );
+  background-size: 200% 100%;
+}
+
+.shared-skeleton__shape--text {
+  border-radius: var(--shared-ui-radius-sm, 0.25rem);
+}
+
+.shared-skeleton__shape--circle {
+  flex: none;
+  border-radius: 50%;
+}
+
+.shared-skeleton__shape--last-line {
+  inline-size: min(70%, 32rem) !important;
+}
+
+.shared-skeleton__shape--animated {
+  animation: shared-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shared-skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shared-skeleton__shape--animated {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .shared-skeleton__shape {
+    border: 1px solid GrayText;
+    background: Canvas;
+  }
+}

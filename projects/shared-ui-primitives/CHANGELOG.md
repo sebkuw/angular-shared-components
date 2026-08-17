@@ -6,6 +6,7 @@ All notable changes to `@sebkuw/shared-ui-primitives` are documented in this fil
 
 ### Added
 
+- Added accessible skeleton placeholders, configurable badges and determinate/indeterminate progress indicators.
 - Added a configurable icon registry and `IconComponent` supporting safe image URLs, projected icons, semantic sizes and decorative or named accessibility modes.
 - Added native-anchor `ActionLinkComponent` and `IconLinkComponent`, a responsive `ActionBarComponent` and `VisuallyHiddenDirective`.
 - Added configurable public button and image-only icon button components with positive, negative, primary and neutral tones, loading states and permission-aware inaccessible behaviors.
