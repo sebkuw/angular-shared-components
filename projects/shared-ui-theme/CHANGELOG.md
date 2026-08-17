@@ -4,6 +4,8 @@ All notable changes to `@sebkuw/shared-ui-theme` are documented in this file. Th
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-17
+
 ### Added
 
 - Added semantic warning plus danger, success, info and warning contrast tokens for buttons and inline feedback in light, dark and forced-colors modes.

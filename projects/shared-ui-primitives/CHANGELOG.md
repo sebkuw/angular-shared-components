@@ -4,6 +4,8 @@ All notable changes to `@sebkuw/shared-ui-primitives` are documented in this fil
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-17
+
 ### Added
 
 - Added accessible skeleton placeholders, configurable badges and determinate/indeterminate progress indicators.

@@ -4,6 +4,8 @@ All notable changes to `@sebkuw/shared-ui-layout` are documented in this file. T
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-17
+
 ### Added
 
 - Added typed badge configuration to menu items and responsive badge rendering in expanded and collapsed navigation.

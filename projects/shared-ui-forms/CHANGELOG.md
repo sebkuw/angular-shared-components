@@ -4,6 +4,8 @@ All notable changes to `@sebkuw/shared-ui-forms` are documented in this file. Th
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-17
+
 ### Added
 
 - Added `FormFieldShellComponent` for visible labels, required markers, hints, errors, stable ARIA ids and character counts.

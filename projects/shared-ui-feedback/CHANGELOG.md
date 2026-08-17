@@ -4,6 +4,8 @@ All notable changes to `@sebkuw/shared-ui-feedback` are documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-17
+
 ### Added
 
 - Added configurable empty and error states with optional icons, accessible announcements and access-aware actions.

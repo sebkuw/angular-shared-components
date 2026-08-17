@@ -4,6 +4,8 @@ All notable changes to `@sebkuw/shared-ui-list` are documented in this file. The
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-17
+
 ### Added
 
 - Added configurable empty and error states, retry/empty actions and an error signal to `DynamicTableComponent`.

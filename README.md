@@ -722,7 +722,7 @@ Before creating a release:
 4. Run `npm run build` and then `npm test` locally so public-package import tests use fresh `dist` artifacts.
 5. Push the commit, create a matching GitHub tag/release, and publish the release.
 
-The first release can use version and tag `0.0.1`. Published npm versions are immutable, so every later release must use a new version.
+The packages are prepared in lockstep at version `0.1.0`. Published npm versions are immutable, so every later release must use a new version and matching tag.
 
 ## Versioning
 
