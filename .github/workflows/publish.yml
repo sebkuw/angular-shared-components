@@ -3,6 +3,7 @@ name: Publish GitHub Packages
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,13 +39,33 @@ jobs:
         run: npm test
 
       - name: Publish libraries
+        shell: bash
         run: |
-          npm publish ./dist/shared-ui-core
-          npm publish ./dist/shared-ui-theme
-          npm publish ./dist/shared-ui-primitives
-          npm publish ./dist/shared-ui-forms
-          npm publish ./dist/shared-ui-feedback
-          npm publish ./dist/shared-ui-list
-          npm publish ./dist/shared-ui-layout
+          publish_if_missing() {
+            local package_dir="$1"
+            local package_name
+            local package_version
+            local package_spec
+
+            package_name="$(node -p "require('./${package_dir}/package.json').name")"
+            package_version="$(node -p "require('./${package_dir}/package.json').version")"
+            package_spec="${package_name}@${package_version}"
+
+            if npm view "${package_spec}" version --registry=https://npm.pkg.github.com >/dev/null 2>&1; then
+              echo "Skipping ${package_spec}: version already exists."
+              return
+            fi
+
+            echo "Publishing ${package_spec}."
+            npm publish "./${package_dir}"
+          }
+
+          publish_if_missing dist/shared-ui-core
+          publish_if_missing dist/shared-ui-theme
+          publish_if_missing dist/shared-ui-primitives
+          publish_if_missing dist/shared-ui-forms
+          publish_if_missing dist/shared-ui-feedback
+          publish_if_missing dist/shared-ui-list
+          publish_if_missing dist/shared-ui-layout
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

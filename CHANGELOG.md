@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Fixed
+
+- Made the GitHub Packages workflow manually dispatchable and idempotent so existing package versions are skipped instead of blocking publication of later libraries.
+
 ### Added
 
 - Added a general-purpose accessible popover/dropdown primitive with projected triggers and content, Angular CDK positioning, unit/public API tests and demo/E2E coverage.
