@@ -602,11 +602,12 @@ Current exports:
 | `SkeletonComponent`    | Reduced-motion-aware text, rectangle and circle placeholders.                                |
 | `BadgeComponent`       | Configurable counts, statuses and notification dots.                                         |
 | `ProgressComponent`    | Determinate and indeterminate native progress indicator.                                     |
+| `PopoverComponent`     | Accessible projected popover/dropdown with viewport-aware placement and focus restoration.   |
 
 Install:
 
 ```bash
-npm install @sebkuw/shared-ui-primitives @sebkuw/shared-ui-core
+npm install @sebkuw/shared-ui-primitives @sebkuw/shared-ui-core @angular/cdk
 ```
 
 Use:
@@ -615,6 +616,10 @@ Use:
 <shared-button tone="positive" (activated)="save()">Save</shared-button>
 <shared-button tone="negative" appearance="outlined" (activated)="remove()"> Remove </shared-button>
 <shared-icon-button iconSrc="/icons/refresh.svg" ariaLabel="Refresh results" />
+<shared-popover ariaLabel="Notification options">
+  <button sharedPopoverTrigger type="button">Notifications</button>
+  <p>Three updates are ready.</p>
+</shared-popover>
 ```
 
 `ButtonComponent` also accepts `iconSrc`, so text + icon does not need a third component. See the [package README](projects/shared-ui-primitives/README.md) for loading, labels, alerts, permissions/claims, accessibility, responsive behavior, theming, i18n/RTL, SSR and testing details.

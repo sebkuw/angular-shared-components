@@ -16,4 +16,7 @@ export * from './lib/components/inline-alert/inline-alert';
 export * from './lib/components/skeleton/skeleton';
 export * from './lib/components/badge/badge';
 export * from './lib/components/progress/progress';
+export * from './lib/components/popover/popover.models';
+export * from './lib/components/popover/popover-trigger';
+export * from './lib/components/popover/popover';
 export * from './lib/directives/visually-hidden/visually-hidden';

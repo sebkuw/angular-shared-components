@@ -113,6 +113,18 @@
         </div>
       </div>
 
+      <h3>Popover</h3>
+      <div class="popover-example">
+        <shared-popover ariaLabel="Notification summary" [matchTriggerWidth]="true">
+          <button class="demo-popover-trigger" sharedPopoverTrigger type="button">
+            Notifications <shared-badge [value]="3" tone="negative" />
+          </button>
+          <h4>Recent notifications</h4>
+          <p>Three updates are ready. This panel can reflow within a 320 px viewport.</p>
+          <a href="#table-heading">Review updated orders</a>
+        </shared-popover>
+      </div>
+
       <div class="alert-stack" aria-label="Inline alert examples">
         <shared-inline-alert tone="info" title="Information">
           This is an informational inline message placed in the normal page flow.

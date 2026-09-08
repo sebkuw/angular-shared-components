@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Added a general-purpose accessible popover/dropdown primitive with projected triggers and content, Angular CDK positioning, unit/public API tests and demo/E2E coverage.
+
+### Changed
+
+- Bumped `@sebkuw/shared-ui-primitives` to `0.2.0` for the new public API.
+
 ## [0.1.0] - 2026-08-17
 
 ### Added

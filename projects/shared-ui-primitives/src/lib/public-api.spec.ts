@@ -9,6 +9,8 @@ import {
   IconLinkComponent,
   InlineAlertComponent,
   LoadingComponent,
+  PopoverComponent,
+  PopoverTriggerDirective,
   ProgressComponent,
   provideSharedIcons,
   SHARED_ICON_REGISTRY,
@@ -30,6 +32,8 @@ describe('shared-ui-primitives public API', () => {
     expect(SkeletonComponent).toBeDefined();
     expect(BadgeComponent).toBeDefined();
     expect(ProgressComponent).toBeDefined();
+    expect(PopoverComponent).toBeDefined();
+    expect(PopoverTriggerDirective).toBeDefined();
     expect(VisuallyHiddenDirective).toBeDefined();
     expect(SHARED_ICON_REGISTRY).toBeDefined();
     expect(provideSharedIcons).toBeDefined();

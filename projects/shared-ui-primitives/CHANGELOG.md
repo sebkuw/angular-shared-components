@@ -4,6 +4,14 @@ All notable changes to `@sebkuw/shared-ui-primitives` are documented in this fil
 
 ## [Unreleased]
 
+### Added
+
+- Added `PopoverComponent` and `PopoverTriggerDirective` with projected content, dialog/menu semantics, viewport-aware placement, outside-click and Escape dismissal, focus restoration, responsive styling, public API tests and demo/E2E coverage.
+
+### Changed
+
+- Bumped `@sebkuw/shared-ui-primitives` to `0.2.0` and declared Angular CDK as a peer dependency for overlay positioning.
+
 ## [0.1.0] - 2026-08-17
 
 ### Added

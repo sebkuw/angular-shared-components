@@ -7,7 +7,7 @@ Small, reusable Angular 20 UI primitives for application and shared-library inte
 Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package and its core peer:
 
 ```bash
-npm install @sebkuw/shared-ui-primitives @sebkuw/shared-ui-core
+npm install @sebkuw/shared-ui-primitives @sebkuw/shared-ui-core @angular/cdk
 ```
 
 Include `@sebkuw/shared-ui-theme/styles/tokens.css` and apply `netdevs-shared-ui-theme` to the application shell for the default theme. Every component also provides safe CSS fallbacks.
@@ -27,6 +27,7 @@ Include `@sebkuw/shared-ui-theme/styles/tokens.css` and apply `netdevs-shared-ui
 | `SkeletonComponent`                                                                                                                                         | Text, rectangular or circular loading placeholders.                 |
 | `BadgeComponent`                                                                                                                                            | Counts, short statuses and notification dots.                       |
 | `ProgressComponent`                                                                                                                                         | Determinate or indeterminate native progress indicator.             |
+| `PopoverComponent`, `PopoverTriggerDirective`                                                                                                               | Positioned popover/dropdown with projected trigger and content.     |
 | `ButtonTone`, `ButtonAppearance`, `ButtonSize`, `ButtonType`, `IconPosition`, `IconSize`, `LoadingMode`, `LoadingSize`, `InlineAlertTone`, `LivePoliteness` | Typed configuration contracts.                                      |
 
 ## Buttons
@@ -116,6 +117,18 @@ The component renders a visible native `label`. Keep the control's native `requi
 ```
 
 Skeletons are marked busy, stop shimmering for reduced-motion users and adapt to forced colors. Badges hide empty/zero values by default, can render a dot, cap numeric counts and optionally announce updates; an unnamed dot is decorative. Progress uses the native `progress` element, clamps invalid values and accepts a localized `formatValue` callback. Set `mode="indeterminate"` when the amount of completed work is unknown.
+
+## Popover and dropdown
+
+```html
+<shared-popover ariaLabel="Notification options" placement="bottom">
+  <button sharedPopoverTrigger type="button">Notifications</button>
+  <h2>Notifications</h2>
+  <p>Three updates are ready.</p>
+</shared-popover>
+```
+
+The projected trigger should be a native button (or another element with equivalent keyboard semantics). The directive keeps `aria-expanded`, `aria-controls` and `aria-haspopup` synchronized. The panel closes on Escape or an outside click and restores focus to the trigger. Set `role="menu"` only when the projected content follows the WAI-ARIA menu pattern; the default `dialog` role is appropriate for ordinary interactive content. `placement` accepts `top`, `bottom`, `start` and `end`, each with viewport-aware fallbacks. `matchTriggerWidth`, `autoFocus`, `closeOnPanelClick`, `disabled` and `panelClass` configure behavior without domain assumptions. The overlay is bounded to the viewport, supports RTL logical placement, long translations and 320 CSS px reflow, and remains SSR-safe through Angular CDK.
 
 ## Inline alert
 
