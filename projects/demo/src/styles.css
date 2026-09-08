@@ -135,6 +135,29 @@ body {
   gap: var(--shared-ui-spacing-sm);
 }
 
+.popover-example {
+  margin-block: var(--shared-ui-spacing-md) var(--shared-ui-spacing-lg);
+}
+
+.demo-popover-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--shared-ui-spacing-sm);
+  min-block-size: 2.75rem;
+  padding-inline: var(--shared-ui-spacing-md);
+  border: 1px solid var(--shared-ui-color-border);
+  border-radius: var(--shared-ui-radius-md);
+  background: var(--shared-ui-color-surface);
+  color: var(--shared-ui-color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.demo-popover-trigger:focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus);
+  outline-offset: 2px;
+}
+
 .form-submit-status {
   margin-block: var(--shared-ui-spacing-md) 0;
   color: var(--shared-ui-color-text-muted);

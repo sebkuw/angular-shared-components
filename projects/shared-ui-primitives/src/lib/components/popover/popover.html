@@ -1,0 +1,30 @@
+<span class="shared-popover__trigger" cdkOverlayOrigin #origin="cdkOverlayOrigin">
+  <ng-content select="[sharedPopoverTrigger]" />
+</span>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="openState()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayViewportMargin]="8"
+  [cdkConnectedOverlayHasBackdrop]="false"
+  (overlayOutsideClick)="close(true)"
+  (overlayKeydown)="onOverlayKeydown($event)"
+  (detach)="close(false)"
+>
+  <div
+    #panel
+    class="shared-popover__panel"
+    [class]="'shared-popover__panel ' + panelClass"
+    [style.min-width.px]="panelMinWidth"
+    [id]="panelId"
+    [attr.role]="role"
+    [attr.aria-label]="ariaLabel"
+    tabindex="-1"
+    (click)="onPanelClick()"
+  >
+    <ng-content />
+  </div>
+</ng-template>

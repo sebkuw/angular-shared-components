@@ -163,6 +163,22 @@ test('renders a configured badge in the navigation menu', async ({ page }) => {
   await expect(overview.locator('shared-badge')).toContainText('3');
 });
 
+test('opens and dismisses the popover with accessible keyboard behavior', async ({ page }) => {
+  const trigger = page.getByRole('button', { name: /Notifications 3/ });
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+
+  const popover = page.getByRole('dialog', { name: 'Notification summary' });
+  await expect(popover).toBeVisible();
+  await expect(popover).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+  await page.keyboard.press('Escape');
+  await expect(popover).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+});
+
 test('renders themed controls without label overlap and exposes every form field kind', async ({
   page,
 }) => {

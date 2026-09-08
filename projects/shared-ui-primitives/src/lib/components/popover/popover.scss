@@ -1,0 +1,35 @@
+:host {
+  display: inline-block;
+  max-inline-size: 100%;
+}
+
+.shared-popover__trigger {
+  display: inline-flex;
+  max-inline-size: 100%;
+}
+
+.shared-popover__panel {
+  box-sizing: border-box;
+  max-inline-size: min(24rem, calc(100vw - 1rem));
+  max-block-size: min(32rem, calc(100vh - 1rem));
+  overflow: auto;
+  padding: var(--shared-ui-spacing-md, 1rem);
+  border: 1px solid var(--shared-ui-color-border, #d0d5dd);
+  border-radius: var(--shared-ui-radius-md, 0.5rem);
+  background: var(--shared-ui-color-surface, #fff);
+  color: var(--shared-ui-color-text, #101828);
+  box-shadow: 0 0.75rem 2rem rgb(16 24 40 / 18%);
+  outline: none;
+}
+
+.shared-popover__panel:focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus, #1570ef);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .shared-popover__panel {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+}
