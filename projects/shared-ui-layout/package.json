@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-layout",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Responsive page structure and navigation components for Angular applications.",
   "license": "MIT",
   "repository": {
@@ -19,8 +19,8 @@
     "@angular/router": "^20.3.0",
     "@angular/material": "^20.2.14",
     "@angular/cdk": "^20.2.14",
-    "@sebkuw/shared-ui-core": "^0.1.0",
-    "@sebkuw/shared-ui-primitives": "^0.1.0"
+    "@sebkuw/shared-ui-core": "^0.2.1",
+    "@sebkuw/shared-ui-primitives": "^0.2.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"

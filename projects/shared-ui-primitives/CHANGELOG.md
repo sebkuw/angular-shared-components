@@ -10,6 +10,7 @@ All notable changes to `@sebkuw/shared-ui-primitives` are documented in this fil
 
 ### Changed
 
+- Bumped the package and its `@sebkuw/shared-ui-core` peer dependency to `0.2.1` for the synchronized GitHub Packages release.
 - Bumped `@sebkuw/shared-ui-primitives` to `0.2.0` and declared Angular CDK as a peer dependency for overlay positioning.
 
 ## [0.1.0] - 2026-08-17

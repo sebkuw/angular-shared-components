@@ -4,6 +4,10 @@ All notable changes to `@sebkuw/shared-ui-core` are documented in this file. The
 
 ## [Unreleased]
 
+### Changed
+
+- Bumped the package to `0.2.1` for the synchronized GitHub Packages release.
+
 ## [0.1.0] - 2026-08-17
 
 ### Added

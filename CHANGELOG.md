@@ -16,6 +16,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Aligned all seven `@sebkuw/shared-ui-*` package versions and their internal peer dependency ranges at `0.2.1` for a consistent GitHub Packages release.
 - Bumped `@sebkuw/shared-ui-primitives` to `0.2.0` for the new public API.
 
 ## [0.1.0] - 2026-08-17
