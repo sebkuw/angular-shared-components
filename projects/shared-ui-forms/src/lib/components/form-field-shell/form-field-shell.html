@@ -1,6 +1,7 @@
 <div class="shared-form-field-shell" [class.shared-form-field-shell--invalid]="!!error">
   @if (showLabel) {
     <shared-field-label
+      [id]="labelId"
       [forId]="controlId"
       [text]="label"
       [required]="required"

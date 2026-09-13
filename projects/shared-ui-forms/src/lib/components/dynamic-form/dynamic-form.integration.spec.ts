@@ -32,6 +32,13 @@ class DynamicFormHostComponent {
         type: 'email',
         validators: [Validators.required, Validators.email],
       },
+      {
+        key: 'template',
+        label: 'Szablon',
+        type: 'select',
+        placeholder: 'Wybierz opcję...',
+        options: [{ key: 'default', value: 'Domyślny' }],
+      },
     ],
     submitButton: { labelCreate: 'Continue' },
   };
@@ -58,6 +65,21 @@ describe('DynamicFormComponent integration', () => {
     expect(fixture.nativeElement.querySelector('#name-hint').textContent).toContain(
       'Enter the legal name.',
     );
+  });
+
+  it('names the select combobox from its visible label instead of its placeholder', () => {
+    const combobox = fixture.nativeElement.querySelector(
+      '#template[role="combobox"]',
+    ) as HTMLElement;
+    const labelledBy = combobox.getAttribute('aria-labelledby')?.trim().split(/\s+/) ?? [];
+    const accessibleName = labelledBy
+      .map((id) => document.getElementById(id)?.textContent?.trim() ?? '')
+      .filter(Boolean)
+      .join(' ');
+
+    expect(labelledBy).toContain('template-label');
+    expect(accessibleName).toBe('Szablon');
+    expect(accessibleName).not.toContain('Wybierz opcję...');
   });
 
   it('keeps submit available and focuses a linked summary after an invalid attempt', () => {

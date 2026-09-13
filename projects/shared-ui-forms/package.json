@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-forms",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Configurable dynamic forms, details views and form controls for Angular applications.",
   "license": "MIT",
   "repository": {

@@ -192,6 +192,7 @@ test('renders themed controls without label overlap and exposes every form field
 
   expect(geometry.labelBottom).toBeLessThan(geometry.fieldTop);
   await expect(form.getByPlaceholder('Enter full name')).toBeVisible();
+  await expect(form.getByRole('combobox', { name: 'Order type', exact: true })).toBeVisible();
   await expect(form.getByRole('textbox', { name: 'Password' })).toBeVisible();
   await expect(form.getByRole('spinbutton', { name: 'Quantity' })).toBeVisible();
   await expect(form.getByRole('button', { name: 'Open calendar' })).toBeVisible();
@@ -209,6 +210,18 @@ test('renders themed controls without label overlap and exposes every form field
   });
   expect(submitStyle.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
   expect(submitStyle.borderRadius).toBeGreaterThanOrEqual(8);
+});
+
+test('keeps the labelled select operable with the keyboard', async ({ page }) => {
+  const form = page.getByRole('form', { name: 'All field types example form' });
+  const select = form.getByRole('combobox', { name: 'Order type', exact: true });
+
+  await select.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('listbox', { name: 'Order type', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('listbox', { name: 'Order type', exact: true })).toHaveCount(0);
+  await expect(select).toBeFocused();
 });
 
 test('summarizes form errors and reports required-field completion', async ({ page }) => {
