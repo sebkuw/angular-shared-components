@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +24,9 @@ export class FormSelectComponent
   extends FormFieldBaseComponent<FormFieldSelect>
   implements OnInit, OnChanges
 {
+  /** Id of the visible element that labels the Material combobox. */
+  @Input() ariaLabelledBy = '';
+
   /**
    * @description Applies field state after initialization.
    * @returns Void.

@@ -8,6 +8,10 @@ All notable changes to `@sebkuw/shared-ui-forms` are documented in this file. Th
 
 - Bumped the package and its internal shared UI peer dependencies to `0.2.1` for the synchronized GitHub Packages release.
 
+### Fixed
+
+- Associated select comboboxes with their visible field labels so assistive technology uses the label, rather than the placeholder, as the accessible name while preserving standalone and explicit `ariaLabel` fallbacks.
+
 ## [0.1.0] - 2026-08-17
 
 ### Added
