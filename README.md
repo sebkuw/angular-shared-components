@@ -524,6 +524,7 @@ Main exports:
 | --------------------------------------------------- | --------------------------------------------------------------- |
 | `InfoDialogComponent`, `InfoDialogData`             | Informational Angular Material dialog.                          |
 | `ConfirmationDialogService`                         | Focus-managed positive/negative confirmation workflow.          |
+| `FormModalService`, `FormModalRef`                  | Form host with asynchronous submit, loading and error states.   |
 | `NotificationService`, `provideSharedNotifications` | Central notification API and configurable application defaults. |
 | `EmptyStateComponent`, `ErrorStateComponent`        | Configurable page/list states with optional actions.            |
 

@@ -3,6 +3,9 @@ import {
   ConfirmationDialogService,
   EmptyStateComponent,
   ErrorStateComponent,
+  FormModalComponent,
+  FormModalRef,
+  FormModalService,
   InfoDialogComponent,
   NotificationComponent,
   NotificationService,
@@ -15,6 +18,9 @@ describe('shared-ui-feedback public API', () => {
     expect(NotificationComponent).toBeDefined();
     expect(EmptyStateComponent).toBeDefined();
     expect(ErrorStateComponent).toBeDefined();
+    expect(FormModalComponent).toBeDefined();
+    expect(FormModalRef).toBeDefined();
+    expect(FormModalService).toBeDefined();
     expect(ConfirmationDialogComponent).toBeDefined();
     expect(ConfirmationDialogService).toBeDefined();
     expect(NotificationService).toBeDefined();
