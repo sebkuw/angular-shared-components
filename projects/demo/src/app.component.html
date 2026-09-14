@@ -169,6 +169,39 @@
       <p class="form-submit-status" role="status" aria-live="polite">{{ formStatus() }}</p>
     </section>
 
+    <section class="demo-section" aria-labelledby="form-modal-heading">
+      <h2 id="form-modal-heading">Form modal</h2>
+      <p class="section-description">
+        A focus-managed modal shell can host an application form and keep asynchronous validation or
+        persistence state in the dialog.
+      </p>
+      <shared-button (activated)="openAssignmentModal(assignmentForm)">
+        Open supplier assignment form
+      </shared-button>
+      <p id="assignment-status" class="form-submit-status" role="status" aria-live="polite">
+        {{ assignmentStatus() }}
+      </p>
+
+      <ng-template #assignmentForm>
+        <form
+          class="demo-modal-form"
+          aria-label="Supplier assignment form"
+          (submit)="preventModalFormSubmit($event)"
+        >
+          <label for="assignment-supplier">Supplier</label>
+          <select
+            id="assignment-supplier"
+            [value]="assignmentSupplier()"
+            (change)="updateAssignmentSupplier($event)"
+          >
+            <option value="">Choose a supplier</option>
+            <option value="Acme Furniture">Acme Furniture</option>
+            <option value="Northwind Design">Northwind Design</option>
+          </select>
+        </form>
+      </ng-template>
+    </section>
+
     <section class="demo-section" aria-labelledby="details-heading">
       <h2 id="details-heading">Details with edit mode</h2>
       <p class="section-description">

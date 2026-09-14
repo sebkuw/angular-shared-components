@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, TemplateRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PermissionContext } from '@sebkuw/shared-ui-core';
 import {
   ConfirmationDialogService,
   EmptyStateComponent,
+  FormModalService,
   InfoDialogComponent,
   NotificationService,
 } from '@sebkuw/shared-ui-feedback';
@@ -45,7 +46,7 @@ import {
   SkeletonComponent,
   VisuallyHiddenDirective,
 } from '@sebkuw/shared-ui-primitives';
-import { take } from 'rxjs';
+import { take, takeUntil } from 'rxjs';
 
 interface DemoRow extends BaseRow {
   name: string;
@@ -173,6 +174,7 @@ const DEMO_ROWS: DemoRow[] = [
 export class DemoComponent {
   private readonly dialog = inject(MatDialog);
   private readonly confirmationDialog = inject(ConfirmationDialogService);
+  private readonly formModal = inject(FormModalService);
   private readonly notifications = inject(NotificationService);
 
   readonly rows = signal<DemoRow[]>([...DEMO_ROWS]);
@@ -183,6 +185,8 @@ export class DemoComponent {
   readonly tableError = signal<string | null>(null);
   readonly isAdmin = signal(false);
   readonly formStatus = signal('The example form has not been submitted yet.');
+  readonly assignmentSupplier = signal('');
+  readonly assignmentStatus = signal('No user has been assigned yet.');
   readonly detailsEditing = signal(false);
   readonly detailsVisible = signal(true);
   readonly showInlineWarning = signal(true);
@@ -547,6 +551,45 @@ export class DemoComponent {
     const controlCount = Object.keys(value).length;
     this.formStatus.set(`Form submitted successfully with ${controlCount} controls.`);
     this.showSnackBar('The complete example form was submitted.');
+  }
+
+  openAssignmentModal(contentTemplate: TemplateRef<unknown>): void {
+    this.assignmentSupplier.set('');
+    const modalRef = this.formModal.open({
+      title: 'Assign user to supplier',
+      description: 'Choose the supplier that should receive the selected user.',
+      contentTemplate,
+      submitLabel: 'Assign user',
+      cancelLabel: 'Cancel assignment',
+      loadingLabel: 'Assigning user',
+      actionsAriaLabel: 'Supplier assignment actions',
+      errorStatusLabel: 'Assignment error',
+      submitAccess: { public: true },
+    });
+
+    modalRef.submitRequested.pipe(takeUntil(modalRef.afterClosed())).subscribe(() => {
+      if (!this.assignmentSupplier()) {
+        modalRef.setError('Choose a supplier before assigning the user.');
+        return;
+      }
+
+      modalRef.setError(null);
+      modalRef.setLoading(true);
+      queueMicrotask(() => {
+        this.assignmentStatus.set(`User assigned to ${this.assignmentSupplier()}.`);
+        modalRef.close();
+      });
+    });
+  }
+
+  updateAssignmentSupplier(event: Event): void {
+    if (event.target instanceof HTMLSelectElement) {
+      this.assignmentSupplier.set(event.target.value);
+    }
+  }
+
+  preventModalFormSubmit(event: SubmitEvent): void {
+    event.preventDefault();
   }
 
   startDetailsEdit(): void {

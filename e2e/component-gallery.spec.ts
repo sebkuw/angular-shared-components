@@ -35,6 +35,42 @@ test('supports keyboard navigation, sorting and dialogs', async ({ page }) => {
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
+test('hosts an asynchronous form modal with validation, focus and keyboard closing', async ({
+  page,
+}) => {
+  const trigger = page.getByRole('button', { name: 'Open supplier assignment form' });
+  await trigger.click();
+
+  let dialog = page.getByRole('dialog', { name: 'Assign user to supplier' });
+  const supplier = dialog.getByRole('combobox', { name: 'Supplier' });
+  const submit = dialog.getByRole('button', { name: 'Assign user' });
+  await expect(dialog).toBeVisible();
+  await expect(supplier).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(submit).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(supplier).toBeFocused();
+
+  await submit.click();
+  await expect(dialog.getByRole('alert')).toContainText(
+    'Choose a supplier before assigning the user.',
+  );
+
+  await supplier.selectOption('Acme Furniture');
+  await submit.click();
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('#assignment-status')).toContainText(
+    'User assigned to Acme Furniture.',
+  );
+
+  await trigger.click();
+  dialog = page.getByRole('dialog', { name: 'Assign user to supplier' });
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+});
+
 test('reflows without horizontal page overflow at 320px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   const hasOverflow = await page.evaluate(
@@ -304,4 +340,12 @@ test('@visual component gallery remains visually stable', async ({ page }) => {
     fullPage: true,
     animations: 'disabled',
   });
+});
+
+test('@visual form modal remains visually stable', async ({ page }) => {
+  await page.getByRole('button', { name: 'Open supplier assignment form' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Assign user to supplier' });
+  await dialog.getByRole('button', { name: 'Assign user' }).click();
+
+  await expect(dialog).toHaveScreenshot('form-modal.png', { animations: 'disabled' });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-feedback",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Accessible dialogs and notifications for Angular applications.",
   "license": "MIT",
   "repository": {
