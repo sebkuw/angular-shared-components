@@ -236,6 +236,7 @@
         }"
         [labels]="{ caption: 'Demo orders' }"
         (dataRequest)="onDataRequest($event)"
+        (asyncFilterQuery)="onAsyncFilterQuery($event)"
         (emptyStateAction)="restoreDemoRows()"
         (retry)="retryTable()"
       />

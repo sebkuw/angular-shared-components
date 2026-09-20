@@ -12,7 +12,7 @@ npm install @sebkuw/shared-ui-forms @sebkuw/shared-ui-core @sebkuw/shared-ui-pri
 
 ## Current public API
 
-The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components, typed field/detail configuration models, FormFieldBaseComponent, FormFieldShellComponent, FormErrorSummaryComponent, FormCompletionIndicatorComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
+The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components (including `AsyncSearchSelectComponent`), typed field/detail configuration models, FormFieldBaseComponent, FormFieldShellComponent, FormErrorSummaryComponent, FormCompletionIndicatorComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
 
 `DynamicFormComponent`, individual fields, details fields and edit/remove actions accept shared `AccessRule` values. Form fields default to removal when denied and can set `inaccessibleBehavior: 'disable'`. Legacy `requiredPermissions` remains supported, but new code should use `access` with the reactive context from `@sebkuw/shared-ui-core`.
 
@@ -57,6 +57,28 @@ For custom controls outside `DynamicFormComponent`, `FormFieldShellComponent` ex
 ```
 
 Submit, details, file and editable-table row actions use the public button primitives from `@sebkuw/shared-ui-primitives`. Material remains responsible for the form controls themselves. Applications must include an Angular Material theme; the repository demo loads the free `azure-blue` prebuilt theme before the shared semantic tokens.
+
+### Asynchronous searchable select
+
+`AsyncSearchSelectComponent` is a standalone Angular Forms control for remote datasets. Its form value is the selected option key, `(selectionChange)` emits the selected `{ key, value }`, and `(queryChange)` emits debounced text so the consuming application can load options. The component performs no HTTP requests.
+
+```html
+<shared-async-search-select
+  label="Customer"
+  placeholder="Search customers"
+  [formControl]="customerId"
+  [options]="customerOptions()"
+  [loading]="customersLoading()"
+  [error]="customersError()"
+  [debounceMs]="300"
+  (queryChange)="loadCustomers($event)"
+  (selectionChange)="customerSelection.set($event)"
+/>
+```
+
+The combobox exposes loading, empty and error states and supports Arrow Up/Down, Home, End, Enter, Escape and Tab. Keep the selected item in `options` when options are refreshed so its display value remains available.
+
+Editable table fields accept `addActionAlignment: 'start' | 'end'`. The default is `end`, preserving the existing layout; use `start` for wide tables where the add-row action should begin at the left edge.
 
 ## Architectural role
 

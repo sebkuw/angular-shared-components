@@ -22,6 +22,7 @@ import {
 } from '@sebkuw/shared-ui-layout';
 import {
   BaseRow,
+  AsyncFilterQueryEvent,
   Column,
   DynamicTableComponent,
   FilterOperation,
@@ -187,6 +188,12 @@ export class DemoComponent {
   readonly detailsVisible = signal(true);
   readonly showInlineWarning = signal(true);
   readonly primitiveStatus = signal('No primitive action has been activated yet.');
+  readonly categoryFilterOptions = signal([
+    { key: 'hardware', value: 'Hardware' },
+    { key: 'software', value: 'Software' },
+    { key: 'office', value: 'Office' },
+  ]);
+  readonly categoryFilterLoading = signal(false);
 
   readonly columns: Column[] = [
     {
@@ -211,14 +218,12 @@ export class DemoComponent {
       filterable: true,
       enumValues: { hardware: 'Hardware', software: 'Software', office: 'Office' },
       filterFieldConfig: {
-        type: 'select',
+        type: 'async-select',
         filterType: 'single',
-        placeholder: 'Choose category',
-        options: [
-          { key: 'hardware', value: 'Hardware' },
-          { key: 'software', value: 'Software' },
-          { key: 'office', value: 'Office' },
-        ],
+        placeholder: 'Search categories',
+        asyncOptions: this.categoryFilterOptions,
+        asyncLoading: this.categoryFilterLoading,
+        emptyText: 'No categories found',
       },
     },
     {
@@ -393,6 +398,7 @@ export class DemoComponent {
         colSpan: 3,
         minRows: 1,
         maxRows: 4,
+        addActionAlignment: 'start',
         rowIndexLabel: 'Row',
         addRowLabel: 'Add line item',
         removeRowLabel: (index) => `Remove line item ${index + 1}`,
@@ -627,6 +633,21 @@ export class DemoComponent {
     this.pageIndex.set(pageIndex);
     this.pageSize.set(pageSize);
     this.rows.set(result.slice(start, start + pageSize));
+  }
+
+  onAsyncFilterQuery(event: AsyncFilterQueryEvent): void {
+    if (event.columnName !== 'category') {
+      return;
+    }
+
+    const query = event.query.trim().toLocaleLowerCase();
+    this.categoryFilterOptions.set(
+      [
+        { key: 'hardware', value: 'Hardware' },
+        { key: 'software', value: 'Software' },
+        { key: 'office', value: 'Office' },
+      ].filter((option) => option.value.toLocaleLowerCase().includes(query)),
+    );
   }
 
   openInfo(): void {

@@ -238,6 +238,8 @@ export interface FormFieldTable extends FormField {
   columns: DynamicFormField[];
   minRows?: number;
   maxRows?: number;
+  /** Alignment of the add-row action. Defaults to `end`. */
+  addActionAlignment?: 'start' | 'end';
   rowIndexLabel?: string;
   addRowLabel?: string;
   removeRowLabel?: (index: number) => string;

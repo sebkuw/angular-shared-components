@@ -133,6 +133,12 @@
   }
 }
 
+.range-filter__field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
 @media (max-width: 30rem) {
   .range-filter {
     grid-template-columns: 1fr;

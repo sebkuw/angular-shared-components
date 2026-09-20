@@ -1,7 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { signal, WritableSignal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
+import { MatSelect } from '@angular/material/select';
 import { PermissionContext, providePermissionContext } from '@sebkuw/shared-ui-core';
 import { DynamicTableComponent } from './dynamic-table';
 import { BaseRow, Column } from './models/table-config.model';
@@ -104,4 +106,105 @@ describe('DynamicTableComponent', () => {
     (state.querySelector('button') as HTMLButtonElement).click();
     expect(retried).toBeTrue();
   });
+
+  it('renders exactly one persistent visible label per filter control and distinct placeholders', () => {
+    fixture.componentRef.setInput('columns', [
+      {
+        name: 'name',
+        displayName: 'Name',
+        type: 'string',
+        filterable: true,
+        filterFieldConfig: {
+          type: 'text',
+          filterType: 'single',
+          placeholder: 'Search names',
+        },
+      },
+      {
+        name: 'category',
+        displayName: 'Category',
+        type: 'enum',
+        filterable: true,
+        filterFieldConfig: {
+          type: 'select',
+          filterType: 'single',
+          placeholder: 'Choose a category',
+          options: [{ key: 'one', value: 'One' }],
+        },
+      },
+      {
+        name: 'amount',
+        displayName: 'Amount',
+        type: 'decimal',
+        filterable: true,
+        filterFieldConfig: {
+          type: 'number',
+          filterType: 'range',
+          placeholderFrom: 'Minimum amount',
+          placeholderTo: 'Maximum amount',
+        },
+      },
+    ] satisfies Column[]);
+    component.showFilters.set(true);
+    fixture.detectChanges();
+
+    const filterForm = fixture.nativeElement.querySelector('.filters-section') as HTMLElement;
+    const controls = Array.from(filterForm.querySelectorAll('input[matinput], mat-select'));
+    const labels = Array.from(filterForm.querySelectorAll('label.filter-label'));
+    expect(filterForm.querySelectorAll('mat-label').length).toBe(0);
+    expect(labels.length).toBe(controls.length);
+
+    for (const label of labels) {
+      const control = filterForm.querySelector(`#${label.getAttribute('for')}`);
+      expect(control).not.toBeNull();
+      expect(label.textContent?.trim()).toBeTruthy();
+    }
+
+    const nameInput = filterForm.querySelector('input[type="text"]') as HTMLInputElement;
+    expect(nameInput.placeholder).toBe('Search names');
+    expect(nameInput.placeholder).not.toBe('Name');
+    const select = fixture.debugElement.query(By.directive(MatSelect))
+      .componentInstance as MatSelect;
+    const selectLabel = filterForm.querySelector(`label[for="${select.id}"]`) as HTMLLabelElement;
+    expect(select.placeholder).toBe('Choose a category');
+    expect(select.placeholder).not.toBe('Category');
+    expect(select.ariaLabelledby).toBe(selectLabel.id);
+  });
+
+  it('integrates signal-backed async options and emits the debounced column query', fakeAsync(() => {
+    const asyncOptions = signal([{ key: 'acme', value: 'Acme' }]);
+    fixture.componentRef.setInput('columns', [
+      {
+        name: 'customerId',
+        displayName: 'Customer',
+        type: 'guid',
+        filterable: true,
+        filterFieldConfig: {
+          type: 'async-select',
+          filterType: 'single',
+          placeholder: 'Search customers',
+          debounceMs: 50,
+          asyncOptions,
+        },
+      },
+    ] satisfies Column[]);
+    component.showFilters.set(true);
+    const queries: unknown[] = [];
+    component.asyncFilterQuery.subscribe((event) => queries.push(event));
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector(
+      'shared-async-search-select input',
+    ) as HTMLInputElement;
+    expect(input).not.toBeNull();
+    expect(component.getAsyncFilterOptions(component.filterableColumns()[0])).toEqual([
+      { key: 'acme', value: 'Acme' },
+    ]);
+    input.value = 'ac';
+    input.dispatchEvent(new Event('input'));
+    tick(49);
+    expect(queries).toEqual([]);
+    tick(1);
+    expect(queries).toEqual([{ columnName: 'customerId', query: 'ac' }]);
+  }));
 });

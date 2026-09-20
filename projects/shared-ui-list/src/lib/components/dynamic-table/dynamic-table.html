@@ -150,16 +150,42 @@
 
             @for (col of filterableColumns(); track col.name) {
               <div class="filter-column-item" [style.flex]="col.width || '1'">
-                <div class="filter-label">{{ col.displayName }}</div>
-
                 @if (!isRangeFilter(col)) {
                   @switch (getFilterFieldConfig(col)?.type || col.type) {
+                    @case ('async-select') {
+                      <shared-async-search-select
+                        class="filter-control"
+                        [id]="getFilterControlId(col)"
+                        [label]="getFilterLabel(col)"
+                        [placeholder]="getFilterPlaceholder(col)"
+                        [formControl]="getFilterControl(col)"
+                        [options]="getAsyncFilterOptions(col)"
+                        [loading]="getAsyncFilterLoading(col)"
+                        [error]="getAsyncFilterError(col)"
+                        [debounceMs]="getFilterFieldConfig(col)?.debounceMs ?? 300"
+                        [loadingText]="
+                          getFilterFieldConfig(col)?.loadingText || tableLabels.loading
+                        "
+                        [emptyText]="getFilterFieldConfig(col)?.emptyText || tableLabels.empty"
+                        (queryChange)="onAsyncFilterQuery(col, $event)"
+                      />
+                    }
+
                     @case ('select') {
+                      <label
+                        class="filter-label"
+                        [id]="getFilterLabelId(col)"
+                        [for]="getFilterControlId(col)"
+                      >
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
-                        <mat-select [formControl]="getFilterControl(col)">
+                        <mat-select
+                          [id]="getFilterControlId(col)"
+                          [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
+                          [aria-labelledby]="getFilterLabelId(col)"
+                        >
                           @for (
                             option of getFilterFieldConfig(col)?.options || [];
                             track option.key
@@ -173,11 +199,21 @@
                     }
 
                     @case ('multi-select') {
+                      <label
+                        class="filter-label"
+                        [id]="getFilterLabelId(col)"
+                        [for]="getFilterControlId(col)"
+                      >
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
-                        <mat-select [formControl]="getFilterControl(col)" multiple>
+                        <mat-select
+                          [id]="getFilterControlId(col)"
+                          [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
+                          [aria-labelledby]="getFilterLabelId(col)"
+                          multiple
+                        >
                           @for (
                             option of getFilterFieldConfig(col)?.options || [];
                             track option.key
@@ -191,11 +227,20 @@
                     }
 
                     @case ('boolean') {
+                      <label
+                        class="filter-label"
+                        [id]="getFilterLabelId(col)"
+                        [for]="getFilterControlId(col)"
+                      >
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
-                        <mat-select [formControl]="getFilterControl(col)">
+                        <mat-select
+                          [id]="getFilterControlId(col)"
+                          [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
+                          [aria-labelledby]="getFilterLabelId(col)"
+                        >
                           @for (option of getBooleanOptions(); track option.key) {
                             <mat-option [value]="option.key">
                               {{ option.value }}
@@ -206,23 +251,31 @@
                     }
 
                     @case ('date') {
+                      <label class="filter-label" [for]="getFilterControlId(col)">
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
-                        <input matInput type="date" [formControl]="getFilterControl(col)" />
+                        <input
+                          matInput
+                          type="date"
+                          [id]="getFilterControlId(col)"
+                          [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
+                        />
                       </mat-form-field>
                     }
 
                     @case ('number') {
+                      <label class="filter-label" [for]="getFilterControlId(col)">
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
                         <input
                           matInput
                           type="number"
+                          [id]="getFilterControlId(col)"
                           [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
                           [attr.min]="getFilterFieldConfig(col)?.min ?? null"
                           [attr.max]="getFilterFieldConfig(col)?.max ?? null"
                           [attr.step]="getFilterFieldConfig(col)?.step ?? null"
@@ -231,37 +284,47 @@
                     }
 
                     @case ('int') {
+                      <label class="filter-label" [for]="getFilterControlId(col)">
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
                         <input
                           matInput
                           type="number"
+                          [id]="getFilterControlId(col)"
                           [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
                           step="1"
                         />
                       </mat-form-field>
                     }
 
                     @case ('decimal') {
+                      <label class="filter-label" [for]="getFilterControlId(col)">
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
-                        <input matInput type="number" [formControl]="getFilterControl(col)" />
+                        <input
+                          matInput
+                          type="number"
+                          [id]="getFilterControlId(col)"
+                          [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
+                        />
                       </mat-form-field>
                     }
 
                     @default {
+                      <label class="filter-label" [for]="getFilterControlId(col)">
+                        {{ getFilterLabel(col) }}
+                      </label>
                       <mat-form-field appearance="outline" class="filter-control">
-                        <mat-label>{{
-                          getFilterFieldConfig(col)?.placeholder || col.displayName
-                        }}</mat-label>
                         <input
                           matInput
                           type="text"
+                          [id]="getFilterControlId(col)"
                           [formControl]="getFilterControl(col)"
+                          [placeholder]="getFilterPlaceholder(col)"
                           [attr.maxlength]="getFilterFieldConfig(col)?.maxLength ?? null"
                         />
                       </mat-form-field>
@@ -271,33 +334,41 @@
 
                 @if (isRangeFilter(col)) {
                   <div class="range-filter">
-                    <mat-form-field appearance="outline" class="filter-control">
-                      <mat-label>{{
-                        getFilterFieldConfig(col)?.placeholderFrom || tableLabels.rangeFrom
-                      }}</mat-label>
-                      <input
-                        matInput
-                        [type]="getFilterFieldConfig(col)?.type === 'date' ? 'date' : 'number'"
-                        [formControl]="getFilterRangeControl(col, 'from')"
-                        [attr.min]="getFilterFieldConfig(col)?.min ?? null"
-                        [attr.max]="getFilterFieldConfig(col)?.max ?? null"
-                        [attr.step]="getFilterFieldConfig(col)?.step ?? null"
-                      />
-                    </mat-form-field>
+                    <div class="range-filter__field">
+                      <label class="filter-label" [for]="getFilterControlId(col, 'from')">
+                        {{ getFilterLabel(col, 'from') }}
+                      </label>
+                      <mat-form-field appearance="outline" class="filter-control">
+                        <input
+                          matInput
+                          [id]="getFilterControlId(col, 'from')"
+                          [type]="getFilterFieldConfig(col)?.type === 'date' ? 'date' : 'number'"
+                          [formControl]="getFilterRangeControl(col, 'from')"
+                          [placeholder]="getFilterPlaceholder(col, 'from')"
+                          [attr.min]="getFilterFieldConfig(col)?.min ?? null"
+                          [attr.max]="getFilterFieldConfig(col)?.max ?? null"
+                          [attr.step]="getFilterFieldConfig(col)?.step ?? null"
+                        />
+                      </mat-form-field>
+                    </div>
 
-                    <mat-form-field appearance="outline" class="filter-control">
-                      <mat-label>{{
-                        getFilterFieldConfig(col)?.placeholderTo || tableLabels.rangeTo
-                      }}</mat-label>
-                      <input
-                        matInput
-                        [type]="getFilterFieldConfig(col)?.type === 'date' ? 'date' : 'number'"
-                        [formControl]="getFilterRangeControl(col, 'to')"
-                        [attr.min]="getFilterFieldConfig(col)?.min ?? null"
-                        [attr.max]="getFilterFieldConfig(col)?.max ?? null"
-                        [attr.step]="getFilterFieldConfig(col)?.step ?? null"
-                      />
-                    </mat-form-field>
+                    <div class="range-filter__field">
+                      <label class="filter-label" [for]="getFilterControlId(col, 'to')">
+                        {{ getFilterLabel(col, 'to') }}
+                      </label>
+                      <mat-form-field appearance="outline" class="filter-control">
+                        <input
+                          matInput
+                          [id]="getFilterControlId(col, 'to')"
+                          [type]="getFilterFieldConfig(col)?.type === 'date' ? 'date' : 'number'"
+                          [formControl]="getFilterRangeControl(col, 'to')"
+                          [placeholder]="getFilterPlaceholder(col, 'to')"
+                          [attr.min]="getFilterFieldConfig(col)?.min ?? null"
+                          [attr.max]="getFilterFieldConfig(col)?.max ?? null"
+                          [attr.step]="getFilterFieldConfig(col)?.step ?? null"
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
 
                   @if (hasRangeFilterError(col.name)) {

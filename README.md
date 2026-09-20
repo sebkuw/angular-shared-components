@@ -191,6 +191,7 @@ Main exports:
 | `DynamicFormConfig`, `FormField` and related field interfaces                     | Form configuration contracts.                       |
 | `DetailsConfig`, `DetailField`                                                    | Details view configuration contracts.               |
 | `FormInputTextComponent`, `FormInputNumberComponent`, `FormSelectComponent`, etc. | Reusable form field controls.                       |
+| `AsyncSearchSelectComponent`                                                      | Remote-data combobox with debounced query output.   |
 | `CastPipe`                                                                        | Template helper used by the dynamic form controls.  |
 
 Install:
@@ -318,19 +319,19 @@ List contains the dynamic table component and models used to build server-driven
 
 Main exports:
 
-| Export                                              | Description                                                                             |
-| --------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `DynamicTableComponent`                             | Server-side table with filtering, sorting, pagination, selection and column visibility. |
-| `BaseRow`, `Column`, `CustomButton`                 | Table row and column contracts.                                                         |
-| `TableDataRequestEvent`, `TableFilter`, `TableSort` | Events and state emitted by the table.                                                  |
-| `toPaginationRequestDto`                            | Helper that maps table request state to a .NET-style pagination DTO.                    |
-| `TableExportService`                                | CSV export helper used by the table export workflow.                                    |
-| `ValueFormatterPipe`                                | Formats displayed table cell values.                                                    |
+| Export                                                                       | Description                                                                             |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `DynamicTableComponent`                                                      | Server-side table with filtering, sorting, pagination, selection and column visibility. |
+| `BaseRow`, `Column`, `CustomButton`                                          | Table row and column contracts.                                                         |
+| `TableDataRequestEvent`, `AsyncFilterQueryEvent`, `TableFilter`, `TableSort` | Events and state emitted by the table, including remote filter queries.                 |
+| `toPaginationRequestDto`                                                     | Helper that maps table request state to a .NET-style pagination DTO.                    |
+| `TableExportService`                                                         | CSV export helper used by the table export workflow.                                    |
+| `ValueFormatterPipe`                                                         | Formats displayed table cell values.                                                    |
 
 Install:
 
 ```bash
-npm install @sebkuw/shared-ui-list
+npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-forms
 ```
 
 Use:

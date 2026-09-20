@@ -99,7 +99,10 @@ test('uses public action primitives throughout the integrated libraries', async 
   await expect(page.locator('shared-dynamic-table shared-icon-button')).not.toHaveCount(0);
 
   await page.getByRole('button', { name: 'Show filters' }).click();
-  await page.getByLabel('Search order name').fill('First');
+  await page
+    .getByRole('form', { name: 'Show filters' })
+    .getByLabel('Name', { exact: true })
+    .fill('First');
   const clearFilters = page.locator('shared-dynamic-table').getByRole('button', {
     name: 'Clear filters',
   });
@@ -240,11 +243,31 @@ test('edits details and applies the configured table filters', async ({ page }) 
   await expect(page.getByRole('definition').filter({ hasText: 'Edited order' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Show filters' }).click();
-  await expect(page.getByLabel('Choose category')).toBeVisible();
-  await expect(page.getByLabel('Choose status')).toBeVisible();
-  await expect(page.getByLabel('Minimum amount')).toBeVisible();
-  await expect(page.getByLabel('Created from')).toBeVisible();
-  await page.getByLabel('Search order name').fill('Network');
+  const filters = page.getByRole('form', { name: 'Show filters' });
+  await expect(filters.getByLabel('Category', { exact: true })).toHaveAttribute(
+    'placeholder',
+    'Search categories',
+  );
+  await expect(filters.getByLabel('Active', { exact: true })).toBeVisible();
+  await expect(filters.getByLabel('Amount From', { exact: true })).toHaveAttribute(
+    'placeholder',
+    'Minimum amount',
+  );
+  await expect(filters.getByLabel('Created From', { exact: true })).toHaveAttribute(
+    'placeholder',
+    'Created from',
+  );
+  await filters.getByLabel('Category', { exact: true }).fill('soft');
+  await expect(filters.getByRole('option', { name: 'Software' })).toBeVisible();
+  await filters.getByLabel('Category', { exact: true }).press('Enter');
+  await expect(
+    page.getByRole('table', { name: 'Demo orders' }).getByText('Developer licences'),
+  ).toBeVisible();
+
+  await filters.getByLabel('Category', { exact: true }).fill('hard');
+  await expect(filters.getByRole('option', { name: 'Hardware' })).toBeVisible();
+  await filters.getByLabel('Category', { exact: true }).press('Enter');
+  await filters.getByLabel('Name', { exact: true }).fill('Network');
   await expect(
     page.getByRole('table', { name: 'Demo orders' }).getByText('Network upgrade'),
   ).toBeVisible();
@@ -272,7 +295,10 @@ test('confirms destructive actions and restores an empty details state', async (
 
 test('shows empty and error states in the data table', async ({ page }) => {
   await page.getByRole('button', { name: 'Show filters' }).click();
-  await page.getByLabel('Search order name').fill('No order has this name');
+  await page
+    .getByRole('form', { name: 'Show filters' })
+    .getByLabel('Name', { exact: true })
+    .fill('No order has this name');
   await expect(page.getByRole('status', { name: 'No matching orders' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Clear filters' }).click();
