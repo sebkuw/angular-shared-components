@@ -24,6 +24,10 @@ export class FormFieldShellComponent {
   @Input() characterCountFormatter: CharacterCountFormatter = (currentLength, maxLength) =>
     `${currentLength} of ${maxLength} characters`;
 
+  get labelId(): string {
+    return `${this.controlId}-label`;
+  }
+
   get hintId(): string {
     return `${this.controlId}-hint`;
   }

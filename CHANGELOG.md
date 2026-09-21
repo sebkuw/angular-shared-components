@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 ### Added
 
 - Added a reusable asynchronous searchable select, dynamic-table remote select filters and configurable start/end alignment for editable-table add actions.
+- Added a reusable accessible form modal to `@sebkuw/shared-ui-feedback`, including asynchronous loading/disabled/error state control, focus management, shared access rules, documentation, demo integration and regression coverage.
 - Added a general-purpose accessible popover/dropdown primitive with projected triggers and content, Angular CDK positioning, unit/public API tests and demo/E2E coverage.
 
 ### Fixed
@@ -18,6 +19,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Prepared `@sebkuw/shared-ui-feedback` version `0.3.0` for the additive form-modal API release.
 - Aligned all seven `@sebkuw/shared-ui-*` package versions and their internal peer dependency ranges at `0.2.1` for a consistent GitHub Packages release.
 - Bumped `@sebkuw/shared-ui-primitives` to `0.2.0` for the new public API.
 

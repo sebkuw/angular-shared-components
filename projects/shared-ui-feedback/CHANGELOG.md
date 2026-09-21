@@ -4,6 +4,16 @@ All notable changes to `@sebkuw/shared-ui-feedback` are documented in this file.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-15
+
+### Added
+
+- Added `FormModalService`, `FormModalRef` and `FormModalComponent` for hosting application-owned form templates with configurable title, description, cancel/submit actions and responsive dimensions.
+- Added asynchronous loading, disabled and assertive error states, reactive submit access rules, inert form content, initial focus, focus trap/restore and Escape behavior.
+- Added unit, host-overlay, public API, demo and Playwright regression coverage plus a supplier-assignment integration example.
+
+## [0.2.1] - 2026-09-14
+
 ### Changed
 
 - Bumped the package and its internal shared UI peer dependencies to `0.2.1` for the synchronized GitHub Packages release.

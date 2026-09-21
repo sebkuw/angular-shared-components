@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<div mat-dialog-content class="form-modal__content" [attr.aria-busy]="loading() ? 'true' : null">
+  @if (data.description) {
+    <p class="form-modal__description" [id]="data.descriptionId">{{ data.description }}</p>
+  }
+
+  <div
+    class="form-modal__form-content"
+    [attr.aria-disabled]="actionsDisabled ? 'true' : null"
+    [attr.inert]="actionsDisabled ? '' : null"
+  >
+    <ng-container [ngTemplateOutlet]="data.contentTemplate" />
+  </div>
+
+  @if (errorMessage(); as error) {
+    <shared-inline-alert
+      tone="error"
+      announcement="assertive"
+      [statusLabel]="data.errorStatusLabel"
+    >
+      {{ error }}
+    </shared-inline-alert>
+  }
+</div>
+
+<div mat-dialog-actions class="form-modal__actions">
+  <shared-action-bar [ariaLabel]="data.actionsAriaLabel" alignment="end">
+    <shared-button
+      appearance="outlined"
+      tone="neutral"
+      [disabled]="actionsDisabled"
+      [ariaLabel]="data.cancelAriaLabel || data.cancelLabel"
+      (activated)="cancel()"
+    >
+      {{ data.cancelLabel }}
+    </shared-button>
+    <shared-button
+      [tone]="data.submitTone"
+      [access]="data.submitAccess || publicAccess"
+      [inaccessibleBehavior]="data.submitInaccessibleBehavior"
+      [disabled]="disabled()"
+      [loading]="loading()"
+      [loadingLabel]="data.loadingLabel"
+      [ariaLabel]="data.submitAriaLabel || data.submitLabel"
+      (activated)="requestSubmit()"
+    >
+      {{ data.submitLabel }}
+    </shared-button>
+  </shared-action-bar>
+</div>

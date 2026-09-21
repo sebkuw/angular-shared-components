@@ -35,6 +35,42 @@ test('supports keyboard navigation, sorting and dialogs', async ({ page }) => {
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
+test('hosts an asynchronous form modal with validation, focus and keyboard closing', async ({
+  page,
+}) => {
+  const trigger = page.getByRole('button', { name: 'Open supplier assignment form' });
+  await trigger.click();
+
+  let dialog = page.getByRole('dialog', { name: 'Assign user to supplier' });
+  const supplier = dialog.getByRole('combobox', { name: 'Supplier' });
+  const submit = dialog.getByRole('button', { name: 'Assign user' });
+  await expect(dialog).toBeVisible();
+  await expect(supplier).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(submit).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(supplier).toBeFocused();
+
+  await submit.click();
+  await expect(dialog.getByRole('alert')).toContainText(
+    'Choose a supplier before assigning the user.',
+  );
+
+  await supplier.selectOption('Acme Furniture');
+  await submit.click();
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('#assignment-status')).toContainText(
+    'User assigned to Acme Furniture.',
+  );
+
+  await trigger.click();
+  dialog = page.getByRole('dialog', { name: 'Assign user to supplier' });
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+});
+
 test('reflows without horizontal page overflow at 320px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   const hasOverflow = await page.evaluate(
@@ -195,6 +231,7 @@ test('renders themed controls without label overlap and exposes every form field
 
   expect(geometry.labelBottom).toBeLessThan(geometry.fieldTop);
   await expect(form.getByPlaceholder('Enter full name')).toBeVisible();
+  await expect(form.getByRole('combobox', { name: 'Order type', exact: true })).toBeVisible();
   await expect(form.getByRole('textbox', { name: 'Password' })).toBeVisible();
   await expect(form.getByRole('spinbutton', { name: 'Quantity' })).toBeVisible();
   await expect(form.getByRole('button', { name: 'Open calendar' })).toBeVisible();
@@ -212,6 +249,18 @@ test('renders themed controls without label overlap and exposes every form field
   });
   expect(submitStyle.backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
   expect(submitStyle.borderRadius).toBeGreaterThanOrEqual(8);
+});
+
+test('keeps the labelled select operable with the keyboard', async ({ page }) => {
+  const form = page.getByRole('form', { name: 'All field types example form' });
+  const select = form.getByRole('combobox', { name: 'Order type', exact: true });
+
+  await select.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('listbox', { name: 'Order type', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('listbox', { name: 'Order type', exact: true })).toHaveCount(0);
+  await expect(select).toBeFocused();
 });
 
 test('summarizes form errors and reports required-field completion', async ({ page }) => {
@@ -317,4 +366,12 @@ test('@visual component gallery remains visually stable', async ({ page }) => {
     fullPage: true,
     animations: 'disabled',
   });
+});
+
+test('@visual form modal remains visually stable', async ({ page }) => {
+  await page.getByRole('button', { name: 'Open supplier assignment form' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Assign user to supplier' });
+  await dialog.getByRole('button', { name: 'Assign user' }).click();
+
+  await expect(dialog).toHaveScreenshot('form-modal.png', { animations: 'disabled' });
 });

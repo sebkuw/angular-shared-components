@@ -3,7 +3,8 @@
     [id]="field.key"
     [formControlName]="field.key"
     [placeholder]="field.placeholder || 'Wybierz opcję...'"
-    [attr.aria-label]="field.ariaLabel || field.label"
+    [aria-label]="field.ariaLabel || (ariaLabelledBy ? '' : field.label)"
+    [aria-labelledby]="field.ariaLabel ? '' : ariaLabelledBy"
     [attr.aria-describedby]="ariaDescribedBy"
   >
     @if (field.isNullable) {

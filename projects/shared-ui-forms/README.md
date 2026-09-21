@@ -56,6 +56,8 @@ For custom controls outside `DynamicFormComponent`, `FormFieldShellComponent` ex
 </shared-form-field-shell>
 ```
 
+`FormFieldShellComponent.labelId` is the stable id of the visible label. `DynamicFormComponent` uses it to associate select comboboxes through `aria-labelledby`, so their accessible name comes from `field.label`, not from the placeholder. A standalone `FormSelectComponent` still falls back to `field.ariaLabel` or `field.label`; custom shells can pass their visible label id through `ariaLabelledBy`.
+
 Submit, details, file and editable-table row actions use the public button primitives from `@sebkuw/shared-ui-primitives`. Material remains responsible for the form controls themselves. Applications must include an Angular Material theme; the repository demo loads the free `azure-blue` prebuilt theme before the shared semantic tokens.
 
 ### Asynchronous searchable select

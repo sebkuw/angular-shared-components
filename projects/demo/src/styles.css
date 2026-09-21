@@ -163,6 +163,31 @@ body {
   color: var(--shared-ui-color-text-muted);
 }
 
+.demo-modal-form {
+  display: grid;
+  gap: var(--shared-ui-spacing-sm);
+}
+
+.demo-modal-form label {
+  font-weight: 600;
+}
+
+.demo-modal-form select {
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding-inline: var(--shared-ui-spacing-sm);
+  border: 1px solid var(--shared-ui-color-border);
+  border-radius: var(--shared-ui-radius-md);
+  background: var(--shared-ui-color-surface);
+  color: var(--shared-ui-color-text);
+  font: inherit;
+}
+
+.demo-modal-form select:focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus);
+  outline-offset: 2px;
+}
+
 .details-editor {
   padding: var(--shared-ui-spacing-md);
   border: 1px dashed var(--shared-ui-color-border);
