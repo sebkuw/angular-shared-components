@@ -7,7 +7,7 @@ Configurable data lists and tables for NetDevs Angular applications.
 Configure GitHub Packages as described in the [repository installation guide](../../README.md#installation), then install the package and its shared peers:
 
 ```bash
-npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives @sebkuw/shared-ui-feedback
+npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives @sebkuw/shared-ui-feedback @sebkuw/shared-ui-forms
 ```
 
 ## Current public API
@@ -18,7 +18,49 @@ The component accepts a top-level `access` rule. Columns, cell actions, toolbar 
 
 Sorting uses native buttons and `aria-sort`. Actionable cells support Enter and Space. Frontend CSV export uses the supplied rows, escapes RFC-style fields, neutralizes spreadsheet formulas and avoids browser APIs during SSR.
 
-The filter panel lays out configured text, select, boolean and range controls in a responsive auto-fit grid. Numeric and date ranges stack at very small widths instead of forcing the whole filter panel to scroll horizontally.
+The filter panel lays out configured text, select, asynchronous select, boolean and range controls in a responsive auto-fit grid. Every control has one persistent visible label plus separate placeholder guidance. Numeric and date ranges stack at very small widths instead of forcing the whole filter panel to scroll horizontally.
+
+Use `type: 'async-select'` for large remote datasets. Supply signal-backed options/loading/error state and handle `(asyncFilterQuery)` in the application; selecting an option stores its key in the normal table filter and produces an equality filter.
+
+```ts
+import { signal } from '@angular/core';
+import { type AsyncSearchSelectOption } from '@sebkuw/shared-ui-forms';
+import { type Column } from '@sebkuw/shared-ui-list';
+
+const customerOptions = signal<AsyncSearchSelectOption[]>([]);
+const customerLoading = signal(false);
+
+const columns: Column[] = [
+  {
+    name: 'customerId',
+    displayName: 'Customer',
+    type: 'guid',
+    filterable: true,
+    filterFieldConfig: {
+      type: 'async-select',
+      filterType: 'single',
+      placeholder: 'Search customers',
+      asyncOptions: customerOptions,
+      asyncLoading: customerLoading,
+      emptyText: 'No customers found',
+    },
+  },
+];
+```
+
+```html
+<shared-dynamic-table
+  [columns]="columns"
+  [data]="rows"
+  [totalItems]="totalItems"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [loading]="loading"
+  (asyncFilterQuery)="loadCustomers($event.columnName, $event.query)"
+/>
+```
+
+The table only emits queries and never performs transport work. Localize labels, placeholders and state text through `TableLabels` and `FilterFieldConfig`.
 
 Pass an `errorMessage` signal to replace table content with `ErrorStateComponent`; configure `errorState` and handle `(retry)` to load data again. When a successful request returns no rows, `emptyState` and `(emptyStateAction)` provide an actionable empty result without inventing application-specific copy inside the library.
 

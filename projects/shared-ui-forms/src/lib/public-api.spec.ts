@@ -1,4 +1,5 @@
 import {
+  AsyncSearchSelectComponent,
   DynamicDetailsComponent,
   DynamicFormComponent,
   FormCompletionIndicatorComponent,
@@ -15,5 +16,6 @@ describe('shared-ui-forms public API', () => {
     expect(FormCompletionIndicatorComponent).toBeDefined();
     expect(DynamicDetailsComponent).toBeDefined();
     expect(FormInputTextComponent).toBeDefined();
+    expect(AsyncSearchSelectComponent).toBeDefined();
   });
 });

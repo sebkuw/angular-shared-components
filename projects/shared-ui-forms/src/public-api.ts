@@ -11,6 +11,7 @@ export * from './lib/components/form-error-summary/form-error-summary';
 export * from './lib/components/form-completion-indicator/form-completion-indicator.models';
 export * from './lib/components/form-completion-indicator/form-completion-indicator';
 export * from './lib/components/form-controls/form-checkbox/form-checkbox';
+export * from './lib/components/form-controls/async-search-select/async-search-select';
 export * from './lib/components/form-controls/form-date/form-date';
 export * from './lib/components/form-controls/form-field-base.component';
 export * from './lib/components/form-controls/form-file/form-file';

@@ -1,0 +1,69 @@
+<div class="async-search-select">
+  <label class="async-search-select__label" [for]="id">{{ label }}</label>
+
+  <div class="async-search-select__control">
+    <input
+      class="async-search-select__input"
+      type="text"
+      role="combobox"
+      autocomplete="off"
+      aria-autocomplete="list"
+      [id]="id"
+      [value]="searchText"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [attr.aria-expanded]="isOpen"
+      [attr.aria-controls]="isOpen ? listboxId : null"
+      [attr.aria-activedescendant]="activeDescendantId"
+      [attr.aria-describedby]="describedBy"
+      (focus)="openPanel()"
+      (click)="openPanel()"
+      (input)="handleInput($event)"
+      (keydown)="handleKeydown($event)"
+      (blur)="handleBlur()"
+    />
+
+    @if (isOpen) {
+      <div
+        class="async-search-select__panel"
+        [id]="listboxId"
+        [attr.role]="!loading && !error && options.length > 0 ? 'listbox' : null"
+      >
+        @if (loading) {
+          <div class="async-search-select__state">{{ loadingText }}</div>
+        } @else if (error) {
+          <div class="async-search-select__state async-search-select__state--error" role="alert">
+            {{ error }}
+          </div>
+        } @else if (options.length === 0) {
+          <div class="async-search-select__state">{{ emptyText }}</div>
+        } @else {
+          @for (option of options; track option.key; let index = $index) {
+            <div
+              #optionElement
+              class="async-search-select__option"
+              role="option"
+              [id]="getOptionId(index)"
+              [class.async-search-select__option--active]="activeIndex === index"
+              [class.async-search-select__option--disabled]="option.disabled"
+              [attr.aria-selected]="selectedKey === option.key"
+              [attr.aria-disabled]="option.disabled || null"
+              (pointerdown)="$event.preventDefault()"
+              (click)="selectOption(option)"
+            >
+              {{ option.value }}
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <span class="visually-hidden" [id]="statusId" role="status" aria-live="polite">
+    @if (loading) {
+      {{ loadingText }}
+    } @else if (!error && isOpen && options.length === 0) {
+      {{ emptyText }}
+    }
+  </span>
+</div>

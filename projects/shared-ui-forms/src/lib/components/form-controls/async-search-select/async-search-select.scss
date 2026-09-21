@@ -1,0 +1,101 @@
+:host {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.async-search-select {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.async-search-select__label {
+  color: var(--shared-ui-color-text, #1a1d24);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.async-search-select__control {
+  position: relative;
+}
+
+.async-search-select__input {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--shared-ui-color-border, #74777f);
+  border-radius: 0.25rem;
+  background: var(--shared-ui-color-surface, #fff);
+  color: var(--shared-ui-color-text, #1a1d24);
+  font: inherit;
+}
+
+.async-search-select__input:focus-visible {
+  outline: 3px solid var(--shared-ui-color-focus, #155eef);
+  outline-offset: 2px;
+}
+
+.async-search-select__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.async-search-select__panel {
+  position: absolute;
+  z-index: 10;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline: 0;
+  max-height: 16rem;
+  overflow-y: auto;
+  border: 1px solid var(--shared-ui-color-border, #74777f);
+  border-radius: 0.25rem;
+  background: var(--shared-ui-color-surface, #fff);
+  box-shadow: 0 0.5rem 1rem rgb(16 24 40 / 14%);
+}
+
+.async-search-select__option,
+.async-search-select__state {
+  padding: 0.75rem;
+}
+
+.async-search-select__option {
+  cursor: pointer;
+}
+
+.async-search-select__option--active {
+  background: var(--shared-ui-color-background, #eef2f6);
+  outline: 2px solid var(--shared-ui-color-focus, #155eef);
+  outline-offset: -2px;
+}
+
+.async-search-select__option--disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.async-search-select__state {
+  color: var(--shared-ui-color-text-muted, #475467);
+}
+
+.async-search-select__state--error {
+  color: var(--shared-ui-color-danger, #b42318);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .async-search-select__option--active {
+    outline-color: Highlight;
+  }
+}

@@ -6,6 +6,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  isSignal,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -22,6 +23,8 @@ import {
   ErrorStateComponent,
   ErrorStateConfig,
 } from '@sebkuw/shared-ui-feedback';
+import { AsyncSearchSelectComponent } from '@sebkuw/shared-ui-forms';
+import type { AsyncSearchSelectOption } from '@sebkuw/shared-ui-forms';
 import {
   ButtonComponent,
   IconButtonComponent,
@@ -65,8 +68,10 @@ import {
 } from './models/table-config.model';
 import { ExportRequest } from './models/table-export.model';
 import { TableFeatures } from './models/table-features.models';
-import { FilterFieldConfig } from './models/table-filter.model';
+import { AsyncFilterQueryEvent, FilterFieldConfig } from './models/table-filter.model';
 import { TableExportService } from './services/table-export.service';
+
+let nextDynamicTableId = 0;
 
 /**
  * @component DynamicTableComponent
@@ -97,6 +102,7 @@ import { TableExportService } from './services/table-export.service';
     LoadingComponent,
     EmptyStateComponent,
     ErrorStateComponent,
+    AsyncSearchSelectComponent,
     ValueFormatterPipe,
   ],
   templateUrl: './dynamic-table.html',
@@ -104,7 +110,16 @@ import { TableExportService } from './services/table-export.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChanges, OnDestroy {
-  @Input() columns: Column[] = [];
+  private readonly columnsState = signal<Column[]>([]);
+
+  @Input()
+  set columns(value: Column[]) {
+    this.columnsState.set(value ?? []);
+  }
+
+  get columns(): Column[] {
+    return this.columnsState();
+  }
   @Input({ required: true }) data!: Signal<T[]>;
   @Input({ required: true }) totalItems!: Signal<number>;
   @Input({ required: true }) pageSize!: Signal<number>;
@@ -140,6 +155,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   @Output() exportToCSV = new EventEmitter<void>();
   @Output() emptyStateAction = new EventEmitter<void>();
   @Output() retry = new EventEmitter<void>();
+  @Output() asyncFilterQuery = new EventEmitter<AsyncFilterQueryEvent>();
 
   filterForm: FormGroup = new FormGroup({});
   showFilters = signal(false);
@@ -149,6 +165,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   allElementsSelected = signal(false);
   excludedElements = signal<Set<string>>(new Set());
   isExporting = signal(false);
+  readonly filterIdPrefix = `shared-table-${nextDynamicTableId++}-filter`;
 
   private readonly destroy$ = new Subject<void>();
   private readonly filterValues = signal<Record<string, unknown>>({});
@@ -178,7 +195,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
   }
 
   accessibleColumns = computed(() =>
-    this.columns.filter((column) => this.canAccess(column.access)),
+    this.columnsState().filter((column) => this.canAccess(column.access)),
   );
 
   accessibleButtons = computed(() =>
@@ -433,6 +450,59 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
    */
   getFilterFieldConfig(column: Column): FilterFieldConfig | undefined {
     return column.filterFieldConfig;
+  }
+
+  getFilterControlId(column: Column, range?: 'from' | 'to'): string {
+    const suffix = range ? `-${range}` : '';
+    return `${this.filterIdPrefix}-${column.name.replace(/[^a-zA-Z0-9_-]/g, '-')}${suffix}`;
+  }
+
+  getFilterLabelId(column: Column, range?: 'from' | 'to'): string {
+    return `${this.getFilterControlId(column, range)}-label`;
+  }
+
+  getFilterLabel(column: Column, range?: 'from' | 'to'): string {
+    if (range === 'from') {
+      return `${column.displayName} ${this.tableLabels.rangeFrom}`;
+    }
+    if (range === 'to') {
+      return `${column.displayName} ${this.tableLabels.rangeTo}`;
+    }
+    return column.displayName;
+  }
+
+  getFilterPlaceholder(column: Column, range?: 'from' | 'to'): string {
+    const config = column.filterFieldConfig;
+    if (range === 'from') {
+      return config?.placeholderFrom || this.tableLabels.rangeFrom;
+    }
+    if (range === 'to') {
+      return config?.placeholderTo || this.tableLabels.rangeTo;
+    }
+    return (
+      config?.placeholder ||
+      this.tableLabels.filterPlaceholder?.(column.displayName) ||
+      `Filter ${column.displayName}`
+    );
+  }
+
+  getAsyncFilterOptions(column: Column): readonly AsyncSearchSelectOption[] {
+    const options = column.filterFieldConfig?.asyncOptions;
+    return isSignal(options) ? options() : (options ?? []);
+  }
+
+  getAsyncFilterLoading(column: Column): boolean {
+    const loading = column.filterFieldConfig?.asyncLoading;
+    return isSignal(loading) ? loading() : (loading ?? false);
+  }
+
+  getAsyncFilterError(column: Column): string | null {
+    const error = column.filterFieldConfig?.asyncError;
+    return isSignal(error) ? error() : (error ?? null);
+  }
+
+  onAsyncFilterQuery(column: Column, query: string): void {
+    this.asyncFilterQuery.emit({ columnName: column.name, query });
   }
 
   /**
@@ -849,6 +919,7 @@ export class DynamicTableComponent<T extends BaseRow> implements OnInit, OnChang
           this.addBooleanFilter(filters, column, value as string);
           break;
         case 'select':
+        case 'async-select':
         case 'multi-select':
         case 'enum':
         case 'guid':

@@ -4,10 +4,8 @@
 
 ### Added
 
+- Added an asynchronous category filter example plus keyboard and label/placeholder Playwright coverage.
 - Added a supplier-assignment form modal example with validation, asynchronous loading state, focus restoration and Playwright keyboard coverage.
-
-### Added
-
 - Added a notification popover example with a badge plus keyboard, focus-restoration and responsive Playwright coverage.
 
 ## [0.1.0] - 2026-08-17

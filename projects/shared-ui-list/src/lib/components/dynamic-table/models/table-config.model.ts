@@ -106,6 +106,7 @@ export interface TableLabels {
   filterShow: string;
   filterHide: string;
   filterClear: string;
+  filterPlaceholder?: (column: string) => string;
   export: string;
   exportSelectionRequired: string;
   exportInProgress: string;
@@ -141,6 +142,7 @@ export const DEFAULT_TABLE_LABELS: TableLabels = {
   filterShow: 'Show filters',
   filterHide: 'Hide filters',
   filterClear: 'Clear filters',
+  filterPlaceholder: (column) => `Filter ${column}`,
   export: 'Export CSV',
   exportSelectionRequired: 'Select rows to export',
   exportInProgress: 'Exporting',

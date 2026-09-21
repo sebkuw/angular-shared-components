@@ -4,6 +4,15 @@ All notable changes to `@sebkuw/shared-ui-list` are documented in this file. The
 
 ## [Unreleased]
 
+### Added
+
+- Added asynchronous searchable-select filters backed by consumer-owned signals and a debounced `asyncFilterQuery` event for remote datasets.
+
+### Fixed
+
+- Replaced duplicated/floating filter labels with one persistent visible label per control and separate, programmatically associated placeholder guidance.
+- Kept filterable-column state reactive when consumers replace column configuration, including remote async-option updates.
+
 ### Changed
 
 - Bumped the package and its internal shared UI peer dependencies to `0.2.1` for the synchronized GitHub Packages release.
