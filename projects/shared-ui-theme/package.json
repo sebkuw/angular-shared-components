@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-theme",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Shared semantic design tokens and theming contracts for Angular applications.",
   "license": "MIT",
   "repository": {

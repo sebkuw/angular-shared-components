@@ -1,1 +1,1 @@
-export const NETDEVS_SHARED_UI_VERSION = '0.1.0';
+export const NETDEVS_SHARED_UI_VERSION = '0.3.1';

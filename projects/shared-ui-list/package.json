@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-list",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Configurable, accessible data lists and tables for Angular applications.",
   "license": "MIT",
   "repository": {
@@ -19,10 +19,10 @@
     "@angular/forms": "^20.3.0",
     "@angular/material": "^20.2.14",
     "@angular/cdk": "^20.2.14",
-    "@sebkuw/shared-ui-core": "^0.2.1",
-    "@sebkuw/shared-ui-feedback": "^0.2.1",
-    "@sebkuw/shared-ui-forms": "^0.2.1",
-    "@sebkuw/shared-ui-primitives": "^0.2.1",
+    "@sebkuw/shared-ui-core": "^0.3.1",
+    "@sebkuw/shared-ui-feedback": "^0.3.1",
+    "@sebkuw/shared-ui-forms": "^0.3.1",
+    "@sebkuw/shared-ui-primitives": "^0.3.1",
     "rxjs": "~7.8.0"
   },
   "dependencies": {
