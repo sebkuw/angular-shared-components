@@ -14,11 +14,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Fixed
 
+- Declared the Karma plugins used by the custom test configuration so the standard `npm test` command can start Jasmine and ChromeHeadlessCI.
+- Made Prettier checks accept the checkout's platform-native line endings so `npm run format:check` is reliable on Windows and Linux.
 - Fixed dynamic-table filters so each control has one persistent visible label, a distinct placeholder and explicit accessibility wiring.
 - Made the GitHub Packages workflow manually dispatchable and idempotent so existing package versions are skipped instead of blocking publication of later libraries.
 
 ### Changed
 
+- Prepared all seven `@sebkuw/shared-ui-*` packages and their internal peer dependency ranges at version `0.3.1` for a synchronized release.
 - Prepared `@sebkuw/shared-ui-feedback` version `0.3.0` for the additive form-modal API release.
 - Aligned all seven `@sebkuw/shared-ui-*` package versions and their internal peer dependency ranges at `0.2.1` for a consistent GitHub Packages release.
 - Bumped `@sebkuw/shared-ui-primitives` to `0.2.0` for the new public API.

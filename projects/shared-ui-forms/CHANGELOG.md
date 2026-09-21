@@ -9,6 +9,10 @@ All notable changes to `@sebkuw/shared-ui-forms` are documented in this file. Th
 - Added an accessible Angular Forms asynchronous searchable select with debounced queries, key/value selection events, keyboard navigation and loading, empty and error states.
 - Added the backward-compatible `FormFieldTable.addActionAlignment` option with `start` and `end` values; omitted values continue to align the add-row action to the end.
 
+### Changed
+
+- Bumped the package and its internal shared UI peer dependencies to `0.3.1` for the synchronized GitHub Packages release.
+
 ## [0.2.2] - 2026-09-13
 
 ### Fixed

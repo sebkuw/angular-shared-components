@@ -6,6 +6,7 @@ All notable changes to `@sebkuw/shared-ui-layout` are documented in this file. T
 
 ### Changed
 
+- Bumped the package and its internal shared UI peer dependencies to `0.3.1` for the synchronized GitHub Packages release.
 - Bumped the package and its internal shared UI peer dependencies to `0.2.1` for the synchronized GitHub Packages release.
 
 ## [0.1.0] - 2026-08-17

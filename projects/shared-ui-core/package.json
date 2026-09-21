@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-core",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Shared access-control contracts and helpers for Angular UI libraries.",
   "license": "MIT",
   "repository": {
