@@ -8,3 +8,5 @@ export * from './lib/components/side-menu/side-menu';
 export * from './lib/components/side-menu/models/menu-item.interface';
 export * from './lib/components/side-menu/services/side-menu.service';
 export * from './lib/components/side-menu/utils/menu-data.token';
+export * from './lib/components/stepper/stepper-step';
+export * from './lib/components/stepper/stepper';

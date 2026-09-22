@@ -189,6 +189,7 @@ Main exports:
 | `DynamicFormComponent`                                                            | Renders create/edit forms from `DynamicFormConfig`. |
 | `DynamicDetailsComponent`                                                         | Renders a details view from `DetailsConfig`.        |
 | `DynamicFormConfig`, `FormField` and related field interfaces                     | Form configuration contracts.                       |
+| `FormArrayRepeaterComponent`, `FormRepeaterGroupComponent`                        | Responsive, templated FormArray cards and groups.   |
 | `DetailsConfig`, `DetailField`                                                    | Details view configuration contracts.               |
 | `FormInputTextComponent`, `FormInputNumberComponent`, `FormSelectComponent`, etc. | Reusable form field controls.                       |
 | `AsyncSearchSelectComponent`                                                      | Remote-data combobox with debounced query output.   |
@@ -423,14 +424,16 @@ Layout contains components used to compose the application shell and page-level 
 
 Main exports:
 
-| Export                | Description                                         |
-| --------------------- | --------------------------------------------------- |
-| `PageHeaderComponent` | Consistent page title with optional info action.    |
-| `SideMenu`            | Collapsible side menu component.                    |
-| `MenuItem`            | Side menu item contract.                            |
-| `SideMenuService`     | Menu state service.                                 |
-| `MENU_DATA_TOKEN`     | Injection token used to provide menu configuration. |
-| `InfoClickData`       | Event payload emitted by `PageHeaderComponent`.     |
+| Export                 | Description                                         |
+| ---------------------- | --------------------------------------------------- |
+| `PageHeaderComponent`  | Consistent page title with optional info action.    |
+| `SideMenu`             | Collapsible side menu component.                    |
+| `MenuItem`             | Side menu item contract.                            |
+| `SideMenuService`      | Menu state service.                                 |
+| `MENU_DATA_TOKEN`      | Injection token used to provide menu configuration. |
+| `InfoClickData`        | Event payload emitted by `PageHeaderComponent`.     |
+| `StepperComponent`     | Responsive horizontal/vertical Material stepper.    |
+| `StepperStepComponent` | Projected step definition with control/completion.  |
 
 Install:
 
@@ -729,7 +732,7 @@ Before creating a release:
 4. Run `npm run build` and then `npm test` locally so public-package import tests use fresh `dist` artifacts.
 5. Push the commit, create a matching GitHub tag/release, and publish the release.
 
-The packages are prepared in lockstep at version `0.3.1`. Published npm versions are immutable, so every later release must use a new version and matching tag.
+The packages are prepared in lockstep at version `0.4.0`. Published npm versions are immutable, so every later release must use a new version and matching tag.
 
 ## Versioning
 

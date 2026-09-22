@@ -12,7 +12,7 @@ npm install @sebkuw/shared-ui-forms @sebkuw/shared-ui-core @sebkuw/shared-ui-pri
 
 ## Current public API
 
-The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components (including `AsyncSearchSelectComponent`), typed field/detail configuration models, FormFieldBaseComponent, FormFieldShellComponent, FormErrorSummaryComponent, FormCompletionIndicatorComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
+The package exports DynamicFormComponent, DynamicDetailsComponent, the form control components (including `AsyncSearchSelectComponent`), FormArrayRepeaterComponent, FormArrayRepeaterRowDirective, FormRepeaterGroupComponent, typed field/detail configuration models, FormFieldBaseComponent, FormFieldShellComponent, FormErrorSummaryComponent, FormCompletionIndicatorComponent and CastPipe. `DynamicFormConfig.fields` uses the exported `DynamicFormField` discriminated union, so options such as number bounds, select options, file types, table columns and spacer content are checked against the selected field type. The authoritative export list is src/public-api.ts.
 
 `DynamicFormComponent`, individual fields, details fields and edit/remove actions accept shared `AccessRule` values. Form fields default to removal when denied and can set `inaccessibleBehavior: 'disable'`. Legacy `requiredPermissions` remains supported, but new code should use `access` with the reactive context from `@sebkuw/shared-ui-core`.
 
@@ -81,6 +81,64 @@ Submit, details, file and editable-table row actions use the public button primi
 The combobox exposes loading, empty and error states and supports Arrow Up/Down, Home, End, Enter, Escape and Tab. Keep the selected item in `options` when options are refreshed so its display value remains available.
 
 Editable table fields accept `addActionAlignment: 'start' | 'end'`. The default is `end`, preserving the existing layout; use `start` for wide tables where the add-row action should begin at the left edge.
+
+### FormArray card repeater
+
+`FormArrayRepeaterComponent` renders consumer-owned `FormGroup` rows as accessible cards. The row template receives the row as both `$implicit` and `row`, its current `index`, and a `controlId(name)` function that produces a stable, unique id for labels and controls. `minRows` defaults to `0`; `maxRows`, row-card titles, empty text, action labels and the one-to-three-column group layout are configurable.
+
+```ts
+import { Component } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArrayRepeaterComponent,
+  FormArrayRepeaterRowDirective,
+  FormRepeaterGroupComponent,
+} from '@sebkuw/shared-ui-forms';
+
+@Component({
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    FormArrayRepeaterComponent,
+    FormArrayRepeaterRowDirective,
+    FormRepeaterGroupComponent,
+  ],
+  template: `
+    <shared-form-array-repeater
+      ariaLabel="Delivery addresses"
+      idPrefix="delivery-address"
+      [formArray]="addresses"
+      [rowFactory]="createAddress"
+      [minRows]="0"
+      [groupColumns]="2"
+      cardTitle="Address"
+      addLabel="Add address"
+      removeLabel="Remove"
+    >
+      <ng-template sharedFormArrayRepeaterRow let-row let-controlId="controlId">
+        <shared-form-repeater-group label="Recipient" [formGroup]="row">
+          <label [for]="controlId('name')">Name</label>
+          <input [id]="controlId('name')" formControlName="name" />
+        </shared-form-repeater-group>
+        <shared-form-repeater-group label="Location" [formGroup]="row">
+          <label [for]="controlId('city')">City</label>
+          <input [id]="controlId('city')" formControlName="city" />
+        </shared-form-repeater-group>
+      </ng-template>
+    </shared-form-array-repeater>
+  `,
+})
+export class AddressEditorComponent {
+  readonly addresses = new FormArray<FormGroup>([]);
+  readonly createAddress = (): FormGroup =>
+    new FormGroup({
+      name: new FormControl('', { nonNullable: true }),
+      city: new FormControl('', { nonNullable: true }),
+    });
+}
+```
+
+Use one to three direct `FormRepeaterGroupComponent` children in the row template. Each group is a semantic `fieldset` with a visible `legend` and border. The grid collapses to one column at 40rem and below, including 320 CSS px and 400% reflow. Add focuses the first enabled row control; Remove restores focus to a neighboring card action or Add. The component never replaces the supplied `FormArray`, marks user add/remove operations dirty, preserves row identity, and guards DOM focus for SSR/hydration. Localize every label input and use logical layout styles for RTL.
 
 ## Architectural role
 

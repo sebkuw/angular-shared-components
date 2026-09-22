@@ -15,6 +15,7 @@ All notable changes to `@sebkuw/shared-ui-list` are documented in this file. The
 
 ### Changed
 
+- Bumped the package and its internal shared UI peer dependencies to `0.4.0` for the synchronized additive release.
 - Bumped the package and its internal shared UI peer dependencies to `0.3.1` for the synchronized GitHub Packages release.
 - Bumped the package and its internal shared UI peer dependencies to `0.2.1` for the synchronized GitHub Packages release.
 

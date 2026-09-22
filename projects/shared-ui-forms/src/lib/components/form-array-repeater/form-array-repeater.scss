@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+.shared-form-array-repeater,
+.shared-form-array-repeater__rows {
+  display: grid;
+  gap: var(--shared-ui-spacing-md, 1rem);
+  min-inline-size: 0;
+}
+
+.shared-form-array-repeater__card {
+  min-inline-size: 0;
+  padding: var(--shared-ui-spacing-md, 1rem);
+  border: 1px solid var(--shared-ui-color-border, #c6cad2);
+  border-radius: var(--shared-ui-radius-lg, 0.75rem);
+  background: var(--shared-ui-color-surface, #fff);
+}
+
+.shared-form-array-repeater__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  margin-block-end: var(--shared-ui-spacing-md, 1rem);
+}
+
+.shared-form-array-repeater__header h3 {
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--shared-ui-color-text, #1a1d24);
+  font-size: 1.125rem;
+  overflow-wrap: anywhere;
+}
+
+.shared-form-array-repeater__groups {
+  display: grid;
+  gap: var(--shared-ui-spacing-md, 1rem);
+  min-inline-size: 0;
+}
+
+.shared-form-array-repeater__groups--1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.shared-form-array-repeater__groups--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.shared-form-array-repeater__groups--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.shared-form-array-repeater__empty {
+  margin: 0;
+  padding: var(--shared-ui-spacing-md, 1rem);
+  border: 1px dashed var(--shared-ui-color-border, #c6cad2);
+  border-radius: var(--shared-ui-radius-md, 0.5rem);
+  color: var(--shared-ui-color-text-muted, #555d6d);
+}
+
+.shared-form-array-repeater__add {
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media (max-width: 40rem) {
+  .shared-form-array-repeater__groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .shared-form-array-repeater__card {
+    padding: var(--shared-ui-spacing-sm, 0.5rem);
+  }
+}
+
+@media (forced-colors: active) {
+  .shared-form-array-repeater__card,
+  .shared-form-array-repeater__empty {
+    border-color: CanvasText;
+  }
+}

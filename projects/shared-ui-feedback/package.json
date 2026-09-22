@@ -1,6 +1,6 @@
 {
   "name": "@sebkuw/shared-ui-feedback",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Accessible dialogs and notifications for Angular applications.",
   "license": "MIT",
   "repository": {
@@ -18,8 +18,8 @@
     "@angular/core": "^20.3.0",
     "@angular/material": "^20.2.14",
     "@angular/cdk": "^20.2.14",
-    "@sebkuw/shared-ui-core": "^0.3.1",
-    "@sebkuw/shared-ui-primitives": "^0.3.1"
+    "@sebkuw/shared-ui-core": "^0.4.0",
+    "@sebkuw/shared-ui-primitives": "^0.4.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

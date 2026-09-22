@@ -6,11 +6,13 @@ All notable changes to `@sebkuw/shared-ui-forms` are documented in this file. Th
 
 ### Added
 
+- Added a responsive FormArray card repeater with projected typed row context, `minRows=0`, add/remove focus management, accessible card headings, one-to-three semantic fieldset groups and stable unique control ids.
 - Added an accessible Angular Forms asynchronous searchable select with debounced queries, key/value selection events, keyboard navigation and loading, empty and error states.
 - Added the backward-compatible `FormFieldTable.addActionAlignment` option with `start` and `end` values; omitted values continue to align the add-row action to the end.
 
 ### Changed
 
+- Bumped the package and its internal shared UI peer dependencies to `0.4.0` for the synchronized additive release.
 - Bumped the package and its internal shared UI peer dependencies to `0.3.1` for the synchronized GitHub Packages release.
 
 ## [0.2.2] - 2026-09-13
