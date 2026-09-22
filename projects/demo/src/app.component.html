@@ -169,6 +169,130 @@
       <p class="form-submit-status" role="status" aria-live="polite">{{ formStatus() }}</p>
     </section>
 
+    <section class="demo-section" aria-labelledby="wizard-heading">
+      <h2 id="wizard-heading">Responsive stepper and form repeater</h2>
+      <p class="section-description">
+        The linear Material stepper becomes vertical on narrow screens. Its optional contact step
+        contains reusable FormArray cards with three bordered groups per row.
+      </p>
+
+      <shared-stepper
+        ariaLabel="Order wizard"
+        navigationAriaLabel="Order wizard navigation"
+        [linear]="true"
+        (finished)="finishWizard()"
+      >
+        <shared-stepper-step label="Customer" [stepControl]="wizardCustomerForm">
+          <form
+            class="demo-wizard-form"
+            aria-label="Wizard customer details"
+            [formGroup]="wizardCustomerForm"
+            (submit)="$event.preventDefault()"
+          >
+            <div class="demo-wizard-field">
+              <label for="wizard-customer-name">Customer name</label>
+              <input
+                id="wizard-customer-name"
+                class="demo-text-input"
+                formControlName="customerName"
+                aria-describedby="wizard-customer-name-error"
+                [attr.aria-invalid]="
+                  wizardCustomerForm.controls.customerName.touched &&
+                  wizardCustomerForm.controls.customerName.invalid
+                "
+              />
+              @if (
+                wizardCustomerForm.controls.customerName.touched &&
+                wizardCustomerForm.controls.customerName.invalid
+              ) {
+                <p id="wizard-customer-name-error" class="demo-field-error" role="alert">
+                  Customer name is required.
+                </p>
+              }
+            </div>
+
+            <div class="demo-wizard-field">
+              <label for="wizard-reference">Reference</label>
+              <input id="wizard-reference" class="demo-text-input" formControlName="reference" />
+            </div>
+          </form>
+        </shared-stepper-step>
+
+        <shared-stepper-step label="Contacts" [stepControl]="wizardContacts" [optional]="true">
+          <shared-form-array-repeater
+            ariaLabel="Order contacts"
+            idPrefix="demo-contact"
+            [formArray]="wizardContacts"
+            [rowFactory]="createWizardContact"
+            [minRows]="0"
+            [maxRows]="4"
+            [groupColumns]="3"
+            cardTitle="Contact"
+            addLabel="Add contact"
+            removeLabel="Remove"
+            emptyLabel="No contacts added. This optional step can be skipped."
+          >
+            <ng-template
+              sharedFormArrayRepeaterRow
+              let-row
+              let-index="index"
+              let-controlId="controlId"
+            >
+              <shared-form-repeater-group label="Contact details" [formGroup]="row">
+                <label [for]="controlId('name')">Contact name {{ index + 1 }}</label>
+                <input class="demo-text-input" [id]="controlId('name')" formControlName="name" />
+                <label [for]="controlId('email')">Email {{ index + 1 }}</label>
+                <input
+                  class="demo-text-input"
+                  [id]="controlId('email')"
+                  type="email"
+                  formControlName="email"
+                />
+              </shared-form-repeater-group>
+
+              <shared-form-repeater-group label="Address" [formGroup]="row">
+                <label [for]="controlId('city')">City {{ index + 1 }}</label>
+                <input class="demo-text-input" [id]="controlId('city')" formControlName="city" />
+                <label [for]="controlId('postal-code')">Postal code {{ index + 1 }}</label>
+                <input
+                  class="demo-text-input"
+                  [id]="controlId('postal-code')"
+                  formControlName="postalCode"
+                />
+              </shared-form-repeater-group>
+
+              <shared-form-repeater-group label="Preferences" [formGroup]="row">
+                <label [for]="controlId('notes')">Notes {{ index + 1 }}</label>
+                <textarea
+                  class="demo-text-input"
+                  [id]="controlId('notes')"
+                  formControlName="notes"
+                ></textarea>
+                <label class="demo-checkbox-label" [for]="controlId('preferred')">
+                  <input
+                    [id]="controlId('preferred')"
+                    type="checkbox"
+                    formControlName="preferred"
+                  />
+                  Preferred contact
+                </label>
+              </shared-form-repeater-group>
+            </ng-template>
+          </shared-form-array-repeater>
+        </shared-stepper-step>
+
+        <shared-stepper-step label="Review" [completed]="true">
+          <p>
+            Review {{ wizardCustomerForm.controls.customerName.value || 'the customer' }} and
+            {{ wizardContacts.length }} contact rows before finishing.
+          </p>
+        </shared-stepper-step>
+      </shared-stepper>
+      <p id="wizard-status" class="form-submit-status" role="status" aria-live="polite">
+        {{ wizardStatus() }}
+      </p>
+    </section>
+
     <section class="demo-section" aria-labelledby="form-modal-heading">
       <h2 id="form-modal-heading">Form modal</h2>
       <p class="section-description">

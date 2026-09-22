@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+.shared-stepper {
+  min-inline-size: 0;
+}
+
+.shared-stepper__content {
+  min-inline-size: 0;
+  padding-block: var(--shared-ui-spacing-md, 1rem);
+}
+
+.shared-stepper__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  padding-block-start: var(--shared-ui-spacing-sm, 0.5rem);
+}
+
+:host ::ng-deep .mat-step-text-label {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 30rem) {
+  .shared-stepper__actions > shared-button {
+    flex: 1 1 auto;
+  }
+}
+
+@media (forced-colors: active) {
+  .shared-stepper {
+    border-color: CanvasText;
+  }
+}

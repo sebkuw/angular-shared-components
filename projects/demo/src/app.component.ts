@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal, TemplateRef } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PermissionContext } from '@sebkuw/shared-ui-core';
 import {
@@ -14,12 +14,17 @@ import {
   DynamicDetailsComponent,
   DynamicFormComponent,
   DynamicFormConfig,
+  FormArrayRepeaterComponent,
+  FormArrayRepeaterRowDirective,
+  FormRepeaterGroupComponent,
 } from '@sebkuw/shared-ui-forms';
 import {
   MenuItem,
   PageHeaderComponent,
   SideMenu,
   SkipLinkComponent,
+  StepperComponent,
+  StepperStepComponent,
 } from '@sebkuw/shared-ui-layout';
 import {
   BaseRow,
@@ -149,8 +154,14 @@ const DEMO_ROWS: DemoRow[] = [
     PageHeaderComponent,
     SideMenu,
     SkipLinkComponent,
+    StepperComponent,
+    StepperStepComponent,
     DynamicFormComponent,
     DynamicDetailsComponent,
+    FormArrayRepeaterComponent,
+    FormArrayRepeaterRowDirective,
+    FormRepeaterGroupComponent,
+    ReactiveFormsModule,
     DynamicTableComponent,
     ButtonComponent,
     ActionLinkComponent,
@@ -198,6 +209,27 @@ export class DemoComponent {
     { key: 'office', value: 'Office' },
   ]);
   readonly categoryFilterLoading = signal(false);
+  readonly wizardStatus = signal('The wizard has not been completed yet.');
+  readonly wizardCustomerForm = new FormGroup({
+    customerName: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    reference: new FormControl('', { nonNullable: true }),
+  });
+  readonly wizardContacts = new FormArray<FormGroup>([]);
+  readonly createWizardContact = (): FormGroup =>
+    new FormGroup({
+      name: new FormControl('', { nonNullable: true, validators: Validators.required }),
+      email: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
+      }),
+      city: new FormControl('', { nonNullable: true }),
+      postalCode: new FormControl('', { nonNullable: true }),
+      notes: new FormControl('', { nonNullable: true }),
+      preferred: new FormControl(false, { nonNullable: true }),
+    });
 
   readonly columns: Column[] = [
     {
@@ -557,6 +589,12 @@ export class DemoComponent {
     const controlCount = Object.keys(value).length;
     this.formStatus.set(`Form submitted successfully with ${controlCount} controls.`);
     this.showSnackBar('The complete example form was submitted.');
+  }
+
+  finishWizard(): void {
+    this.wizardStatus.set(
+      `Wizard completed for ${this.wizardCustomerForm.controls.customerName.value} with ${this.wizardContacts.length} contacts.`,
+    );
   }
 
   openAssignmentModal(contentTemplate: TemplateRef<unknown>): void {

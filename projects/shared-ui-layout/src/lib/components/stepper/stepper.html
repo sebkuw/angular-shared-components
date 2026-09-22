@@ -1,0 +1,47 @@
+<section class="shared-stepper" [attr.aria-label]="ariaLabel">
+  <mat-stepper
+    #materialStepper
+    [linear]="linear"
+    [orientation]="effectiveOrientation"
+    (selectionChange)="onSelectedIndexChange($event.selectedIndex)"
+  >
+    @for (step of steps; track step; let index = $index; let first = $first; let last = $last) {
+      <mat-step
+        [label]="step.label"
+        [stepControl]="step.stepControl!"
+        [completed]="step.completed"
+        [optional]="step.optional"
+        [editable]="step.editable"
+        [errorMessage]="step.errorMessage || ''"
+      >
+        <div class="shared-stepper__content" [attr.data-shared-step-index]="index">
+          <ng-container [ngTemplateOutlet]="step.content" />
+        </div>
+
+        @if (showNavigation) {
+          <div class="shared-stepper__actions" role="group" [attr.aria-label]="navigationAriaLabel">
+            @if (!first) {
+              <shared-button appearance="outlined" (activated)="previous(materialStepper)">
+                {{ backLabel }}
+              </shared-button>
+            }
+            @if (step.optional && !last) {
+              <shared-button appearance="text" (activated)="skip(materialStepper, index)">
+                {{ skipLabel }}
+              </shared-button>
+            }
+            @if (!last) {
+              <shared-button (activated)="next(materialStepper, step, index)">
+                {{ nextLabel }}
+              </shared-button>
+            } @else {
+              <shared-button (activated)="finish(materialStepper, step, index)">
+                {{ finishLabel }}
+              </shared-button>
+            }
+          </div>
+        }
+      </mat-step>
+    }
+  </mat-stepper>
+</section>

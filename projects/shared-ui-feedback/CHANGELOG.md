@@ -6,6 +6,7 @@ All notable changes to `@sebkuw/shared-ui-feedback` are documented in this file.
 
 ### Changed
 
+- Bumped the package and its internal shared UI peer dependencies to `0.4.0` for the synchronized additive release.
 - Bumped the package and its internal shared UI peer dependencies to `0.3.1` for the synchronized GitHub Packages release.
 
 ## [0.3.0] - 2026-09-15

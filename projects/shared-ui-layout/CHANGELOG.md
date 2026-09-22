@@ -4,8 +4,13 @@ All notable changes to `@sebkuw/shared-ui-layout` are documented in this file. T
 
 ## [Unreleased]
 
+### Added
+
+- Added a projected Angular Material stepper wrapper with horizontal/vertical orientation, responsive vertical switching, linear `stepControl` and explicit completion, optional step skipping, configurable navigation, Material header keyboard behavior and invalid-control focus management.
+
 ### Changed
 
+- Bumped the package and its internal shared UI peer dependencies to `0.4.0` for the synchronized additive release.
 - Bumped the package and its internal shared UI peer dependencies to `0.3.1` for the synchronized GitHub Packages release.
 - Bumped the package and its internal shared UI peer dependencies to `0.2.1` for the synchronized GitHub Packages release.
 

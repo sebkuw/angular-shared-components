@@ -283,6 +283,80 @@ test('summarizes form errors and reports required-field completion', async ({ pa
   await expect(progress).toHaveAttribute('value', '100');
 });
 
+test('validates the responsive linear stepper and focuses the first invalid control', async ({
+  page,
+}) => {
+  const wizard = page.getByRole('region', { name: 'Order wizard' });
+  const customerName = wizard.getByLabel('Customer name');
+
+  await wizard.getByRole('button', { name: 'Next' }).click();
+  await expect(customerName).toBeFocused();
+  await expect(customerName).toHaveAttribute('aria-invalid', 'true');
+
+  await customerName.fill('Meblicz customer');
+  await wizard.getByRole('button', { name: 'Next' }).click();
+  await expect(wizard.getByRole('tab', { name: /Contacts/ })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+
+  await wizard.getByRole('tab', { name: /Contacts/ }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(wizard.getByRole('tab', { name: /Review/ })).toBeFocused();
+});
+
+test('adds accessible repeater cards with stable unique control ids and can remove to zero', async ({
+  page,
+}) => {
+  const wizard = page.getByRole('region', { name: 'Order wizard' });
+  await wizard.getByLabel('Customer name').fill('Meblicz customer');
+  await wizard.getByRole('button', { name: 'Next' }).click();
+
+  await wizard.getByRole('button', { name: 'Add contact' }).click();
+  await expect(wizard.getByLabel('Contact name 1')).toBeFocused();
+  await wizard.getByRole('button', { name: 'Add contact' }).click();
+
+  const repeatedControls = wizard.locator(
+    'input[id^="demo-contact-row"], textarea[id^="demo-contact-row"]',
+  );
+  const controlIds = await repeatedControls.evaluateAll((controls) =>
+    controls.map((control) => control.id),
+  );
+  expect(new Set(controlIds).size).toBe(controlIds.length);
+  await expect(wizard.getByRole('group', { name: 'Contact details' })).toHaveCount(2);
+  await expect(wizard.getByRole('group', { name: 'Address' })).toHaveCount(2);
+  await expect(wizard.getByRole('group', { name: 'Preferences' })).toHaveCount(2);
+
+  await wizard.getByRole('button', { name: 'Remove Contact 2' }).click();
+  await wizard.getByRole('button', { name: 'Remove Contact 1' }).click();
+  await expect(
+    wizard.getByText('No contacts added. This optional step can be skipped.'),
+  ).toBeVisible();
+  await expect(wizard.getByRole('button', { name: 'Add contact' })).toBeFocused();
+});
+
+test('stacks stepper and repeater groups at 320px without horizontal overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  const wizard = page.getByRole('region', { name: 'Order wizard' });
+  await expect(wizard.locator('mat-stepper')).toHaveClass(/mat-stepper-vertical/);
+
+  await wizard.getByLabel('Customer name').fill('Meblicz customer');
+  await wizard.getByRole('button', { name: 'Next' }).click();
+  await wizard.getByRole('button', { name: 'Add contact' }).click();
+
+  const gridColumnCount = await wizard
+    .locator('.shared-form-array-repeater__groups')
+    .evaluate((grid) => getComputedStyle(grid).gridTemplateColumns.split(' ').length);
+  expect(gridColumnCount).toBe(1);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    ),
+  ).toBe(false);
+});
+
 test('edits details and applies the configured table filters', async ({ page }) => {
   await page.getByRole('button', { name: 'Edit order details' }).click();
   const editForm = page.getByRole('form', { name: 'Edit example order details' });

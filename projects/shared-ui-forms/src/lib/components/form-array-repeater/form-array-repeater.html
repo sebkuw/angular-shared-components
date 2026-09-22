@@ -1,0 +1,46 @@
+<section class="shared-form-array-repeater" [attr.aria-label]="ariaLabel">
+  @if (rows.length > 0) {
+    <div class="shared-form-array-repeater__rows" role="list">
+      @for (row of rows; track row; let index = $index) {
+        <article
+          class="shared-form-array-repeater__card"
+          role="listitem"
+          [attr.aria-labelledby]="cardTitleId(row)"
+          [attr.data-repeater-row-id]="rowId(row)"
+        >
+          <header class="shared-form-array-repeater__header">
+            <h3 [id]="cardTitleId(row)">{{ titleFor(row, index) }}</h3>
+            <shared-button
+              class="shared-form-array-repeater__remove"
+              tone="negative"
+              appearance="text"
+              size="small"
+              [disabled]="!canRemove()"
+              [ariaLabel]="removeLabelFor(row, index)"
+              (activated)="removeRow(index)"
+            >
+              {{ removeLabel }}
+            </shared-button>
+          </header>
+
+          <div class="shared-form-array-repeater__groups" [class]="groupColumnsClass">
+            @if (rowTemplate) {
+              <ng-container
+                [ngTemplateOutlet]="rowTemplate.templateRef"
+                [ngTemplateOutletContext]="rowContext(row, index)"
+              />
+            }
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <p class="shared-form-array-repeater__empty" role="status">{{ emptyLabel }}</p>
+  }
+
+  <div class="shared-form-array-repeater__add">
+    <shared-button appearance="outlined" [disabled]="addDisabled" (activated)="addRow()">
+      {{ addLabel }}
+    </shared-button>
+  </div>
+</section>

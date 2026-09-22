@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+.shared-form-repeater-group {
+  min-inline-size: 0;
+  block-size: 100%;
+  margin: 0;
+  padding: var(--shared-ui-spacing-md, 1rem);
+  border: 1px solid var(--shared-ui-color-border, #c6cad2);
+  border-radius: var(--shared-ui-radius-md, 0.5rem);
+}
+
+legend {
+  max-inline-size: 100%;
+  padding-inline: var(--shared-ui-spacing-xs, 0.25rem);
+  color: var(--shared-ui-color-text, #1a1d24);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.shared-form-repeater-group__content {
+  display: grid;
+  gap: var(--shared-ui-spacing-sm, 0.5rem);
+  min-inline-size: 0;
+}
+
+@media (forced-colors: active) {
+  .shared-form-repeater-group {
+    border-color: CanvasText;
+  }
+}

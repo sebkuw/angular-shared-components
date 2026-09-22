@@ -163,6 +163,36 @@ body {
   color: var(--shared-ui-color-text-muted);
 }
 
+.demo-wizard-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--shared-ui-spacing-sm) var(--shared-ui-spacing-md);
+  max-inline-size: 48rem;
+}
+
+.demo-wizard-form label,
+shared-form-repeater-group label:not(.demo-checkbox-label) {
+  align-self: end;
+  font-weight: 600;
+}
+
+.demo-wizard-field {
+  display: grid;
+  gap: var(--shared-ui-spacing-xs);
+  min-inline-size: 0;
+}
+
+.demo-field-error {
+  margin: 0;
+  color: var(--shared-ui-color-danger);
+}
+
+.demo-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--shared-ui-spacing-sm);
+}
+
 .demo-modal-form {
   display: grid;
   gap: var(--shared-ui-spacing-sm);
@@ -219,5 +249,9 @@ body {
 
   .demo-section {
     padding: var(--shared-ui-spacing-md);
+  }
+
+  .demo-wizard-form {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

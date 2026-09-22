@@ -12,7 +12,7 @@ npm install @sebkuw/shared-ui-layout @sebkuw/shared-ui-core @sebkuw/shared-ui-pr
 
 ## Current public API
 
-The package exports PageHeaderComponent, SkipLinkComponent, SideMenu, MenuItem, SideMenuService, MENU_DATA_TOKEN and related page header data types. The authoritative export list is src/public-api.ts.
+The package exports PageHeaderComponent, SkipLinkComponent, SideMenu, MenuItem, SideMenuService, MENU_DATA_TOKEN, StepperComponent, StepperStepComponent and related data types. The authoritative export list is src/public-api.ts.
 
 `MenuItem.access` filters entire navigation branches reactively. `MenuItem.badge` adds a typed value, tone, maximum, accessible label and announcement mode using the public badge primitive; provide a matching `MenuItem.ariaLabel` when the count should be part of the navigation item's accessible name. `PageHeaderComponent.infoAccess` controls the optional information action, which uses the public icon-button primitive. The side menu renders a named `nav` landmark; destinations are links and expandable groups remain native buttons with `aria-expanded`, so the full navigation-row interaction works without a pointer.
 
@@ -24,6 +24,58 @@ Place the skip link before the application shell and give the main landmark a ma
 ```
 
 The native fragment remains useful without JavaScript. In the browser, activation also makes a non-focusable target programmatically focusable and moves keyboard focus to it. DOM access is guarded for SSR.
+
+### Responsive stepper
+
+`StepperComponent` wraps Angular Material stepper behavior while keeping each step's application-owned content projected through `StepperStepComponent`. It supports horizontal and vertical orientation, switches to vertical below a configurable media query, and exposes linear validation, optional steps, explicit completion, editable steps and configurable navigation labels.
+
+```ts
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { StepperComponent, StepperStepComponent } from '@sebkuw/shared-ui-layout';
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, StepperComponent, StepperStepComponent],
+  template: `
+    <shared-stepper
+      ariaLabel="Create order"
+      [linear]="true"
+      orientation="horizontal"
+      responsiveBreakpoint="(max-width: 48rem)"
+      backLabel="Back"
+      nextLabel="Next"
+      skipLabel="Skip"
+      finishLabel="Create"
+      (finished)="createOrder()"
+    >
+      <shared-stepper-step label="Customer" [stepControl]="customerForm">
+        <form [formGroup]="customerForm">
+          <label for="customer-name">Customer name</label>
+          <input id="customer-name" formControlName="name" />
+        </form>
+      </shared-stepper-step>
+      <shared-stepper-step label="Notes" [optional]="true">
+        <p>Optional projected content</p>
+      </shared-stepper-step>
+      <shared-stepper-step label="Review" [completed]="true">
+        <p>Review the order.</p>
+      </shared-stepper-step>
+    </shared-stepper>
+  `,
+})
+export class OrderWizardComponent {
+  readonly customerForm = new FormGroup({
+    name: new FormControl('', { nonNullable: true, validators: Validators.required }),
+  });
+
+  createOrder(): void {}
+}
+```
+
+In linear mode, an invalid `stepControl` is marked touched and the first invalid enabled control receives focus when Next or Finish is attempted. `completed="true"` is an explicit override for application-controlled steps; a step without a control remains incomplete in linear mode until that input is true. Optional steps expose Skip and do not block progress. Material step headers retain their Arrow, Home and End keyboard behavior, while all navigation actions are native buttons through the shared button primitive.
+
+All labels are configurable for localization. Logical CSS properties support RTL, long labels wrap, responsive behavior begins at 320 CSS px, and browser-only focus work is guarded for SSR/hydration. Consumers must load an Angular Material theme and the shared theme tokens.
 
 ## Architectural role
 
