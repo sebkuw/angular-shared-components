@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Expanded the gallery README with source setup, an interactive component inventory, package links and accurate Chrome, visual and SSR/accessibility coverage boundaries.
+
 ### Added
 
 - Added an asynchronous category filter example plus keyboard and label/placeholder Playwright coverage.

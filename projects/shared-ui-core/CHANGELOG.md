@@ -6,6 +6,7 @@ All notable changes to `@sebkuw/shared-ui-core` are documented in this file. The
 
 ### Changed
 
+- Updated the package overview and linked the source demo with setup instructions for public repository readers.
 - Bumped the package and `NETDEVS_SHARED_UI_VERSION` to `0.4.0` for the synchronized additive release.
 - Bumped the package and `NETDEVS_SHARED_UI_VERSION` to `0.3.1` for the synchronized GitHub Packages release.
 - Bumped the package to `0.2.1` for the synchronized GitHub Packages release.

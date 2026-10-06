@@ -1,6 +1,10 @@
 # @sebkuw/shared-ui-feedback
 
-Configurable dialogs and notifications for NetDevs Angular applications.
+Configurable dialogs, form modals, notifications and empty/error states for Angular 20 applications.
+
+## Demo
+
+Try this package's components and integrations in the [interactive component gallery](../demo/README.md). From the repository root, run `npm ci` and `npm start`, then open [http://127.0.0.1:4200/](http://127.0.0.1:4200/). The source demo uses local sample data and requires no GitHub Packages token or backend.
 
 ## Installation
 

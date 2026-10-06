@@ -1,780 +1,264 @@
-# NetDevs Shared UI
+# Angular Shared Components
 
-Angular 20 workspace for reusable NetDevs UI packages.
+A modular Angular 20 UI library for building forms, data tables, navigation and feedback flows. Seven `@sebkuw/shared-ui-*` packages share typed configuration, reactive permissions and semantic design tokens while keeping application data and business logic in the consuming application.
 
-This repository contains shared UI libraries used across internal Angular applications. The goal is to keep common business screens consistent: dynamic forms, details views, lists, navigation, page headers, dialogs and notifications should look and behave the same everywhere.
+The repository includes an **interactive demo where you can try all the main UI components**, with working examples, keyboard interactions and permission changes.
 
-The workspace is split into smaller npm packages. Consuming applications can install only the parts they need instead of depending on one large package.
+[Run the demo](#interactive-demo) · [Packages](#packages) · [Development](#development) · [Changelog](CHANGELOG.md) · [MIT license](LICENSE)
 
-## Project Governance
+## Highlights
 
-- [Repository agent instructions](AGENTS.md)
-- [Repository changelog](CHANGELOG.md)
-- [Monorepo development skill](.agents/skills/develop-angular-shared-components/SKILL.md)
+- **Configurable forms:** schema-driven create/edit forms, details views, validation summaries, completion guidance, asynchronous searchable selects and `FormArray` card repeaters.
+- **Data tables:** filtering, sorting, pagination, selection, column visibility, loading/empty/error states and CSV export.
+- **Navigation and workflows:** page headers, side navigation, skip links and a responsive linear stepper.
+- **Feedback and primitives:** information and confirmation dialogs, asynchronous form modals, notifications, buttons, links, icons, popovers and status indicators.
+- **Shared foundations:** provider-independent permissions/claims, standalone components with `OnPush`, Angular signals, strict TypeScript and public package entry points.
+- **Adaptable presentation:** configurable labels, light/dark tokens, logical CSS for RTL, visible focus, reduced-motion and forced-colors styles.
 
-All contributions must preserve Angular 20 compatibility, use only approved free and open-source dependencies, keep components reusable and fully configurable, implement the shared permissions/claims visibility contract, meet WCAG 2.2 AA and keyboard requirements, include the complete required test matrix, and update documentation plus the appropriate changelog.
+## Interactive demo
 
-## Table of Contents
+The [component gallery](projects/demo/README.md) is both a playground and the integration host for the libraries. It uses local sample data and simulated asynchronous operations; no backend or GitHub Packages token is needed to run it from source.
 
-- [Project Governance](#project-governance)
-- [Packages](#packages)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Package Guide](#package-guide)
-  - [1. Core - `@sebkuw/shared-ui-core`](#1-core---sebkuwshared-ui-core)
-  - [2. Theme - `@sebkuw/shared-ui-theme`](#2-theme---sebkuwshared-ui-theme)
-  - [3. Forms - `@sebkuw/shared-ui-forms`](#3-forms---sebkuwshared-ui-forms)
-  - [4. List - `@sebkuw/shared-ui-list`](#4-list---sebkuwshared-ui-list)
-  - [5. Layout - `@sebkuw/shared-ui-layout`](#5-layout---sebkuwshared-ui-layout)
-  - [6. Feedback - `@sebkuw/shared-ui-feedback`](#6-feedback---sebkuwshared-ui-feedback)
-  - [7. Primitives - `@sebkuw/shared-ui-primitives`](#7-primitives---sebkuwshared-ui-primitives)
-- [Development](#development)
-- [Local Package Testing](#local-package-testing)
-- [Publishing](#publishing)
-- [Versioning](#versioning)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
+From the repository root:
+
+```bash
+npm ci
+npm start
+```
+
+Open [http://127.0.0.1:4200/](http://127.0.0.1:4200/) once compilation completes. `npm run dev` and `npm run start:demo` are equivalent commands. Library edits reload automatically through the public source entry points, without a separate library build.
+
+| Gallery example                      | What you can try                                                                                                       |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| Reactive access context              | Toggle admin permissions and watch protected fields, columns and navigation update.                                    |
+| Public UI primitives                 | Activate buttons and links, open a popover, dismiss alerts and inspect icons, badges, loading, progress and skeletons. |
+| All form field types                 | Enter values, use select/file/table controls, submit invalid data and follow linked validation errors.                 |
+| Responsive stepper and form repeater | Validate a linear workflow, skip an optional step and add or remove grouped contact cards.                             |
+| Form modal                           | Validate a supplier assignment, observe simulated saving and close the dialog with focus restoration.                  |
+| Details with edit mode               | Edit, save, cancel, confirm removal and restore an empty details view.                                                 |
+| Filterable data table                | Filter and sort sample rows, select records, change pagination/columns and trigger an error/retry state.               |
+| Dialogs and notifications            | Open the page-header information dialog and trigger a live-region notification.                                        |
+
+The preview address above is local. See the [demo README](projects/demo/README.md) for its implementation and test instructions.
 
 ## Packages
 
-| Package                        | Responsibility                                                                                 |
-| ------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `@sebkuw/shared-ui-core`       | Shared foundation for cross-package contracts and helpers.                                     |
-| `@sebkuw/shared-ui-theme`      | Semantic CSS tokens, light/dark modes, focus, high-contrast and reduced-motion defaults.       |
-| `@sebkuw/shared-ui-forms`      | Dynamic details view, create/edit form view, form field controls and form models.              |
-| `@sebkuw/shared-ui-list`       | Dynamic table/list view with filtering, sorting, selection, pagination and CSV export support. |
-| `@sebkuw/shared-ui-layout`     | Application layout components: page header and side menu.                                      |
-| `@sebkuw/shared-ui-feedback`   | Dialogs, notifications, confirmations and reusable empty/error states.                         |
-| `@sebkuw/shared-ui-primitives` | Accessible actions, icons, labels, loading, badges, progress and inline alerts.                |
+Each package has its own public API, README and changelog. Install the features you need together with their declared peer dependencies.
+
+| Package                        | Responsibility                                                                                                         | Documentation                                                                                               |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `@sebkuw/shared-ui-core`       | Reactive access context, permissions/claims rules, evaluators, providers and a structural visibility directive.        | [README](projects/shared-ui-core/README.md) · [Changelog](projects/shared-ui-core/CHANGELOG.md)             |
+| `@sebkuw/shared-ui-theme`      | Semantic color, spacing, radius and motion tokens; light/dark, focus and platform adaptations.                         | [README](projects/shared-ui-theme/README.md) · [Changelog](projects/shared-ui-theme/CHANGELOG.md)           |
+| `@sebkuw/shared-ui-primitives` | Buttons, links, icons, action bars, labels, loading, alerts, skeletons, badges, progress and popovers.                 | [README](projects/shared-ui-primitives/README.md) · [Changelog](projects/shared-ui-primitives/CHANGELOG.md) |
+| `@sebkuw/shared-ui-forms`      | Dynamic forms/details, individual controls, searchable selects, field shells, error/completion guidance and repeaters. | [README](projects/shared-ui-forms/README.md) · [Changelog](projects/shared-ui-forms/CHANGELOG.md)           |
+| `@sebkuw/shared-ui-list`       | Signal-backed table, filters, sorting, selection, pagination, column visibility, formatting and CSV export.            | [README](projects/shared-ui-list/README.md) · [Changelog](projects/shared-ui-list/CHANGELOG.md)             |
+| `@sebkuw/shared-ui-layout`     | Page header, side navigation, skip link and projected responsive stepper.                                              | [README](projects/shared-ui-layout/README.md) · [Changelog](projects/shared-ui-layout/CHANGELOG.md)         |
+| `@sebkuw/shared-ui-feedback`   | Information/confirmation dialogs, form modals, notifications and empty/error states.                                   | [README](projects/shared-ui-feedback/README.md) · [Changelog](projects/shared-ui-feedback/CHANGELOG.md)     |
+
+The source manifests are aligned at `0.4.0`; release notes are maintained in the [repository changelog](CHANGELOG.md) and the package changelogs above.
 
 ## Requirements
 
-| Tool        | Version                                                                             |
-| ----------- | ----------------------------------------------------------------------------------- |
-| Angular     | `20.x`                                                                              |
-| Angular CLI | `20.x`                                                                              |
-| TypeScript  | `~5.9`                                                                              |
-| Node.js     | Use a Node.js version supported by Angular 20. Node 20 LTS or newer is recommended. |
-| npm         | Use the npm version bundled with the selected Node.js runtime.                      |
+| Tool                   | Workspace requirement                                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Angular / CLI          | `20.3.x`; published Angular peers start at `^20.3.0`.                                                                      |
+| Angular Material / CDK | Compatible `20.2.x` versions for packages that use them; primitives use CDK without Material.                              |
+| TypeScript             | `~5.9.2`, with strict compiler and template checks enabled.                                                                |
+| Node.js                | `^20.19.0`, `^22.12.0` or `^24.0.0`, as listed in [Angular's compatibility table](https://angular.dev/reference/versions). |
+| npm                    | Use npm with the committed `package-lock.json` and `npm ci` for a reproducible checkout.                                   |
+| Google Chrome          | Required by the current Karma launcher and Playwright `channel: 'chrome'` configuration.                                   |
 
-The UI components use Angular Material and CDK. Consuming applications should configure an Angular Material theme and use compatible Angular 20 dependencies.
+Consuming applications supply their Angular Material theme, translations, routing, data loading and backend authorization. The demo shows the provider and stylesheet setup in [main.ts](projects/demo/src/main.ts) and [angular.json](angular.json).
 
 ## Installation
 
-GitHub Packages requires authentication for npm package installation, including public packages. Create a GitHub Personal Access Token (classic) with `read:packages`, expose it as `GITHUB_PACKAGES_TOKEN`, and configure the consuming application without committing the token value:
+To explore the project, use the [source demo](#interactive-demo). To consume released packages in another Angular application, configure GitHub Packages first.
+
+GitHub's npm registry requires authentication even for public packages. Use a Personal Access Token (classic) with `read:packages` and the appropriate package access, following the [GitHub authentication guide](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
+
+Expose the token through `GITHUB_PACKAGES_TOKEN` and add this configuration to the consuming application's `.npmrc`, keeping the token value outside version control:
 
 ```ini
 @sebkuw:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
 ```
 
-Install only the packages needed by the application:
+For example, install dynamic forms and their shared peers:
 
 ```bash
-npm install @sebkuw/shared-ui-forms
-npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-feedback
-npm install @sebkuw/shared-ui-layout
-npm install @sebkuw/shared-ui-feedback
-npm install @sebkuw/shared-ui-primitives
+npm install @sebkuw/shared-ui-forms @sebkuw/shared-ui-core @sebkuw/shared-ui-primitives @sebkuw/shared-ui-theme
+npm install @angular/material@^20.2.14 @angular/cdk@^20.2.14
 ```
 
-For applications using the full component set:
+See each package README for its installation command and `package.json` for the complete peer dependency contract. Import supported symbols from `@sebkuw/shared-ui-*`; implementation-level deep imports are not supported.
 
-```bash
-npm install \
-  @sebkuw/shared-ui-core \
-  @sebkuw/shared-ui-theme \
-  @sebkuw/shared-ui-forms \
-  @sebkuw/shared-ui-list \
-  @sebkuw/shared-ui-layout \
-  @sebkuw/shared-ui-feedback \
-  @sebkuw/shared-ui-primitives
-```
-
-Angular Material and CDK are peer dependencies for UI packages that render Material components:
-
-```bash
-npm install @angular/material @angular/cdk
-```
-
-## Package Guide
-
-The former `@netdevs/shared-ui-*` coordinates are not aliases. Existing consumers must replace those dependency names, TypeScript imports and the theme stylesheet path with `@sebkuw/shared-ui-*`.
-
-### 1. Core - `@sebkuw/shared-ui-core`
-
-Core owns the provider-agnostic, reactive permissions/claims contract used by every UI package.
-
-Current exports:
-
-| Export                                          | Description                                                  |
-| ----------------------------------------------- | ------------------------------------------------------------ |
-| `NETDEVS_SHARED_UI_VERSION`                     | Current shared UI package version constant.                  |
-| `AccessRule`, `PermissionContext`               | Typed `any`, `all`, `none` and claims contracts.             |
-| `providePermissionContext`, `PermissionService` | Reactive access context provider and evaluator.              |
-| `CanAccessDirective`                            | Structural UI visibility with an optional fallback template. |
-
-Install:
-
-```bash
-npm install @sebkuw/shared-ui-core
-```
-
-Use:
+### A minimal form
 
 ```ts
-import { NETDEVS_SHARED_UI_VERSION } from '@sebkuw/shared-ui-core';
-
-console.info(`NetDevs Shared UI: ${NETDEVS_SHARED_UI_VERSION}`);
-```
-
-When to put code here:
-
-- Shared public types used by more than one package.
-- Framework-neutral helpers used by more than one package.
-- Shared injection tokens that are not owned by a specific feature package.
-
-Avoid putting feature components here. Forms, lists, layout and feedback should stay in their dedicated packages.
-
-### 2. Theme - `@sebkuw/shared-ui-theme`
-
-Theme is the styling foundation package. Its `styles/tokens.css` entry point defines semantic light/dark tokens and accessible platform adaptations.
-
-Current exports:
-
-| Export                           | Description                                            |
-| -------------------------------- | ------------------------------------------------------ |
-| `NETDEVS_SHARED_UI_THEME_CLASS`  | Shared root CSS class name: `netdevs-shared-ui-theme`. |
-| `NETDEVS_SHARED_UI_THEME_TOKENS` | Stable CSS custom-property names.                      |
-| `NETDEVS_SHARED_UI_THEME_STYLES` | Published stylesheet entry point.                      |
-
-Install:
-
-```bash
-npm install @sebkuw/shared-ui-theme
-```
-
-Use:
-
-```ts
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NETDEVS_SHARED_UI_THEME_CLASS } from '@sebkuw/shared-ui-theme';
-
-@Component({
-  selector: 'app-shell',
-  standalone: true,
-  imports: [RouterOutlet],
-  template: `
-    <main [class]="themeClass">
-      <router-outlet />
-    </main>
-  `,
-})
-export class AppShellComponent {
-  readonly themeClass = NETDEVS_SHARED_UI_THEME_CLASS;
-}
-```
-
-Include `@sebkuw/shared-ui-theme/styles/tokens.css`, add `netdevs-shared-ui-theme` to the application shell and keep an Angular Material theme configured in the consuming application.
-
-### 3. Forms - `@sebkuw/shared-ui-forms`
-
-Forms contains schema-driven UI for common create, edit and details screens.
-
-Main exports:
-
-| Export                                                                            | Description                                         |
-| --------------------------------------------------------------------------------- | --------------------------------------------------- |
-| `DynamicFormComponent`                                                            | Renders create/edit forms from `DynamicFormConfig`. |
-| `DynamicDetailsComponent`                                                         | Renders a details view from `DetailsConfig`.        |
-| `DynamicFormConfig`, `FormField` and related field interfaces                     | Form configuration contracts.                       |
-| `FormArrayRepeaterComponent`, `FormRepeaterGroupComponent`                        | Responsive, templated FormArray cards and groups.   |
-| `DetailsConfig`, `DetailField`                                                    | Details view configuration contracts.               |
-| `FormInputTextComponent`, `FormInputNumberComponent`, `FormSelectComponent`, etc. | Reusable form field controls.                       |
-| `AsyncSearchSelectComponent`                                                      | Remote-data combobox with debounced query output.   |
-| `CastPipe`                                                                        | Template helper used by the dynamic form controls.  |
-
-Install:
-
-```bash
-npm install @sebkuw/shared-ui-forms
-```
-
-Use `DynamicFormComponent`:
-
-```ts
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { DynamicFormComponent, type DynamicFormConfig } from '@sebkuw/shared-ui-forms';
 
 @Component({
-  selector: 'app-user-form-page',
+  selector: 'app-contact-form',
   standalone: true,
   imports: [DynamicFormComponent],
-  template: `
-    <shared-dynamic-form
-      [config]="formConfig"
-      [initialData]="initialData"
-      [isEditMode]="isEditMode"
-      [isSubmitting]="isSaving"
-      (formSubmit)="save($event)"
-    />
-  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<shared-dynamic-form [config]="config" (formSubmit)="save($event)" />`,
 })
-export class UserFormPageComponent {
-  isEditMode = false;
-  isSaving = false;
-  initialData: Record<string, unknown> | null = null;
-
-  formConfig: DynamicFormConfig = {
-    columns: 2,
-    submitButton: {
-      labelCreate: 'Create',
-      labelEdit: 'Save changes',
-      position: 'right',
-    },
+export class ContactFormComponent {
+  readonly config: DynamicFormConfig = {
+    ariaLabel: 'Contact form',
+    columns: 1,
+    submitButton: { labelCreate: 'Create contact', labelEdit: 'Save contact' },
     fields: [
       {
-        key: 'firstName',
-        label: 'First name',
+        key: 'name',
+        label: 'Name',
         type: 'text',
         validators: [Validators.required],
+        errorMessages: { required: 'Enter a name.' },
       },
-      {
-        key: 'email',
-        label: 'Email',
-        type: 'email',
-        validators: [Validators.required, Validators.email],
-      },
-      {
-        key: 'role',
-        label: 'Role',
-        type: 'select',
-        options: [
-          { key: 'admin', value: 'Administrator' },
-          { key: 'user', value: 'User' },
-        ],
-      },
+      { key: 'email', label: 'Email', type: 'email', validators: [Validators.email] },
     ],
   };
 
   save(value: Record<string, unknown>): void {
-    // Persist form value in the consuming application.
+    // Persist the submitted value in the consuming application.
   }
 }
 ```
 
-Use `DynamicDetailsComponent`:
+### Theme setup
 
-```ts
-import { Component } from '@angular/core';
-import { DynamicDetailsComponent, type DetailsConfig } from '@sebkuw/shared-ui-forms';
+Add an Angular Material theme and the shared tokens to the consuming application's global styles. For example, the `styles` array in `angular.json` can contain:
 
-@Component({
-  selector: 'app-user-details-page',
-  standalone: true,
-  imports: [DynamicDetailsComponent],
-  template: `
-    <shared-dynamic-details
-      [data]="user"
-      [config]="detailsConfig"
-      (edit)="edit()"
-      (remove)="remove()"
-    />
-  `,
-})
-export class UserDetailsPageComponent {
-  user = {
-    firstName: 'Anna',
-    email: 'anna@example.com',
-    active: true,
-  };
-
-  detailsConfig: DetailsConfig = {
-    columns: 2,
-    fields: [
-      { key: 'firstName', label: 'First name' },
-      { key: 'email', label: 'Email' },
-      {
-        key: 'active',
-        label: 'Status',
-        render: (value) => (value ? 'Active' : 'Inactive'),
-      },
-    ],
-  };
-
-  edit(): void {
-    // Navigate to edit page.
-  }
-
-  remove(): void {
-    // Confirm and remove entity.
-  }
-}
+```json
+[
+  "node_modules/@angular/material/prebuilt-themes/azure-blue.css",
+  "node_modules/@sebkuw/shared-ui-theme/styles/tokens.css",
+  "src/styles.css"
+]
 ```
+
+Apply `class="netdevs-shared-ui-theme"` to the application shell. Add `data-theme="dark"` to that same element for the dark token palette; Angular Material's theme is configured separately. Override `--shared-ui-*` custom properties at the shell boundary to adapt the palette and spacing. The `NETDEVS_*` constants and `netdevs-shared-ui-theme` class remain part of the existing public API.
+
+## Package guide
+
+### 1. Core - `@sebkuw/shared-ui-core`
+
+Use `providePermissionContext()` with an application-owned `Signal<PermissionContext>`. `PermissionService`, `evaluateAccess()` and `CanAccessDirective` share the same rule evaluation. See the [core guide](projects/shared-ui-core/README.md).
+
+### 2. Theme - `@sebkuw/shared-ui-theme`
+
+Use the published stylesheet and typed token names for consumer overrides. See the [theme guide](projects/shared-ui-theme/README.md).
+
+### 3. Forms - `@sebkuw/shared-ui-forms`
+
+Configure `DynamicFormComponent` and `DynamicDetailsComponent` through typed field models. Use standalone controls or projected `FormArray` rows for custom flows. See the [forms guide](projects/shared-ui-forms/README.md).
 
 ### 4. List - `@sebkuw/shared-ui-list`
 
-List contains the dynamic table component and models used to build server-driven list views.
-
-Main exports:
-
-| Export                                                                       | Description                                                                             |
-| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `DynamicTableComponent`                                                      | Server-side table with filtering, sorting, pagination, selection and column visibility. |
-| `BaseRow`, `Column`, `CustomButton`                                          | Table row and column contracts.                                                         |
-| `TableDataRequestEvent`, `AsyncFilterQueryEvent`, `TableFilter`, `TableSort` | Events and state emitted by the table, including remote filter queries.                 |
-| `toPaginationRequestDto`                                                     | Helper that maps table request state to a .NET-style pagination DTO.                    |
-| `TableExportService`                                                         | CSV export helper used by the table export workflow.                                    |
-| `ValueFormatterPipe`                                                         | Formats displayed table cell values.                                                    |
-
-Install:
-
-```bash
-npm install @sebkuw/shared-ui-list @sebkuw/shared-ui-forms
-```
-
-Use:
-
-```ts
-import { Component, signal } from '@angular/core';
-import {
-  DynamicTableComponent,
-  toPaginationRequestDto,
-  type BaseRow,
-  type Column,
-  type TableDataRequestEvent,
-} from '@sebkuw/shared-ui-list';
-
-interface UserRow extends BaseRow {
-  Id: string;
-  firstName: string;
-  email: string;
-  createdAt: string;
-}
-
-@Component({
-  selector: 'app-user-list-page',
-  standalone: true,
-  imports: [DynamicTableComponent],
-  template: `
-    <shared-dynamic-table
-      [columns]="columns"
-      [data]="rows"
-      [totalItems]="totalItems"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [loading]="loading"
-      (dataRequest)="loadData($event)"
-      (rowClick)="openDetails($event.row)"
-      (selectionChange)="selection = $event"
-    />
-  `,
-})
-export class UserListPageComponent {
-  rows = signal<UserRow[]>([]);
-  totalItems = signal(0);
-  pageSize = signal(25);
-  pageIndex = signal(0);
-  loading = signal(false);
-  selection: string[] = [];
-
-  columns: Column[] = [
-    {
-      name: 'firstName',
-      displayName: 'First name',
-      type: 'string',
-      sortable: true,
-      filterable: true,
-    },
-    {
-      name: 'email',
-      displayName: 'Email',
-      type: 'string',
-      sortable: true,
-      filterable: true,
-    },
-    {
-      name: 'createdAt',
-      displayName: 'Created',
-      type: 'date',
-      sortable: true,
-      filterable: true,
-      format: 'yyyy-MM-dd',
-    },
-  ];
-
-  loadData(event: TableDataRequestEvent): void {
-    const request = toPaginationRequestDto(event);
-    // Send request to the API and update rows, totalItems, pageSize and pageIndex.
-  }
-
-  openDetails(row: UserRow): void {
-    // Navigate to details page.
-  }
-}
-```
-
-The table expects data from the consuming application. It emits `dataRequest` whenever pagination, sorting or filtering changes.
+`DynamicTableComponent` receives **signals** for `data`, `totalItems`, `pageSize`, `pageIndex` and `loading`: bind the signal itself, for example `[data]="rows"`. Handle `dataRequest` to supply updated data. Rows expose an `Id` for selection. CSV export supports supplied rows or an explicitly configured backend endpoint; `provideHttpClient()` is required by the injected export service. See the [list guide](projects/shared-ui-list/README.md).
 
 ### 5. Layout - `@sebkuw/shared-ui-layout`
 
-Layout contains components used to compose the application shell and page-level navigation.
-
-Main exports:
-
-| Export                 | Description                                         |
-| ---------------------- | --------------------------------------------------- |
-| `PageHeaderComponent`  | Consistent page title with optional info action.    |
-| `SideMenu`             | Collapsible side menu component.                    |
-| `MenuItem`             | Side menu item contract.                            |
-| `SideMenuService`      | Menu state service.                                 |
-| `MENU_DATA_TOKEN`      | Injection token used to provide menu configuration. |
-| `InfoClickData`        | Event payload emitted by `PageHeaderComponent`.     |
-| `StepperComponent`     | Responsive horizontal/vertical Material stepper.    |
-| `StepperStepComponent` | Projected step definition with control/completion.  |
-
-Install:
-
-```bash
-npm install @sebkuw/shared-ui-layout
-```
-
-Use `PageHeaderComponent`:
-
-```ts
-import { Component } from '@angular/core';
-import { PageHeaderComponent, type InfoClickData } from '@sebkuw/shared-ui-layout';
-
-@Component({
-  selector: 'app-orders-page',
-  standalone: true,
-  imports: [PageHeaderComponent],
-  template: `
-    <shared-page-header
-      headerText="Orders"
-      infoTitle="Orders"
-      infoContent="This page shows current customer orders."
-      confirmationBtnText="Got it"
-      (infoClick)="showInfo($event)"
-    />
-  `,
-})
-export class OrdersPageComponent {
-  showInfo(data: InfoClickData): void {
-    // Open a dialog or route this event to the application shell.
-  }
-}
-```
-
-Use `SideMenu`:
-
-```ts
-import { Component } from '@angular/core';
-import { MENU_DATA_TOKEN, SideMenu, type MenuItem } from '@sebkuw/shared-ui-layout';
-
-const MENU_ITEMS: MenuItem[] = [
-  {
-    id: 'dashboard',
-    title: 'Dashboard',
-    icon: 'dashboard',
-    level: 0,
-    route: '/dashboard',
-  },
-  {
-    id: 'users',
-    title: 'Users',
-    icon: 'group',
-    level: 0,
-    children: [
-      {
-        id: 'users-list',
-        title: 'User list',
-        icon: 'list',
-        level: 1,
-        route: '/users',
-      },
-    ],
-  },
-];
-
-@Component({
-  selector: 'app-shell',
-  standalone: true,
-  imports: [SideMenu],
-  providers: [
-    {
-      provide: MENU_DATA_TOKEN,
-      useValue: MENU_ITEMS,
-    },
-  ],
-  template: ` <shared-side-menu [collapsed]="collapsed" /> `,
-})
-export class AppShellComponent {
-  collapsed = false;
-}
-```
-
-`SideMenu` uses Angular Router links, so it should be used inside an application that has routing configured.
+Provide menu configuration through `MENU_DATA_TOKEN` and configure Angular Router for destination links. Project application content and form controls into `StepperStepComponent` for validated workflows. See the [layout guide](projects/shared-ui-layout/README.md).
 
 ### 6. Feedback - `@sebkuw/shared-ui-feedback`
 
-Feedback contains components for user-facing messages and informational overlays.
-
-Main exports:
-
-| Export                                              | Description                                                     |
-| --------------------------------------------------- | --------------------------------------------------------------- |
-| `InfoDialogComponent`, `InfoDialogData`             | Informational Angular Material dialog.                          |
-| `ConfirmationDialogService`                         | Focus-managed positive/negative confirmation workflow.          |
-| `FormModalService`, `FormModalRef`                  | Form host with asynchronous submit, loading and error states.   |
-| `NotificationService`, `provideSharedNotifications` | Central notification API and configurable application defaults. |
-| `EmptyStateComponent`, `ErrorStateComponent`        | Configurable page/list states with optional actions.            |
-
-Install:
-
-```bash
-npm install @sebkuw/shared-ui-feedback
-```
-
-Use `InfoDialogComponent`:
-
-```ts
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { InfoDialogComponent } from '@sebkuw/shared-ui-feedback';
-
-@Component({
-  selector: 'app-info-example',
-  standalone: true,
-  imports: [MatButtonModule],
-  template: ` <button mat-raised-button type="button" (click)="openInfo()">Open info</button> `,
-})
-export class InfoExampleComponent {
-  private readonly dialog = inject(MatDialog);
-
-  openInfo(): void {
-    this.dialog.open(InfoDialogComponent, {
-      data: {
-        title: 'Information',
-        content: 'This action affects all selected records.',
-        confirmationBtnText: 'Close',
-      },
-    });
-  }
-}
-```
-
-Use `NotificationService`:
-
-```ts
-import { Component, inject } from '@angular/core';
-import { NotificationService } from '@sebkuw/shared-ui-feedback';
-import { ButtonComponent } from '@sebkuw/shared-ui-primitives';
-
-@Component({
-  selector: 'app-notification-example',
-  standalone: true,
-  imports: [ButtonComponent],
-  template: ` <shared-button (activated)="showSuccess()">Save</shared-button> `,
-})
-export class NotificationExampleComponent {
-  private readonly notifications = inject(NotificationService);
-
-  showSuccess(): void {
-    this.notifications.success('Saved successfully.');
-  }
-}
-```
-
-Add `provideSharedNotifications()` to the application providers to customize defaults. The consuming application owns WebSocket connections and maps incoming domain events to this presentation service.
+Use `ConfirmationDialogService`, `FormModalService` and `NotificationService` for consistent overlays and messages. Application code owns persistence and notification transport. See the [feedback guide](projects/shared-ui-feedback/README.md).
 
 ### 7. Primitives - `@sebkuw/shared-ui-primitives`
 
-Primitives owns small, domain-independent building blocks used across application screens.
+Use native button/link semantics, configurable accessible labels and consumer-owned image or projected icons. Configure registered icons through `provideSharedIcons()`. See the [primitives guide](projects/shared-ui-primitives/README.md).
 
-Current exports:
+## Permissions and claims
 
-| Export                 | Description                                                                                  |
-| ---------------------- | -------------------------------------------------------------------------------------------- |
-| `ButtonComponent`      | Configurable text or text + image button with primary, positive, negative and neutral tones. |
-| `IconButtonComponent`  | Image-only button with an explicit accessible label.                                         |
-| `FieldLabelComponent`  | Visible native field label with a configurable required marker.                              |
-| `LoadingComponent`     | Accessible inline, block or overlay loading status.                                          |
-| `InlineAlertComponent` | Inline info, success, warning and error messages with optional actions.                      |
-| `SkeletonComponent`    | Reduced-motion-aware text, rectangle and circle placeholders.                                |
-| `BadgeComponent`       | Configurable counts, statuses and notification dots.                                         |
-| `ProgressComponent`    | Determinate and indeterminate native progress indicator.                                     |
-| `PopoverComponent`     | Accessible projected popover/dropdown with viewport-aware placement and focus restoration.   |
+Restricted rules deny access while the context is missing, loading, in error or unauthenticated. An unconstrained resource is public only through an explicit public rule; components that default to public use `PUBLIC_ACCESS_RULE`.
 
-Install:
+Rules combine permission `any`, `all` and `none` checks with typed claims. Denied `none` checks take precedence; `any: []` and `claims: []` deny, while `all: []` and `none: []` are neutral once the restricted context is ready and authenticated. Claim values use typed equality. Updates to the supplied context signal propagate to permission-aware UI.
 
-```bash
-npm install @sebkuw/shared-ui-primitives @sebkuw/shared-ui-core @angular/cdk
-```
+Depending on the component, denied content can be removed, hidden or disabled. **Frontend visibility is a UX layer; the backend must enforce authorization.** See the [core documentation](projects/shared-ui-core/README.md) and [rule models](projects/shared-ui-core/src/lib/access/access-control.models.ts) for the contract.
 
-Use:
+## Accessibility, responsiveness and SSR
 
-```html
-<shared-button tone="positive" (activated)="save()">Save</shared-button>
-<shared-button tone="negative" appearance="outlined" (activated)="remove()"> Remove </shared-button>
-<shared-icon-button iconSrc="/icons/refresh.svg" ariaLabel="Refresh results" />
-<shared-popover ariaLabel="Notification options">
-  <button sharedPopoverTrigger type="button">Notifications</button>
-  <p>Three updates are ready.</p>
-</shared-popover>
-```
+The libraries use semantic controls, configurable accessible names, keyboard interactions and focus management. Shared styles include visible focus, reduced-motion and forced-colors adaptations. Labels and messages can be supplied by the consuming application, and logical layout properties support RTL.
 
-`ButtonComponent` also accepts `iconSrc`, so text + icon does not need a third component. See the [package README](projects/shared-ui-primitives/README.md) for loading, labels, alerts, permissions/claims, accessibility, responsive behavior, theming, i18n/RTL, SSR and testing details.
+The gallery has explicit Playwright checks for accessible names, ARIA states, live regions, keyboard/focus behavior, RTL and 320 CSS px reflow. These checks support the project's WCAG 2.2 AA target; they are not a complete accessibility conformance audit.
+
+Browser-only download, storage and focus work is guarded where implemented, with targeted server-platform unit tests. The current demo is a client-rendered application; the repository does not include an end-to-end SSR/hydration suite. Overlay opening belongs in browser-side interactions.
 
 ## Development
 
-Install dependencies:
+Run these commands from the repository root:
+
+| Command                | Purpose                                                               |
+| ---------------------- | --------------------------------------------------------------------- |
+| `npm ci`               | Install locked workspace dependencies.                                |
+| `npm start`            | Start the live component gallery.                                     |
+| `npm run build`        | Build all seven libraries in dependency order, then the demo.         |
+| `npm run build:libs`   | Build only the libraries.                                             |
+| `npm run build:demo`   | Build the demo into `dist/demo/browser/`.                             |
+| `npm test`             | Run all seven Karma/Jasmine library suites in Chrome Headless.        |
+| `npm run test:e2e`     | Run gallery interaction, access, accessibility and responsive checks. |
+| `npm run test:visual`  | Compare the gallery and form modal with committed visual baselines.   |
+| `npm run format:check` | Check formatting with Prettier.                                       |
+
+**Build before running library tests on a fresh checkout:** the public package import tests resolve through `dist/`. The source demo itself does not require this build.
 
 ```bash
-npm install
-```
-
-Build every package:
-
-```bash
+npm ci
 npm run build
-```
-
-Start the component gallery:
-
-```bash
-npm start
-```
-
-The same preview is available through `npm run dev` and `npm run start:demo` at <http://127.0.0.1:4200/>. It consumes the libraries through their public source entry points, so it does not require a separate `build:libs` step and live-reloads library changes.
-
-Run every package test suite in Chrome Headless:
-
-```bash
 npm test
-```
-
-Run cross-browser interaction, responsive and visual regression checks:
-
-```bash
-npx playwright install
 npm run test:e2e
 npm run test:visual
 ```
 
-Use `npm run test:visual:update` only after reviewing and accepting intentional visual changes. Baselines are stored next to the Playwright specification.
+Playwright starts the demo automatically or reuses a local server. Both configured projects use installed Google Chrome: one desktop viewport and one 320 × 800 viewport. They do not currently run Firefox, WebKit or real-device tests. Committed screenshot baselines are platform-specific; review intentional changes before using `npm run test:visual:update`.
 
-Build a single package:
+For one package, use `npm run build:shared-ui-forms` or `npm run test:shared-ui-forms`, replacing the suffix with the package name. Build its internal peers first when needed. Generated libraries are written to `dist/shared-ui-*/`.
 
-```bash
-npm run build:shared-ui-core
-npm run build:shared-ui-theme
-npm run build:shared-ui-primitives
-npm run build:shared-ui-forms
-npm run build:shared-ui-list
-npm run build:shared-ui-layout
-npm run build:shared-ui-feedback
-```
+### Local package testing
 
-Run tests for a single package:
+To check packaged output in another Angular application, build the libraries and create a tarball:
 
 ```bash
-npm run test:shared-ui-core
-npm run test:shared-ui-theme
-npm run test:shared-ui-primitives
-npm run test:shared-ui-forms
-npm run test:shared-ui-list
-npm run test:shared-ui-layout
-npm run test:shared-ui-feedback
-```
-
-Compiled packages are written to `dist/<package-name>/`.
-
-## Local Package Testing
-
-Build the package first:
-
-```bash
-npm run build:shared-ui-forms
-```
-
-Link it from the generated `dist` directory:
-
-```bash
-cd dist/shared-ui-forms
-npm link
-```
-
-In the consuming Angular project:
-
-```bash
-npm link @sebkuw/shared-ui-forms
-```
-
-For more stable local verification, prefer `npm pack` and install the generated `.tgz` file in the consuming application.
-
-```bash
+npm run build:libs
 npm pack ./dist/shared-ui-forms
 ```
 
-## Publishing
+Install the generated `.tgz` file in the consuming application along with compatible shared peer packages. This exercises the packaged public API rather than source mappings.
 
-The root workspace package is private and must not be published. The [GitHub Packages workflow](.github/workflows/publish.yml) runs when a GitHub Release is published. It uses the repository-scoped `GITHUB_TOKEN`, runs the complete test and build suites, and publishes all seven generated packages in dependency order.
+## Publishing and versioning
 
-Before creating a release:
+The root workspace has `private: true` because it is a development workspace; published libraries have separate manifests under `projects/shared-ui-*/`. Repository visibility and package visibility are managed separately on GitHub.
 
-1. Update each package version under `projects/<package-name>/package.json`.
-2. When the core version changes, update its version in the peer dependencies of primitives, forms, list, layout and feedback.
-3. Update the package and repository changelogs.
-4. Run `npm run build` and then `npm test` locally so public-package import tests use fresh `dist` artifacts.
-5. Push the commit, create a matching GitHub tag/release, and publish the release.
+The [GitHub Packages workflow](.github/workflows/publish.yml) runs on a published GitHub Release or manual dispatch. It installs dependencies, builds the workspace, runs library tests and publishes the seven generated packages in dependency order with the repository `GITHUB_TOKEN`. Already published package versions are skipped. E2E and visual checks are separate local commands.
 
-The packages are prepared in lockstep at version `0.4.0`. Published npm versions are immutable, so every later release must use a new version and matching tag.
+For a release:
 
-## Versioning
+1. Update package versions, internal peer ranges and `NETDEVS_SHARED_UI_VERSION` together while releases remain in lockstep.
+2. Update the relevant package changelogs and the [repository changelog](CHANGELOG.md), including migrations for breaking changes.
+3. Run build, library tests and the applicable demo checks; inspect generated manifests.
+4. Commit the release changes and publish a matching GitHub tag/release.
 
-Each publishable package has its own `package.json` under `projects/<package-name>/`.
+The former `@netdevs/shared-ui-*` coordinates are not aliases. Existing consumers must update dependency names, imports and the theme stylesheet path to `@sebkuw/shared-ui-*`; the retained `NETDEVS_*` symbols and theme class do not change.
 
-Keep package versions aligned while the public API is still evolving. Once the library stabilizes, packages can either stay in lockstep or move to independent versioning.
+## Contributing
 
-Before publishing:
+Keep APIs typed, reusable and independent of application endpoints or identity providers. Preserve Angular 20 compatibility, strict checking, keyboard behavior and shared access semantics. Update examples and the appropriate changelog with each change.
 
-1. Update package versions.
-2. Run `npm run build`.
-3. Verify generated package manifests in `dist/`.
-4. Publish from `dist/<package-name>/`.
+See the [repository instructions](AGENTS.md), library-specific instructions and the [monorepo development guide](.agents/skills/develop-angular-shared-components/SKILL.md) for the required checks. Report bugs through [GitHub Issues](https://github.com/sebkuw/angular-shared-components/issues).
 
 ## Troubleshooting
 
-### Angular Material styles are missing
-
-Make sure the consuming application includes an Angular Material theme and has compatible `@angular/material` and `@angular/cdk` versions installed.
-
-### Dialog or snack-bar injection fails
-
-Make sure Angular Material dialog and snack-bar are configured in the consuming application. The exact setup depends on whether the app uses standalone bootstrap or NgModules.
-
-### Peer dependency warnings
-
-Keep Angular package versions aligned between the consuming application and these libraries. For Angular 20 applications, use compatible versions of:
-
-```json
-{
-  "@angular/core": "^20.3.0",
-  "@angular/common": "^20.3.0",
-  "@angular/forms": "^20.3.0",
-  "@angular/material": "^20.2.14",
-  "@angular/cdk": "^20.2.14"
-}
-```
-
-### Registry authentication fails
-
-Check that `.npmrc` maps `@sebkuw` to `https://npm.pkg.github.com`, that `GITHUB_PACKAGES_TOKEN` is available to npm, and that the Personal Access Token (classic) has `read:packages`. For private packages, the user or consuming repository must also have package access.
+- **Missing Material styles:** include a Material theme before the shared tokens and keep Angular/Material/CDK peer versions compatible.
+- **Missing `dist` imports in tests:** run `npm run build:libs` before `npm test`.
+- **Table injection error:** provide Angular's `HttpClient` with `provideHttpClient()`; the export service needs it even when using local rows.
+- **Chrome cannot launch:** install Google Chrome or configure the appropriate executable for Karma; Playwright currently selects the `chrome` channel.
+- **Registry access denied:** check the scope mapping, `GITHUB_PACKAGES_TOKEN`, `read:packages` scope and package permissions using the [registry guide](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry).
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
+Copyright © 2026 Sebastian Wnorowski. Released under the [MIT License](LICENSE).
