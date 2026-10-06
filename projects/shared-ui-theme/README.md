@@ -1,6 +1,10 @@
 # @sebkuw/shared-ui-theme
 
-Shared theming contracts and design tokens for NetDevs UI libraries.
+Semantic design tokens and theming contracts shared by the Angular UI packages.
+
+## Demo
+
+Try this package's components and integrations in the [interactive component gallery](../demo/README.md). From the repository root, run `npm ci` and `npm start`, then open [http://127.0.0.1:4200/](http://127.0.0.1:4200/). The source demo uses local sample data and requires no GitHub Packages token or backend.
 
 ## Installation
 
@@ -28,7 +32,7 @@ Status colors expose paired contrast tokens: `--shared-ui-color-danger(-contrast
 
 ## Required quality standard
 
-Theme changes must retain Angular 20 compatibility and include tests for public exports, default values, consumer overrides, contrast, focus, reduced motion and high-contrast behavior. Representative components must receive visual regression coverage in the demo application once that infrastructure is present.
+Theme changes must retain Angular 20 compatibility and include tests for public exports, default values, consumer overrides, contrast, focus, reduced motion and high-contrast behavior. Representative components receive Playwright visual regression coverage in the existing demo application; see the [demo test guide](../demo/README.md#automated-checks) for commands and coverage boundaries.
 
 ## Development
 

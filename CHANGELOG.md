@@ -22,6 +22,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
+- Reworked the repository README for the public portfolio presentation, with a source-demo quick start, package documentation links, a typed usage example and accurate requirements, testing, accessibility, SSR and release guidance.
+- Aligned package introductions and demo links, and expanded the demo guide with an interactive feature inventory and the current Chrome/visual test scope.
 - Prepared all seven `@sebkuw/shared-ui-*` packages and their internal peer dependency ranges at version `0.4.0` for the additive stepper and FormArray repeater release.
 - Prepared all seven `@sebkuw/shared-ui-*` packages and their internal peer dependency ranges at version `0.3.1` for a synchronized release.
 - Prepared `@sebkuw/shared-ui-feedback` version `0.3.0` for the additive form-modal API release.
